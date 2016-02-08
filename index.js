@@ -5,6 +5,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var auth = require('./services/auth');
 var testing = require('./testing/test');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -12,6 +13,7 @@ app.use(express.static(__dirname + '/react/public'));
 
 app.use('/', auth);
 app.use('/test', testing);
+app.use('/api/users', users)
 
 app.get('/', function(request, response, next) {
   response.send('Welcome to Stumblr');

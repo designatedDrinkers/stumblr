@@ -11,5 +11,5 @@ route.get('/users', function(request, response, next) {
     db.collection('users').find({}).toArray(function(err, rows) {
       response.json({ users: rows });
     });
-  })//.catch(next);
+  }).catch(next);
 });
