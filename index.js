@@ -21,3 +21,9 @@ app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8000,
   function() {
   console.log('Server is listening...');
 });
+
+
+app.use(function(err, request, response, next) {
+  response.status(err.status || 404);
+  response.json({ error: err.message });
+});
