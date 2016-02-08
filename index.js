@@ -8,6 +8,7 @@ var testing = require('./testing/test');
 
 var app = express();
 
+app.use(express.static(__dirname + '/react/public'));
 
 app.use('/', auth);
 app.use('/test', testing);
