@@ -24,7 +24,6 @@ route.get('/route', function(request, response, next) {
   unirest.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json' + stringify(query))
   .end(function(data) {
     var bars = sortBars(data.body.results, barcount);
-    bars = bars.map(latLngBars);
     bars.unshift(query.location);
     response.json({ bars: bars, data: data });
   });
@@ -57,8 +56,4 @@ function sortBars(bars, barcount) {
     else first.push(bar);
   });
   return first.concat(last);
-}
-
-function latLngBars(bar) {
-  return [bar.geometry.location.lat, bar.geometry.location.lng].join(',');
 }
