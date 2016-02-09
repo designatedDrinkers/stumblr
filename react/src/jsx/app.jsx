@@ -21,10 +21,12 @@ var Header = React.createClass({
     console.log(this.state);
     if (this.state.user) {
       return (
-        <nav>
-          <p>Stumblr</p>
-          <Menu />
-        </nav>
+        <div className="title-bar medium-horizontal menu" data-responsive-toggle="menu" data-hide-for="medium">
+          <button className="menu-icon" type="button" data-toggle>
+            <Menu />
+          </button>
+          <div className="title-bar-title">Stumblr</div>
+        </div>
       );
     } else {
       return (
@@ -60,9 +62,10 @@ var Menu = React.createClass({
       return <a href={item.link}><li key={i}>{item.text}</li></a>
     })
     return (
-      <ul className="data-responsive-menu">
+      <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
         {lis}
       </ul>
+      // data-responsive-menu
     );
   }
 })

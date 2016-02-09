@@ -35,14 +35,18 @@ var Header = _react2.default.createClass({
     console.log(this.state);
     if (this.state.user) {
       return _react2.default.createElement(
-        'nav',
-        null,
+        'div',
+        { className: 'title-bar medium-horizontal menu', 'data-responsive-toggle': 'menu', 'data-hide-for': 'medium' },
         _react2.default.createElement(
-          'p',
-          null,
-          'Stumblr'
+          'button',
+          { className: 'menu-icon', type: 'button', 'data-toggle': true },
+          _react2.default.createElement(Menu, null)
         ),
-        _react2.default.createElement(Menu, null)
+        _react2.default.createElement(
+          'div',
+          { className: 'title-bar-title' },
+          'Stumblr'
+        )
       );
     } else {
       return _react2.default.createElement(
@@ -89,9 +93,11 @@ var Menu = _react2.default.createClass({
     });
     return _react2.default.createElement(
       'ul',
-      { className: 'data-responsive-menu' },
+      { 'class': 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
       lis
-    );
+    )
+    // data-responsive-menu
+    ;
   }
 });
 
