@@ -28903,19 +28903,26 @@ var Menu = _react2.default.createClass({
     return {
       menu: [{
         text: 'menu item 1',
-        link: 'google.com'
+        link: 'http://www.google.com'
       }, {
         text: 'menu item 2',
-        link: 'amazon.com'
+        link: 'http://www.amazon.com'
+      }, {
+        text: 'Logout',
+        link: '/auth/logout'
       }]
     };
   },
   render: function render() {
     var lis = this.state.menu.map(function (item, i) {
       return _react2.default.createElement(
-        'li',
-        { key: i },
-        item.text
+        'a',
+        { href: item.link },
+        _react2.default.createElement(
+          'li',
+          { key: i },
+          item.text
+        )
       );
     });
     return _react2.default.createElement(

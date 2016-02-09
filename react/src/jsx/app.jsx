@@ -42,18 +42,22 @@ var Menu = React.createClass({
       menu: [
         {
           text: 'menu item 1',
-          link: 'google.com'
+          link: 'http://www.google.com'
         },
         {
           text: 'menu item 2',
-          link: 'amazon.com'
+          link: 'http://www.amazon.com'
+        },
+        {
+          text: 'Logout',
+          link: '/auth/logout'
         }
       ]
     };
   },
   render: function(){
     var lis = this.state.menu.map(function(item, i){
-      return <li key={i}>{item.text}</li>
+      return <a href={item.link}><li key={i}>{item.text}</li></a>
     })
     return (
       <ul className="data-responsive-menu">
