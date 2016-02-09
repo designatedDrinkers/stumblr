@@ -42,6 +42,11 @@ route.get('/auth/twitter/callback',
     response.redirect('/');
   });
 
+route.get('/auth/logout', function(request, response, next){
+  request.logout();
+  response.redirect('/');
+})
+
 function findOrCreate(profile, token) {
   return mongo.connect().then(function(db) {
     return new Promise(function(resolve, reject) {
