@@ -69,7 +69,7 @@ var Login = React.createClass({
       <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
     );
   }
-})
+});
 
 ReactDOM.render(<Header />, jQuery('#header')[0]);
 ReactDOM.render(<Login />, jQuery('#main')[0]);
