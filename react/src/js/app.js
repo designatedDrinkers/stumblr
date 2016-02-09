@@ -1,8 +1,16 @@
 'use strict';
 
-var _jQuery = require('jQuery');
+var _jquery = require('jquery');
 
-var _jQuery2 = _interopRequireDefault(_jQuery);
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _statemachine = require('./statemachine');
+
+var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _header = require('./header');
+
+var _main = require('./main');
 
 var _react = require('react');
 
@@ -14,108 +22,34 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Header = _react2.default.createClass({
-  displayName: 'Header',
+var App = _react2.default.createClass({
+  displayName: 'App',
 
   getInitialState: function getInitialState() {
-    return { user: null };
+    return _statemachine2.default.reducer(undefined, {});
   },
   componentDidMount: function componentDidMount() {
-    var component = this;
-    _jQuery2.default.ajax({
-      method: 'get',
-      url: '/api/users/current-user'
-    }).done(function (user) {
+    _jquery2.default.get('/api/users/current-user').done(function (user) {
       if (Object.keys(user).length) {
-        component.setState({ user: user });
+        var newState = stateMachine(component.state, { type: 'SET_USER', user: user });
+        component.setState(newState);
       }
-    }).fail(console.log);
-  },
-  render: function render() {
-    console.log(this.state);
-    if (this.state.user) {
-      return _react2.default.createElement(
-        'div',
-        { className: 'title-bar medium-horizontal menu', 'data-responsive-toggle': 'menu', 'data-hide-for': 'medium' },
-        _react2.default.createElement(
-          'button',
-          { className: 'menu-icon', type: 'button', 'data-toggle': true },
-          _react2.default.createElement(Menu, null)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'title-bar-title' },
-          'Stumblr'
-        )
-      );
-    } else {
-      return _react2.default.createElement(
-        'nav',
-        null,
-        _react2.default.createElement(
-          'p',
-          null,
-          'Stumblr'
-        )
-      );
-    }
-  }
-});
-
-var Menu = _react2.default.createClass({
-  displayName: 'Menu',
-
-  getInitialState: function getInitialState() {
-    return {
-      menu: [{
-        text: 'menu item 1',
-        link: 'http://www.google.com'
-      }, {
-        text: 'menu item 2',
-        link: 'http://www.amazon.com'
-      }, {
-        text: 'Logout',
-        link: '/auth/logout'
-      }]
-    };
-  },
-  render: function render() {
-    var lis = this.state.menu.map(function (item, i) {
-      return _react2.default.createElement(
-        'a',
-        { href: item.link },
-        _react2.default.createElement(
-          'li',
-          { key: i },
-          item.text
-        )
-      );
     });
-    return _react2.default.createElement(
-      'ul',
-      { 'class': 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
-      lis
-    )
-    // data-responsive-menu
-    ;
-  }
-});
-
-var Login = _react2.default.createClass({
-  displayName: 'Login',
-
+  },
   render: function render() {
     return _react2.default.createElement(
-      'a',
-      { href: '/auth/twitter' },
+      'div',
+      null,
+      _react2.default.createElement(_header.Header, { user: this.state.user }),
+      _react2.default.createElement('div', { id: 'map' }),
+      _react2.default.createElement(_main.Main, { user: this.state.user }),
       _react2.default.createElement(
-        'button',
-        { className: 'button' },
-        'Login with Twitter'
+        'footer',
+        null,
+        'Please drink responsibly.'
       )
     );
   }
 });
 
-_reactDom2.default.render(_react2.default.createElement(Header, null), (0, _jQuery2.default)('#header')[0]);
-_reactDom2.default.render(_react2.default.createElement(Login, null), (0, _jQuery2.default)('#main')[0]);
+_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
