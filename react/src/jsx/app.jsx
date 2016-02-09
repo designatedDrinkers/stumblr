@@ -1,82 +1,32 @@
-import jQuery from 'jQuery';
+import jQuery from 'jquery';
+import statemachine from './statemachine';
+import { Header } from './header';
+import { Main } from './main';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Header = React.createClass({
+var App = React.createClass({
   getInitialState: function() {
-    return { user: null };
+    return statemachine.reducer(undefined, {});
   },
   componentDidMount: function() {
-    var component = this;
-    jQuery.ajax({
-      method: 'get',
-      url: '/api/users/current-user'
-    }).done(function(user) {
+    jQuery.get('/api/users/current-user').done(function(user) {
       if (Object.keys(user).length) {
-        component.setState({ user: user });
+        var newState = stateMachine(component.state, { type: 'SET_USER', user: user});
+        component.setState(newState);
       }
-    }).fail(console.log);
+    });
   },
-  render: function(){
-    console.log(this.state);
-    if (this.state.user) {
-      return (
-        <div className="title-bar medium-horizontal menu" data-responsive-toggle="menu" data-hide-for="medium">
-          <button className="menu-icon" type="button" data-toggle>
-            <Menu />
-          </button>
-          <div className="title-bar-title">Stumblr</div>
-        </div>
-      );
-    } else {
-      return (
-        <nav>
-          <p>Stumblr</p>
-        </nav>
-      );
-    }
-  }
-});
-
-var Menu = React.createClass({
-  getInitialState: function(){
-    return {
-      menu: [
-        {
-          text: 'menu item 1',
-          link: 'http://www.google.com'
-        },
-        {
-          text: 'menu item 2',
-          link: 'http://www.amazon.com'
-        },
-        {
-          text: 'Logout',
-          link: '/auth/logout'
-        }
-      ]
-    };
-  },
-  render: function(){
-    var lis = this.state.menu.map(function(item, i){
-      return <a href={item.link}><li key={i}>{item.text}</li></a>
-    })
+  render: function() {
     return (
-      <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
-        {lis}
-      </ul>
-      // data-responsive-menu
-    );
-  }
-})
-
-var Login = React.createClass({
-  render: function(){
-    return (
-      <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
+      <div>
+        <Header user={this.state.user}/>
+        <div id="map"></div>
+        <Main user={this.state.user} />
+        <footer>Please drink responsibly.</footer>
+      </div>
     );
   }
 });
 
-ReactDOM.render(<Header />, jQuery('#header')[0]);
-ReactDOM.render(<Login />, jQuery('#main')[0]);
+ReactDOM.render(<App />, document.getElementById('app'));
