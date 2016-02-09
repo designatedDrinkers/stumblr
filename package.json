@@ -18,7 +18,8 @@
     "mongodb": "^2.1.6",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
-    "promise": "^7.1.1"
+    "promise": "^7.1.1",
+    "unirest": "^0.4.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
