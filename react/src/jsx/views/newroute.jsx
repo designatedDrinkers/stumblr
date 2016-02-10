@@ -3,13 +3,13 @@ import statemachine from '../statemachine';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
-    return statemachine.reducer({ user: this.props.user }, {});
+    return statemachine.getState();
   },
   render: function() {
-    console.log(this.state);
     return (
       <div>
         <div id="map"></div>
+        <p>New Route</p>
         <div id="list"></div>
       </div>
     );

@@ -14,7 +14,7 @@ var Header = _react2.default.createClass({
   displayName: 'Header',
 
   getInitialState: function getInitialState() {
-    return _statemachine2.default.reducer({ user: this.props.user }, {});
+    return _statemachine2.default.getState();
   },
   render: function render() {
     if (this.state.user) {
@@ -29,7 +29,7 @@ var Header = _react2.default.createClass({
         _react2.default.createElement(
           'button',
           { className: 'menu-icon', type: 'button', 'data-toggle': true },
-          _react2.default.createElement(Menu, { user: this.props.user })
+          _react2.default.createElement(Menu, null)
         )
       );
     } else {
@@ -50,18 +50,16 @@ var Menu = _react2.default.createClass({
   displayName: 'Menu',
 
   getInitialState: function getInitialState() {
-    return _statemachine2.default.reducer({
-      user: this.props.user
+    return _statemachine2.default.getState();
+  },
+  componentDidMount: function componentDidMount() {
+    // generate menu...
+    var menu = [{
+      link: '#/route-one', text: 'menu option 1'
     }, {
-      type: 'SET_MENU_ITEMS',
-      menu: [{
-        link: '#/something',
-        text: 'Go To This Thing'
-      }, {
-        link: '#/something-else',
-        text: 'Go To That Thing'
-      }]
-    });
+      link: '#/route-two', text: 'menu option 2'
+    }];
+    this.setState(_statemachine2.default.updateState('menu', menu));
   },
   render: function render() {
     var lis = this.state.menu.map(function (item, i) {
@@ -84,6 +82,5 @@ var Menu = _react2.default.createClass({
 });
 
 module.exports = {
-  Header: Header,
-  Menu: Menu
+  Header: Header
 };

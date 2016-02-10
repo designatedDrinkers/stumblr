@@ -1,6 +1,10 @@
 import React from 'react';
+import statemachine from '../statemachine';
 
 var Login = React.createClass({
+  getInitialState: function() {
+    return statemachine.getState();
+  },
   render: function(){
     return (
       <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
@@ -9,6 +13,9 @@ var Login = React.createClass({
 });
 
 var Dashboard = React.createClass({
+  getInitialState: function() {
+    return statemachine.getState();
+  },
   render: function(){
     return (
       <p>You are logged in</p>
@@ -17,9 +24,11 @@ var Dashboard = React.createClass({
 });
 
 var SplashDash = React.createClass({
+  getInitialState: function() {
+    return statemachine.getState();
+  },
   render: function() {
-    console.log(this.props.user);
-    if (this.props.user) {
+    if (this.state.user) {
       return <Dashboard />
     } else {
       return <Login />
