@@ -7,6 +7,7 @@ var auth = require('./services/auth');
 var testing = require('./testing/test');
 var users = require('./routes/users');
 var maps = require('./routes/maps');
+var barRoutes = require('./routes/barroutes');
 
 var app = express();
 
@@ -16,6 +17,7 @@ app.use('/', auth);
 app.use('/test', testing);
 app.use('/api/users', users);
 app.use('/api/maps', maps);
+app.use('/api/barroutes', barRoutes);
 
 app.get('/', function(request, response, next) {
   response.send('Welcome to Stumblr');
