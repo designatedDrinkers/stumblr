@@ -1,5 +1,5 @@
 import React from 'react';
-import statemachine from './statemachine';
+import statemachine from '../statemachine';
 
 var RouteDetails = React.createClass({
   getInitialState: function() {

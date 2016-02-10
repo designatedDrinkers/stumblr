@@ -1,5 +1,5 @@
 import React from 'react';
-import statemachine from './statemachine';
+import statemachine from '../statemachine';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
@@ -15,3 +15,7 @@ var NewRoute = React.createClass({
     );
   }
 });
+
+module.exports = {
+  NewRoute: NewRoute
+};

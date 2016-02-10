@@ -4,7 +4,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _statemachine = require('./statemachine');
+var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
