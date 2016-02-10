@@ -22,6 +22,8 @@ var _reactRouter = require('react-router');
 
 var _splashDash = require('./views/splash-dash');
 
+var _newroute = require('./views/newroute');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = _react2.default.createClass({
@@ -47,8 +49,12 @@ var App = _react2.default.createClass({
       _react2.default.createElement('main', { id: 'main', state: this.state }),
       _react2.default.createElement(
         'footer',
-        null,
-        'Please drink responsibly.'
+        { id: 'footer' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'Please drink responsibly.'
+        )
       )
     );
   }
@@ -58,9 +64,10 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
 _reactDom2.default.render(_react2.default.createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
-  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash })
+  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute })
 ), document.getElementById('main'));
 // Goes up there ^
 // <Route path="/routes" component={RouteList} />
-// <Route path="/routes/new" component={RouteNew} />
+
 // <Route path="/routes/:routeId" component={RouteDetail} />

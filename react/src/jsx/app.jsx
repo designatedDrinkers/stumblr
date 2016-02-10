@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
+import { NewRoute } from './views/newroute';
 
 var App = React.createClass({
   getInitialState: function() {
@@ -24,7 +25,7 @@ var App = React.createClass({
         <Header user={this.state.user}/>
         <div id="map"></div>
         <main id="main" state={this.state}></main>
-        <footer>Please drink responsibly.</footer>
+        <footer id="footer"><p>Please drink responsibly.</p></footer>
       </div>
     );
   }
@@ -34,9 +35,10 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={SplashDash} />
+    <Route path="/routes/new" component={NewRoute} />
   </Router>
 ), document.getElementById('main'));
 // Goes up there ^
 // <Route path="/routes" component={RouteList} />
-// <Route path="/routes/new" component={RouteNew} />
+
 // <Route path="/routes/:routeId" component={RouteDetail} />
