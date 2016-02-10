@@ -17,7 +17,6 @@ var Header = _react2.default.createClass({
     return _statemachine2.default.reducer({ user: this.props.user }, {});
   },
   render: function render() {
-    console.log(this.state);
     if (this.state.user) {
       return _react2.default.createElement(
         'header',

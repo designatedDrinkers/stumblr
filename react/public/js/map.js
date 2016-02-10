@@ -27,9 +27,7 @@ function initMap() {
 }
 
 function calculateAndDisplayRoute(pos, directionsService, directionsDisplay) {
-  console.log(pos);
   $.get('/api/maps/route?barcount=8&location=' + [pos.lat, pos.lng].join(',')).done(function(data) {
-    console.log(data.bars);
     var waypts = data.bars.map(function(bar) {
       return {
         location: new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng)

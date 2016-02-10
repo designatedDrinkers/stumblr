@@ -6,7 +6,6 @@ var Header = React.createClass({
     return statemachine.reducer({ user: this.props.user }, {});
   },
   render: function() {
-    console.log(this.state);
     if (this.state.user) {
       return (
         <header id="header" className="title-bar medium-horizontal menu" data-responsive-toggle="menu" data-hide-for="medium">
