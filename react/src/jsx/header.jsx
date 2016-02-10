@@ -9,18 +9,18 @@ var Header = React.createClass({
     console.log(this.state);
     if (this.state.user) {
       return (
-        <header id="header" className="title-bar medium-horizontal menu" data-responsive-toggle="menu" data-hide-for="medium">
+        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
+          <div className="title-bar-title">Stumblr</div>
           <button className="menu-icon" type="button" data-toggle>
             <Menu user={this.props.user} />
           </button>
-          <div className="title-bar-title">Stumblr</div>
         </header>
       );
     } else {
       return (
-        <nav>
-          <p>Stumblr</p>
-        </nav>
+        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
+          <div className="title-bar-title">Stumblr</div>
+        </header>
       );
     }
   }

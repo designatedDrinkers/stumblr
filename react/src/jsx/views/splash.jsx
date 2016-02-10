@@ -3,8 +3,6 @@
 // import ReactDOM from 'react-dom';
 // import statemachine from './statemachine';
 //
-//
-//
 // var Login = React.createClass({
 //   render: function(){
 //     return (
@@ -12,6 +10,6 @@
 //     );
 //   }
 // });
-
+//
 // ReactDOM.render(<Header />, jQuery('#header')[0]);
 // ReactDOM.render(<Login />, jQuery('#main')[0]);

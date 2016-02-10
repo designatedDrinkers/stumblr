@@ -23,7 +23,7 @@ var App = React.createClass({
         <Header user={this.state.user}/>
         <div id="map"></div>
         <Main user={this.state.user} />
-        <footer>Please drink responsibly.</footer>
+        <footer id="footer"><p>Please drink responsibly.</p></footer>
       </div>
     );
   }

@@ -45,8 +45,12 @@ var App = _react2.default.createClass({
       _react2.default.createElement(_main.Main, { user: this.state.user }),
       _react2.default.createElement(
         'footer',
-        null,
-        'Please drink responsibly.'
+        { id: 'footer' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'Please drink responsibly.'
+        )
       )
     );
   }
