@@ -14,14 +14,18 @@ var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
 
   getInitialState: function getInitialState() {
-    return _statemachine2.default.reducer({ user: this.props.user }, {});
+    return _statemachine2.default.getState();
   },
   render: function render() {
-    console.log(this.state);
     return _react2.default.createElement(
       'div',
       null,
       _react2.default.createElement('div', { id: 'map' }),
+      _react2.default.createElement(
+        'p',
+        null,
+        'New Route'
+      ),
       _react2.default.createElement('div', { id: 'list' })
     );
   }
