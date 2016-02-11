@@ -16,21 +16,75 @@ var NewRoute = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    window.renderRoute(this.state.barcount, this.state.start);
+  },
   render: function render() {
     return _react2.default.createElement(
-      'div',
+      'p',
       null,
-      _react2.default.createElement('div', { id: 'map' }),
+      'Route Created'
+    );
+  }
+});
+
+var RouteForm = _react2.default.createClass({
+  displayName: 'RouteForm',
+
+  getInitialState: function getInitialState() {
+    return { start: '', barcount: 3 };
+  },
+  createRoute: function createRoute(event) {
+    event.preventDefault();
+    _statemachine2.default.updateState('routeToBe', this.state);
+    window.location.assign('/#/routes/new');
+  },
+  changeStart: function changeStart(e) {
+    this.setState({ start: e.target.value, barcount: this.state.barcount });
+  },
+  changeBarcount: function changeBarcount(e) {
+    this.setState({ start: this.state.start, barcount: e.target.value });
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'form',
+      { onSubmit: this.createRoute },
       _react2.default.createElement(
-        'p',
-        null,
-        'New Route'
+        'label',
+        { htmlFor: 'location' },
+        'Select Starting Point:'
       ),
-      _react2.default.createElement('div', { id: 'list' })
+      _react2.default.createElement('input', { id: 'location', type: 'text', placeholder: 'Use Current Location',
+        onChange: this.changeStart, name: 'location', value: this.state.start }),
+      _react2.default.createElement(
+        'select',
+        { name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
+        _react2.default.createElement(
+          'option',
+          { value: '3' },
+          'Fun Run'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: '5' },
+          '5k'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: '8' },
+          'Marathon'
+        )
+      ),
+      _react2.default.createElement(
+        'button',
+        { type: 'submit' },
+        'Create Route'
+      )
     );
   }
 });
 
 module.exports = {
-  NewRoute: NewRoute
+  NewRoute: NewRoute,
+  RouteForm: RouteForm
 };

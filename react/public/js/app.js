@@ -37786,26 +37786,13 @@ var App = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(_header.Header, null),
-      _react2.default.createElement('main', { id: 'main' }),
-      _react2.default.createElement(
-        'footer',
-        { id: 'footer' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Please drink responsibly.'
-        )
-      )
-    );
+    return _react2.default.createElement('div', { id: 'main' });
   }
 });
 
 function renderApp() {
   _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+  _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   _reactDom2.default.render(_react2.default.createElement(
     _reactRouter.Router,
     { history: _reactRouter.browserHistory },
@@ -37826,6 +37813,10 @@ var _react2 = _interopRequireDefault(_react);
 var _statemachine = require('./statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37874,13 +37865,14 @@ var Menu = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     // generate menu...
     var menu = [{
-      link: '#/route-one', text: 'menu option 1'
-    }, {
       link: '#/route-two', text: 'menu option 2'
+    }, {
+      link: '/auth/logout', text: 'Log Out'
     }];
     this.setState(_statemachine2.default.updateState('menu', menu));
   },
   render: function render() {
+    var component = this;
     var lis = this.state.menu.map(function (item, i) {
       return _react2.default.createElement(
         'li',
@@ -37894,7 +37886,7 @@ var Menu = _react2.default.createClass({
     });
     return _react2.default.createElement(
       'ul',
-      { 'class': 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
+      { className: 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
       lis
     );
   }
@@ -37903,7 +37895,7 @@ var Menu = _react2.default.createClass({
 module.exports = {
   Header: Header
 };
-},{"./statemachine":247,"react":244}],247:[function(require,module,exports){
+},{"./statemachine":247,"ajax-promise":1,"react":244}],247:[function(require,module,exports){
 "use strict";
 
 var appState = { user: undefined, routes: [], badges: [], menu: [] };
@@ -37936,23 +37928,77 @@ var NewRoute = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    window.renderRoute(this.state.barcount, this.state.start);
+  },
   render: function render() {
     return _react2.default.createElement(
-      'div',
+      'p',
       null,
-      _react2.default.createElement('div', { id: 'map' }),
+      'Route Created'
+    );
+  }
+});
+
+var RouteForm = _react2.default.createClass({
+  displayName: 'RouteForm',
+
+  getInitialState: function getInitialState() {
+    return { start: '', barcount: 3 };
+  },
+  createRoute: function createRoute(event) {
+    event.preventDefault();
+    _statemachine2.default.updateState('routeToBe', this.state);
+    window.location.assign('/#/routes/new');
+  },
+  changeStart: function changeStart(e) {
+    this.setState({ start: e.target.value, barcount: this.state.barcount });
+  },
+  changeBarcount: function changeBarcount(e) {
+    this.setState({ start: this.state.start, barcount: e.target.value });
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'form',
+      { onSubmit: this.createRoute },
       _react2.default.createElement(
-        'p',
-        null,
-        'New Route'
+        'label',
+        { htmlFor: 'location' },
+        'Select Starting Point:'
       ),
-      _react2.default.createElement('div', { id: 'list' })
+      _react2.default.createElement('input', { id: 'location', type: 'text', placeholder: 'Use Current Location',
+        onChange: this.changeStart, name: 'location', value: this.state.start }),
+      _react2.default.createElement(
+        'select',
+        { name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
+        _react2.default.createElement(
+          'option',
+          { value: '3' },
+          'Fun Run'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: '5' },
+          '5k'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: '8' },
+          'Marathon'
+        )
+      ),
+      _react2.default.createElement(
+        'button',
+        { type: 'submit' },
+        'Create Route'
+      )
     );
   }
 });
 
 module.exports = {
-  NewRoute: NewRoute
+  NewRoute: NewRoute,
+  RouteForm: RouteForm
 };
 },{"../statemachine":247,"react":244}],249:[function(require,module,exports){
 'use strict';
@@ -37964,6 +38010,8 @@ var _react2 = _interopRequireDefault(_react);
 var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _newroute = require('./newroute');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37994,9 +38042,15 @@ var Dashboard = _react2.default.createClass({
   },
   render: function render() {
     return _react2.default.createElement(
-      'p',
+      'div',
       null,
-      'You are logged in'
+      _react2.default.createElement('img', { className: 'profile-image', src: this.state.user.twitter_image }),
+      _react2.default.createElement(
+        'p',
+        null,
+        this.state.user.twitter_name
+      ),
+      _react2.default.createElement(_newroute.RouteForm, null)
     );
   }
 });
@@ -38019,4 +38073,4 @@ var SplashDash = _react2.default.createClass({
 module.exports = {
   SplashDash: SplashDash
 };
-},{"../statemachine":247,"react":244}]},{},[245])
+},{"../statemachine":247,"./newroute":248,"react":244}]},{},[245])

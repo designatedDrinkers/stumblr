@@ -1,6 +1,18 @@
+$header-height: 45px;
+$map-pad: 10px;
+
+body {
+  overflow: scroll;
+}
+
 #header {
   background-color: #620012;
-  height: 8vh;
+  height: $header-height;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 10;
 }
 
 .title-bar-title {
@@ -10,25 +22,53 @@
 
 #main {
   display: flex;
-  height: 50vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 #splash {
   background: url('../images/splash.jpg');
 }
 
-#map {
+.map-container {
+  margin-top: $header-height;
+  padding: $map-pad;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  #map {
+    width: calc(100vmin - (#{$map-pad} * 4));
+    height: calc(100vmin - (#{$map-pad} * 4));
+    &.hide {
+      display: none;
+    }
+  }
+}
+
+#app {
   width: 100vw;
-  height: 35vh;
+  margin-top: $header-height;
+  & > * {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    & > *:not(a) {
+      width: 100vw;
+    }
+    & > * {
+      flex-grow: 1;
+    }
+  }
 }
 
 #footer {
   background-color: #620012;
-  height: 7vh;
-}
-
-#footer p {
-  color: #fff;
-  padding: 5px;
-  text-align: center;
+  flex-grow: 1;
+  p {
+    color: #fff;
+    padding: 5px;
+    margin: 0;
+    text-align: center;
+  }
 }

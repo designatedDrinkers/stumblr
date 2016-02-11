@@ -40,26 +40,13 @@ var App = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(_header.Header, null),
-      _react2.default.createElement('main', { id: 'main' }),
-      _react2.default.createElement(
-        'footer',
-        { id: 'footer' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Please drink responsibly.'
-        )
-      )
-    );
+    return _react2.default.createElement('div', { id: 'main' });
   }
 });
 
 function renderApp() {
   _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+  _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   _reactDom2.default.render(_react2.default.createElement(
     _reactRouter.Router,
     { history: _reactRouter.browserHistory },

@@ -20,17 +20,15 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <Header />
-        <main id="main"></main>
-        <footer id="footer"><p>Please drink responsibly.</p></footer>
-      </div>
+      <div id="main"></div>
     );
   }
 });
 
+
 function renderApp() {
   ReactDOM.render(<App />, document.getElementById('app'));
+  ReactDOM.render(<Header />, document.getElementById('header'));
   ReactDOM.render((
     <Router history={browserHistory}>
       <Route path="/" component={SplashDash} />

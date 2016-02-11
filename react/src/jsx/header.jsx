@@ -1,5 +1,6 @@
 import React from 'react';
 import statemachine from './statemachine';
+import ajax from 'ajax-promise';
 
 var Header = React.createClass({
   getInitialState: function() {
@@ -32,14 +33,15 @@ var Menu = React.createClass({
   componentDidMount: function() {
     // generate menu...
     var menu = [{
-      link: '#/route-one', text: 'menu option 1'
-    },{
       link: '#/route-two', text: 'menu option 2'
+    },{
+      link: '/auth/logout', text: 'Log Out'
     }];
     this.setState(statemachine.updateState('menu', menu));
   },
-  render: function(){
-    var lis = this.state.menu.map(function(item, i){
+  render: function() {
+    var component = this;
+    var lis = this.state.menu.map(function(item, i) {
       return (
         <li key={i}>
           <a href={item.link}>
@@ -49,7 +51,7 @@ var Menu = React.createClass({
       );
     });
     return (
-      <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
+      <ul className="menu" data-responsive-menu="drilldown medium-dropdown">
         {lis}
       </ul>
     );

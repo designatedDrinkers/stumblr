@@ -3,7 +3,7 @@ var sass = require('gulp-sass');
 var babel = require('gulp-babel');
 var browserify = require('gulp-browserify');
 
-gulp.task('default', ['styles', 'babel', 'browserify', 'watch']);
+gulp.task('default', ['styles', 'babel', /*'browserify',*/ 'watch']);
 
 gulp.task('styles', function(){
   return gulp.src('./react/src/scss/**/*.scss')
@@ -26,5 +26,5 @@ gulp.task('browserify', function(){
 gulp.task('watch', function(){
   gulp.watch('./react/src/scss/**/*.scss', ['styles']);
   gulp.watch('./react/src/jsx/**/*.jsx', ['babel']);
-  gulp.watch('./react/src/js/**/*.js', ['browserify']);
+  // gulp.watch('./react/src/js/**/*.js', ['browserify']);
 });
