@@ -33163,19 +33163,7 @@ module.exports = {
   Header: Header
 };
 },{"./statemachine":209,"react":204}],209:[function(require,module,exports){
-"use strict";
 
-var appState = { user: undefined, routes: [], badges: [], menu: [] };
-
-module.exports = {
-  getState: function getState() {
-    return appState;
-  },
-  updateState: function updateState(key, value) {
-    appState[key] = value;
-    return appState;
-  }
-};
 },{}],210:[function(require,module,exports){
 'use strict';
 
