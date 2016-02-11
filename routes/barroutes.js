@@ -16,6 +16,20 @@ route.get('/', function(request, response, next){
   })
 });
 
+route.get('/:index', function(request, response, next){
+  mongo.connect().then(function(db){
+      db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
+        var route = user.routes[request.params.index];
+          if(err){
+            response.json({message: err});
+          }else{
+            response.json({route: route})
+          }
+          db.close();
+      })
+  })
+});
+
 route.post('/', function(request, response, next){
   if(request.user){
     console.log(request.body);
