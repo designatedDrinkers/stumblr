@@ -1,6 +1,7 @@
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
+console.log(document.getElementById('map'));
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 15,
     center: {lat: 39, lng: -105}
@@ -28,6 +29,7 @@ function initMap() {
 
 function calculateAndDisplayRoute(pos, directionsService, directionsDisplay) {
   $.get('/api/maps/route?barcount=8&location=' + [pos.lat, pos.lng].join(',')).done(function(data) {
+    console.log(JSON.stringify(data.bars));
     var waypts = data.bars.map(function(bar) {
       return {
         location: new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng)

@@ -22,7 +22,6 @@ var App = React.createClass({
     return (
       <div>
         <Header />
-        <div id="map"></div>
         <main id="main"></main>
         <footer id="footer"><p>Please drink responsibly.</p></footer>
       </div>
