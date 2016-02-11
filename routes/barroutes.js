@@ -4,7 +4,8 @@ var mongo = require('../services/db');
 module.exports = route;
 
 route.get('/', function(request, response, next){
-  mongo.connect().then(function(db){
+  if(request.user){
+    mongo.connect().then(function(db){
       db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
           if(err){
             response.json({message: err});
@@ -13,12 +14,16 @@ route.get('/', function(request, response, next){
           }
           db.close();
       })
-  })
+    })
+  }else{
+    response.json({message: 'You must be logged in.'});
+  }
 });
 
 route.get('/:index', function(request, response, next){
-  mongo.connect().then(function(db){
-      db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
+    if(request.user){
+      mongo.connect().then(function(db){
+        db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
         var route = user.routes[request.params.index];
           if(err){
             response.json({message: err});
@@ -27,12 +32,14 @@ route.get('/:index', function(request, response, next){
           }
           db.close();
       })
-  })
+    })
+    }else{
+      response.json({message: 'You must be logged in'});
+    }
 });
 
 route.post('/', function(request, response, next){
   if(request.user){
-    console.log(request.body);
     mongo.connect().then(function(db){
       db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
         if(err){
