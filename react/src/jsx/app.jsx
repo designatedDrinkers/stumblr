@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+import ajax from 'ajax-promise';
 import statemachine from './statemachine';
 import { Header } from './header';
 import React from 'react';
@@ -7,12 +7,12 @@ import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 
-jQuery.get('/api/users/current-user').done(function(user) {
+ajax.get('/api/users/current-user').then(function(user) {
   if (Object.keys(user).length) {
     statemachine.updateState('user', user);
   }
   renderApp();
-}).fail(renderApp);
+}).catch(renderApp);
 
 var App = React.createClass({
   getInitialState: function() {
@@ -30,7 +30,6 @@ var App = React.createClass({
 });
 
 function renderApp() {
-  console.log('here');
   ReactDOM.render(<App />, document.getElementById('app'));
   ReactDOM.render((
     <Router history={browserHistory}>
