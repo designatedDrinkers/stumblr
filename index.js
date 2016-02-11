@@ -8,10 +8,13 @@ var testing = require('./testing/test');
 var users = require('./routes/users');
 var maps = require('./routes/maps');
 var barRoutes = require('./routes/barroutes');
+var bodyParser = require('body-parser');
 
 var app = express();
 
 app.use(express.static(__dirname + '/react/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', auth);
 app.use('/test', testing);

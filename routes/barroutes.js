@@ -18,6 +18,7 @@ route.get('/', function(request, response, next){
 
 route.post('/', function(request, response, next){
   if(request.user){
+    console.log(request.body);
     mongo.connect().then(function(db){
       db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
         if(err){
@@ -28,13 +29,15 @@ route.post('/', function(request, response, next){
             user.routes = [];
           }
           request.body.date = new Date;
-          user.routes.push(request.body)
+          request.body.bars = JSON.parse(request.body.bars);
+          user.routes.push(request.body);
+          console.log(user.routes);
           db.collection('users').updateOne({'twitter_id': request.user.twitter_id}, { $set: {routes: user.routes }}, function(err, result){
             db.close();
             if(err){
               response.json({message: err});
             }else{
-              response.json({success: true})
+              response.json({data: request.body})
             }
           })
         }

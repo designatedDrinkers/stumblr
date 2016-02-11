@@ -44,7 +44,6 @@ var App = _react2.default.createClass({
       'div',
       null,
       _react2.default.createElement(_header.Header, null),
-      _react2.default.createElement('div', { id: 'map' }),
       _react2.default.createElement('main', { id: 'main' }),
       _react2.default.createElement(
         'footer',
