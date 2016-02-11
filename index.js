@@ -7,15 +7,20 @@ var auth = require('./services/auth');
 var testing = require('./testing/test');
 var users = require('./routes/users');
 var maps = require('./routes/maps');
+var barRoutes = require('./routes/barroutes');
+var bodyParser = require('body-parser');
 
 var app = express();
 
 app.use(express.static(__dirname + '/react/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', auth);
 app.use('/test', testing);
 app.use('/api/users', users);
 app.use('/api/maps', maps);
+app.use('/api/barroutes', barRoutes);
 
 app.get('/', function(request, response, next) {
   response.send('Welcome to Stumblr');
