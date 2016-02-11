@@ -8,7 +8,6 @@ import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 
 ajax.get('/api/users/current-user').then(function(user) {
-  console.log(user);
   if (Object.keys(user).length) {
     statemachine.updateState('user', user);
   }
@@ -31,7 +30,6 @@ var App = React.createClass({
 });
 
 function renderApp() {
-  console.log('here');
   ReactDOM.render(<App />, document.getElementById('app'));
   ReactDOM.render((
     <Router history={browserHistory}>

@@ -37773,7 +37773,6 @@ var _newroute = require('./views/newroute');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
-  console.log(user);
   if (Object.keys(user).length) {
     _statemachine2.default.updateState('user', user);
   }
@@ -37806,7 +37805,6 @@ var App = _react2.default.createClass({
 });
 
 function renderApp() {
-  console.log('here');
   _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
   _reactDom2.default.render(_react2.default.createElement(
     _reactRouter.Router,
