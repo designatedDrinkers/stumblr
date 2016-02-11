@@ -6,7 +6,7 @@ var NewRoute = React.createClass({
     return statemachine.getState();
   },
   componentDidMount: function() {
-    window.renderRoute(this.state.barcount, this.state.start);
+    window.renderRoute(this.state.routeToBe.barcount, this.state.routeToBe.start);
   },
   render: function() {
     return (

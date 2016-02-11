@@ -17,7 +17,7 @@ var NewRoute = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
-    window.renderRoute(this.state.barcount, this.state.start);
+    window.renderRoute(this.state.routeToBe.barcount, this.state.routeToBe.start);
   },
   render: function render() {
     return _react2.default.createElement(

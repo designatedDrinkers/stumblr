@@ -30,7 +30,7 @@ _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   if (Object.keys(user).length) {
     _statemachine2.default.updateState('user', user);
   }
-  renderApp();
+  renderApp(_statemachine2.default.getState().user);
 }).catch(renderApp);
 
 var App = _react2.default.createClass({
@@ -44,15 +44,19 @@ var App = _react2.default.createClass({
   }
 });
 
-function renderApp() {
+function renderApp(user) {
   _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
   _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
-  _reactDom2.default.render(_react2.default.createElement(
-    _reactRouter.Router,
-    { history: _reactRouter.browserHistory },
-    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute })
-  ), document.getElementById('main'));
+  if (user) {
+    _reactDom2.default.render(_react2.default.createElement(
+      _reactRouter.Router,
+      { history: _reactRouter.browserHistory },
+      _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute })
+    ), document.getElementById('main'));
+  } else {
+    _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
+  }
 }
 
 // Goes up there when routes exist^

@@ -7,14 +7,19 @@ function initMap() {
 
 function renderRoute(barcount, start) {
   if (start) {
-    $.get('https://maps.googleapis.com/maps/api/geocode/json?location=' + start).done(function(results) {
-      var pos = {
-        lat: results.results[0].geometry.location.lat,
-        lng: results.results[0].geometry.location.lng
-      };
-      makeRouteFrom(pos, barcount);
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start).done(function(results) {
+      if (results.results.length == 0) {
+        // handleLocationError(false, window.mapAccess.map.getCenter());
+        console.log(results);
+      } else {
+        var pos = {
+          lat: results.results[0].geometry.location.lat,
+          lng: results.results[0].geometry.location.lng
+        };
+        makeRouteFrom(pos, barcount);
+      }
     }).fail(function() {
-      handleLocationError(false, window.mapAccess.map.getCenter());
+      // handleLocationError(false, window.mapAccess.map.getCenter());
     });
   } else if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -24,10 +29,10 @@ function renderRoute(barcount, start) {
       };
       makeRouteFrom(pos, barcount);
     }, function() {
-      handleLocationError(true, window.mapAccess.map.getCenter());
+      // handleLocationError(true, window.mapAccess.map.getCenter());
     });
   } else {
-    handleLocationError(false, window.mapAccess.map.getCenter());
+    // handleLocationError(false, window.mapAccess.map.getCenter());
   }
 }
 
