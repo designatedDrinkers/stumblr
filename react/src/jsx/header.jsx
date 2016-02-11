@@ -3,24 +3,23 @@ import statemachine from './statemachine';
 
 var Header = React.createClass({
   getInitialState: function() {
-    return statemachine.reducer({ user: this.props.user }, {});
+    return statemachine.getState();
   },
   render: function() {
-    console.log(this.state);
     if (this.state.user) {
       return (
-        <header id="header" className="title-bar medium-horizontal menu" data-responsive-toggle="menu" data-hide-for="medium">
-          <button className="menu-icon" type="button" data-toggle>
-            <Menu user={this.props.user} />
-          </button>
+        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
           <div className="title-bar-title">Stumblr</div>
+          <button className="menu-icon" type="button" data-toggle>
+            <Menu />
+          </button>
         </header>
       );
     } else {
       return (
-        <nav>
-          <p>Stumblr</p>
-        </nav>
+        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
+          <div className="title-bar-title">Stumblr</div>
+        </header>
       );
     }
   }
@@ -28,22 +27,16 @@ var Header = React.createClass({
 
 var Menu = React.createClass({
   getInitialState: function(){
-    return statemachine.reducer({
-      user: this.props.user,
-    },
-    {
-      type: 'SET_MENU_ITEMS',
-      menu: [
-        {
-          link: '#/something',
-          text: 'Go To This Thing'
-        },
-        {
-          link: '#/something-else',
-          text: 'Go To That Thing'
-        }
-      ]
-  });
+    return statemachine.getState();
+  },
+  componentDidMount: function() {
+    // generate menu...
+    var menu = [{
+      link: '#/route-one', text: 'menu option 1'
+    },{
+      link: '#/route-two', text: 'menu option 2'
+    }];
+    this.setState(statemachine.updateState('menu', menu));
   },
   render: function(){
     var lis = this.state.menu.map(function(item, i){
@@ -64,6 +57,5 @@ var Menu = React.createClass({
 })
 
 module.exports = {
-  Header: Header,
-  Menu: Menu
+  Header: Header
 };
