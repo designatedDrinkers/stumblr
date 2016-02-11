@@ -8,6 +8,8 @@ var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
+var _newroute = require('./newroute');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Login = _react2.default.createClass({
@@ -37,9 +39,15 @@ var Dashboard = _react2.default.createClass({
   },
   render: function render() {
     return _react2.default.createElement(
-      'p',
+      'div',
       null,
-      'You are logged in'
+      _react2.default.createElement('img', { className: 'profile-image', src: this.state.user.twitter_image }),
+      _react2.default.createElement(
+        'p',
+        null,
+        this.state.user.twitter_name
+      ),
+      _react2.default.createElement(_newroute.RouteForm, null)
     );
   }
 });

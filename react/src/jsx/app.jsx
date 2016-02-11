@@ -11,7 +11,7 @@ ajax.get('/api/users/current-user').then(function(user) {
   if (Object.keys(user).length) {
     statemachine.updateState('user', user);
   }
-  renderApp();
+  renderApp(statemachine.getState().user);
 }).catch(renderApp);
 
 var App = React.createClass({
@@ -20,24 +20,25 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <Header />
-        <main id="main"></main>
-        <footer id="footer"><p>Please drink responsibly.</p></footer>
-      </div>
+      <div id="main"></div>
     );
   }
 });
 
 
-function renderApp() {
+function renderApp(user) {
   ReactDOM.render(<App />, document.getElementById('app'));
-  ReactDOM.render((
-    <Router history={browserHistory}>
-      <Route path="/" component={SplashDash} />
-      <Route path="/routes/new" component={NewRoute} />
-    </Router>
-  ), document.getElementById('main'));
+  ReactDOM.render(<Header />, document.getElementById('header'));
+  if (user) {
+    ReactDOM.render((
+      <Router history={browserHistory}>
+        <Route path="/" component={SplashDash} />
+        <Route path="/routes/new" component={NewRoute} />
+      </Router>
+    ), document.getElementById('main'));
+  } else {
+    ReactDOM.render(<SplashDash />, document.getElementById('main'));
+  }
 }
 
 // Goes up there when routes exist^

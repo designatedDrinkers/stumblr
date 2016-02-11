@@ -8,6 +8,10 @@ var _statemachine = require('./statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Header = _react2.default.createClass({
@@ -55,13 +59,14 @@ var Menu = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     // generate menu...
     var menu = [{
-      link: '#/route-one', text: 'menu option 1'
-    }, {
       link: '#/route-two', text: 'menu option 2'
+    }, {
+      link: '/auth/logout', text: 'Log Out'
     }];
     this.setState(_statemachine2.default.updateState('menu', menu));
   },
   render: function render() {
+    var component = this;
     var lis = this.state.menu.map(function (item, i) {
       return _react2.default.createElement(
         'li',
@@ -75,7 +80,7 @@ var Menu = _react2.default.createClass({
     });
     return _react2.default.createElement(
       'ul',
-      { 'class': 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
+      { className: 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
       lis
     );
   }
