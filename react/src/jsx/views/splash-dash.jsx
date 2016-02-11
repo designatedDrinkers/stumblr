@@ -1,5 +1,6 @@
 import React from 'react';
 import statemachine from '../statemachine';
+import { RouteForm } from './newroute';
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -18,7 +19,11 @@ var Dashboard = React.createClass({
   },
   render: function(){
     return (
-      <p>You are logged in</p>
+      <div>
+        <img className="profile-image" src={this.state.user.twitter_image} />
+        <p>{this.state.user.twitter_name}</p>
+        <RouteForm />
+      </div>
     );
   }
 });
