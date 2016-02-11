@@ -27,7 +27,8 @@ passport.use(new TwitterStrategy({
     callbackURL: "/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, cb) {
-    findOrCreate(profile, token).then(function(user) {
+    console.log(profile);
+    findOrCreate(profile, token, tokenSecret).then(function(user) {
       cb(null, user);
     }).catch(cb);
   }
@@ -47,7 +48,7 @@ route.get('/auth/logout', function(request, response, next){
   response.redirect('/');
 })
 
-function findOrCreate(profile, token) {
+function findOrCreate(profile, token, tokenSecret) {
   return mongo.connect().then(function(db) {
     return new Promise(function(resolve, reject) {
       db.collection('users').findOne({ twitter_id: profile.id }, function(err, user) {
@@ -55,9 +56,9 @@ function findOrCreate(profile, token) {
           db.close();
           return reject(err);
         } else if (user) {
-          return resolve(updateUser(user, profile, token, db));
+          return resolve(updateUser(user, profile, token, db, tokenSecret));
         } else {
-          return resolve(createUser(profile, token, db));
+          return resolve(createUser(profile, token, db, tokenSecret));
         }
       });
     });
@@ -65,13 +66,14 @@ function findOrCreate(profile, token) {
   });
 }
 
-function createUser(profile, token, db) {
+function createUser(profile, token, db, tokenSecret) {
   return new Promise(function(resolve, reject) {
     var newUser = {
       twitter_id: profile.id,
       twitter_image: profile._json.profile_image_url,
       twitter_name: profile.displayName,
-      twitter_token: token
+      twitter_token: token,
+      twitter_secret: tokenSecret
     };
     db.collection('users').insert(newUser, function(err, data) {
       if (err) {
@@ -85,13 +87,14 @@ function createUser(profile, token, db) {
   });
 }
 
-function updateUser(user, profile, token, db) {
+function updateUser(user, profile, token, db, tokenSecret) {
   return new Promise(function(resolve, reject) {
     var updatedUser = {
       twitter_id: profile.id,
       twitter_image: profile._json.profile_image_url,
       twitter_name: profile.displayName,
-      twitter_token: token
+      twitter_token: token,
+      twitter_secret: tokenSecret
     };
     var find = { _id: mongo.ObjectId(user._id) }
     db.collection('users').updateOne(find, { $set: updatedUser }, function(err, data) {

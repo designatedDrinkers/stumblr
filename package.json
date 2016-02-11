@@ -16,9 +16,11 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "mongodb": "^2.1.6",
+    "node-twitter": "^0.5.3",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "promise": "^7.1.1",
+    "twitter": "^1.2.5",
     "unirest": "^0.4.2"
   },
   "devDependencies": {
