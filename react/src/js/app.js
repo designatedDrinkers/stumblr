@@ -1,8 +1,8 @@
 'use strict';
 
-var _jquery = require('jquery');
+var _ajaxPromise = require('ajax-promise');
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
 
 var _statemachine = require('./statemachine');
 
@@ -26,12 +26,13 @@ var _newroute = require('./views/newroute');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_jquery2.default.get('/api/users/current-user').done(function (user) {
+_ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
+  console.log(user);
   if (Object.keys(user).length) {
     _statemachine2.default.updateState('user', user);
   }
   renderApp();
-}).fail(renderApp);
+}).catch(renderApp);
 
 var App = _react2.default.createClass({
   displayName: 'App',
@@ -44,7 +45,6 @@ var App = _react2.default.createClass({
       'div',
       null,
       _react2.default.createElement(_header.Header, null),
-      _react2.default.createElement('div', { id: 'map' }),
       _react2.default.createElement('main', { id: 'main' }),
       _react2.default.createElement(
         'footer',

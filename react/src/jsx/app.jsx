@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+import ajax from 'ajax-promise';
 import statemachine from './statemachine';
 import { Header } from './header';
 import React from 'react';
@@ -7,12 +7,13 @@ import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 
-jQuery.get('/api/users/current-user').done(function(user) {
+ajax.get('/api/users/current-user').then(function(user) {
+  console.log(user);
   if (Object.keys(user).length) {
     statemachine.updateState('user', user);
   }
   renderApp();
-}).fail(renderApp);
+}).catch(renderApp);
 
 var App = React.createClass({
   getInitialState: function() {
@@ -22,7 +23,6 @@ var App = React.createClass({
     return (
       <div>
         <Header />
-        <div id="map"></div>
         <main id="main"></main>
         <footer id="footer"><p>Please drink responsibly.</p></footer>
       </div>
