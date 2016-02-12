@@ -10,16 +10,17 @@ var Header = React.createClass({
     if (this.state.user) {
       return (
         <header>
-          <nav className="navbar navbar-default">
+          <nav className="navbar">
             <div className="container-fluid">
               <div className="navbar-header">
-                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                </button>
-                <img className="logo" src="images/stumblr-logo.png" />
-                <a className="navbar-brand" href="#">Stumblr</a>
-                <ul className="nav navbar-nav navbar-right">
-                  <li className="dropdown">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button">Dropdown <span class="caret"></span></a>
+                <a className="navbar-brand" href="/">
+                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <span className="pull-left">Stumblr</span>
+                </a>
+                <ul className="hamburger nav navbar-nav navbar-right">
+                  <li role="presentation" className="dropdown">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="#" role="button"><span className="glyphicon glyphicon-menu-hamburger"></span></a>
+                    <Menu />
                   </li>
                 </ul>
               </div>
@@ -29,12 +30,18 @@ var Header = React.createClass({
       );
     } else {
       return (
-        <nav>
-          <div className="title-area left">
-            <img className="logo" src="images/stumblr-logo.png" />
-            <span>Stumblr</span>
-          </div>
-        </nav>
+        <header>
+          <nav className="navbar">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="/">
+                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <span className="pull-left">Stumblr</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </header>
       );
     }
   }

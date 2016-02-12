@@ -4,18 +4,32 @@ body {
 #header {
   height: 45px;
   position: fixed;
+  color: #fff;
   top: 0;
   left: 0;
   width: 100vw;
   z-index: 10; }
 
+.btn {
+  margin: 20px; }
+
 nav {
-  background-color: #620012;
-  color: #fff;
-  font-weight: 500; }
+  background-color: #620012; }
 
 .logo {
-  padding: 3px; }
+  margin: 3px; }
+
+.navbar-brand span {
+  color: #fff;
+  font-weight: 500;
+  margin: 5px; }
+
+.hamburger {
+  float: right; }
+
+.glyphicon {
+  font-size: 2em;
+  color: #fff; }
 
 #main {
   display: flex;
@@ -40,6 +54,9 @@ nav {
 
 .dash {
   padding: 20px; }
+
+.form-control {
+  margin-bottom: 20px; }
 
 .profile-image {
   width: 60px;

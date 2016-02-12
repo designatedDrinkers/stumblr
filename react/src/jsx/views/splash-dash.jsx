@@ -13,7 +13,7 @@ var Login = React.createClass({
       <main>
         <div className="splash">
           <img className="splash-map" src="images/map.jpg" />
-          <a href="/auth/twitter"><button className="btn btn-primary" className="btn btn-primary">Login with Twitter</button></a>
+          <a href="/auth/twitter"><button className="btn btn-primary" className="btn btn-primary btn-lg">Login with Twitter</button></a>
         </div>
       </main>
     );
