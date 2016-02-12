@@ -37901,29 +37901,29 @@ var Header = _react2.default.createClass({
         null,
         _react2.default.createElement(
           'nav',
-          { 'class': 'navbar navbar-default' },
+          { className: 'navbar navbar-default' },
           _react2.default.createElement(
             'div',
-            { 'class': 'container-fluid' },
+            { className: 'container-fluid' },
             _react2.default.createElement(
               'div',
-              { 'class': 'navbar-header' },
-              _react2.default.createElement('button', { type: 'button', 'class': 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
+              { className: 'navbar-header' },
+              _react2.default.createElement('button', { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
               _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
               _react2.default.createElement(
                 'a',
-                { 'class': 'navbar-brand', href: '#' },
+                { className: 'navbar-brand', href: '#' },
                 'Stumblr'
               ),
               _react2.default.createElement(
                 'ul',
-                { 'class': 'nav navbar-nav navbar-right' },
+                { className: 'nav navbar-nav navbar-right' },
                 _react2.default.createElement(
                   'li',
-                  { 'class': 'dropdown' },
+                  { className: 'dropdown' },
                   _react2.default.createElement(
                     'a',
-                    { href: '#', 'class': 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
+                    { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
                     'Dropdown ',
                     _react2.default.createElement('span', { 'class': 'caret' })
                   )
@@ -38056,23 +38056,62 @@ var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
 
   getInitialState: function getInitialState() {
-    return _statemachine2.default.getState();
+    return { loading: true, newName: '' };
   },
   componentDidMount: function componentDidMount() {
     // statemachine.setMenu('def');
     // ReactDOM.render(<Header />, document.getElementById('header'));
-    (0, _barrouteData2.default)(this.state.routeToBe.barcount, this.state.routeToBe.start).then(function (good) {
+    var component = this;
+    var route = _statemachine2.default.getState().routeToBe;
+    (0, _barrouteData2.default)(route.barcount, route.start).then(function (good) {
+      component.setState({ loading: false, newName: '' });
       console.log(good);
     }).catch(function (bad) {
+      component.setState({ loading: false, newName: '' });
       console.error(bad);
     });
   },
+  saveRoute: function saveRoute(event) {
+    event.preventDefault();
+    var route = _statemachine2.default.getState().newBarRoute;
+    ajax.post('/api/routes', {
+      name: this.state.newName,
+      bars: JSON.stringify(route)
+    }).then(function (data) {
+      window.location.assign('/#/routes/' + (data.index || ''));
+    }).catch(this.goDashboard);
+  },
+  goDashboard: function goDashboard(event) {
+    if (event) event.preventDefault();
+    window.location.assign('/#');
+  },
+  changeName: function changeName(event) {
+    this.setState({ loading: false, newName: event.target.value });
+  },
   render: function render() {
-    return _react2.default.createElement(
-      'p',
-      null,
-      '...'
-    );
+    if (this.state.loading) {
+      return _react2.default.createElement(
+        'p',
+        null,
+        'Loading...'
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { value: this.state.newName, onChange: this.changeName, placeholder: 'Enter Route Name (optional)' }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: this.saveRoute },
+          'Save'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: this.goDashboard },
+          'Cancel'
+        )
+      );
+    }
   }
 });
 
@@ -38087,11 +38126,11 @@ var RouteForm = _react2.default.createClass({
     _statemachine2.default.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
-  changeStart: function changeStart(e) {
-    this.setState({ start: e.target.value, barcount: this.state.barcount });
+  changeStart: function changeStart(event) {
+    this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
   changeBarcount: function changeBarcount(e) {
-    this.setState({ start: this.state.start, barcount: e.target.value });
+    this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function render() {
     return _react2.default.createElement(
@@ -38311,7 +38350,6 @@ var SplashDash = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     if (this.state.user) {
       _statemachine2.default.setMenu('dash');
-      console.log(_statemachine2.default.getState());
       _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
     }
   },

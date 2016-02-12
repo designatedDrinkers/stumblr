@@ -10,16 +10,16 @@ var Header = React.createClass({
     if (this.state.user) {
       return (
         <header>
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <nav className="navbar navbar-default">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 </button>
                 <img className="logo" src="images/stumblr-logo.png" />
-                <a class="navbar-brand" href="#">Stumblr</a>
-                <ul class="nav navbar-nav navbar-right">
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Dropdown <span class="caret"></span></a>
+                <a className="navbar-brand" href="#">Stumblr</a>
+                <ul className="nav navbar-nav navbar-right">
+                  <li className="dropdown">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button">Dropdown <span class="caret"></span></a>
                   </li>
                 </ul>
               </div>

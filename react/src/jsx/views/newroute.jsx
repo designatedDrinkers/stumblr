@@ -6,22 +6,53 @@ import routeData from '../barroute-data';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
-    return statemachine.getState();
+    return { loading: true, newName: '' };
   },
   componentDidMount: function() {
     // statemachine.setMenu('def');
     // ReactDOM.render(<Header />, document.getElementById('header'));
-    routeData(this.state.routeToBe.barcount, this.state.routeToBe.start)
+    var component = this;
+    var route = statemachine.getState().routeToBe;
+    routeData(route.barcount, route.start)
     .then(function(good) {
+      component.setState({ loading: false, newName: '' });
       console.log(good);
     }).catch(function(bad) {
+      component.setState({ loading: false, newName: '' });
       console.error(bad);
     });
   },
+  saveRoute: function(event) {
+    event.preventDefault();
+    var route = statemachine.getState().newBarRoute;
+    ajax.post('/api/routes', {
+      name: this.state.newName,
+      bars: JSON.stringify(route)
+    }).then(function(data) {
+      window.location.assign('/#/routes/' + (data.index || ''));
+    }).catch(this.goDashboard);
+  },
+  goDashboard: function(event) {
+    if (event) event.preventDefault();
+    window.location.assign('/#');
+  },
+  changeName: function(event) {
+    this.setState({ loading: false, newName: event.target.value });
+  },
   render: function() {
-    return (
-      <p>...</p>
-    );
+    if (this.state.loading) {
+      return (
+        <p>Loading...</p>
+      );
+    } else {
+      return (
+        <div>
+          <input value={this.state.newName} onChange={this.changeName} placeholder="Enter Route Name (optional)" />
+          <button className="btn btn-primary" onClick={this.saveRoute}>Save</button>
+          <button className="btn btn-primary" onClick={this.goDashboard}>Cancel</button>
+        </div>
+      );
+    }
   }
 });
 
@@ -34,11 +65,11 @@ var RouteForm = React.createClass({
     statemachine.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
-  changeStart: function(e) {
-    this.setState({ start: e.target.value, barcount: this.state.barcount });
+  changeStart: function(event) {
+    this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
   changeBarcount: function(e) {
-    this.setState({ start: this.state.start, barcount: e.target.value });
+    this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function() {
     return (

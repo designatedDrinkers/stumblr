@@ -21,23 +21,62 @@ var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
 
   getInitialState: function getInitialState() {
-    return _statemachine2.default.getState();
+    return { loading: true, newName: '' };
   },
   componentDidMount: function componentDidMount() {
     // statemachine.setMenu('def');
     // ReactDOM.render(<Header />, document.getElementById('header'));
-    (0, _barrouteData2.default)(this.state.routeToBe.barcount, this.state.routeToBe.start).then(function (good) {
+    var component = this;
+    var route = _statemachine2.default.getState().routeToBe;
+    (0, _barrouteData2.default)(route.barcount, route.start).then(function (good) {
+      component.setState({ loading: false, newName: '' });
       console.log(good);
     }).catch(function (bad) {
+      component.setState({ loading: false, newName: '' });
       console.error(bad);
     });
   },
+  saveRoute: function saveRoute(event) {
+    event.preventDefault();
+    var route = _statemachine2.default.getState().newBarRoute;
+    ajax.post('/api/routes', {
+      name: this.state.newName,
+      bars: JSON.stringify(route)
+    }).then(function (data) {
+      window.location.assign('/#/routes/' + (data.index || ''));
+    }).catch(this.goDashboard);
+  },
+  goDashboard: function goDashboard(event) {
+    if (event) event.preventDefault();
+    window.location.assign('/#');
+  },
+  changeName: function changeName(event) {
+    this.setState({ loading: false, newName: event.target.value });
+  },
   render: function render() {
-    return _react2.default.createElement(
-      'p',
-      null,
-      '...'
-    );
+    if (this.state.loading) {
+      return _react2.default.createElement(
+        'p',
+        null,
+        'Loading...'
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { value: this.state.newName, onChange: this.changeName, placeholder: 'Enter Route Name (optional)' }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: this.saveRoute },
+          'Save'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: this.goDashboard },
+          'Cancel'
+        )
+      );
+    }
   }
 });
 
@@ -52,11 +91,11 @@ var RouteForm = _react2.default.createClass({
     _statemachine2.default.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
-  changeStart: function changeStart(e) {
-    this.setState({ start: e.target.value, barcount: this.state.barcount });
+  changeStart: function changeStart(event) {
+    this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
   changeBarcount: function changeBarcount(e) {
-    this.setState({ start: this.state.start, barcount: e.target.value });
+    this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function render() {
     return _react2.default.createElement(
