@@ -8,35 +8,39 @@ body {
 #header {
   height: $header-height;
   position: fixed;
+  color: #fff;
   top: 0;
   left: 0;
   width: 100vw;
   z-index: 10;
 }
 
-// ul {
-//   list-style: none;
-// }
-//
-// nav {
-//   display: flex;
-// }
-
-.logo {
-  padding: 3px;
+.btn {
+  margin: 20px;
 }
 
-// .top-bar {
-//   background-color: #620012;
-//   color: #fff;
-//   font-size: 1.5em;
-//   font-weight: 600;
-//   margin: 5px;
-// }
+nav {
+  background-color: #620012;
+}
 
-// .menu-icon {
-//   float: right;
-// }
+.logo {
+  margin: 3px;
+}
+
+.navbar-brand span{
+  color: #fff;
+  font-weight: 500;
+  margin: 5px;
+}
+
+.hamburger {
+  float: right;
+}
+
+.glyphicon {
+  font-size: 2em;
+  color: #fff;
+}
 
 #main {
   display: flex;
@@ -65,6 +69,10 @@ body {
 
 .dash {
   padding: 20px;
+}
+
+.form-control {
+  margin-bottom: 20px;
 }
 
 .profile-image {

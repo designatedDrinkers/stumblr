@@ -11,7 +11,7 @@ module.exports = function(barcount, start) {
     }).then(posFromNavigator).then(getBars(barcount));
   }
 };
-
+module.exports.recreate = makeRouteFrom();
 
 function posFromAddress(results) {
   if (results.results.length == 0) return Promise.reject('Address Not Found');
@@ -45,11 +45,11 @@ function makeRouteFrom(pos) {
         location: new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng)
       };
     });
-    statemachine.updateState('newBarRoute', data.bars);
-    // return ajax.post('/api/barroutes', {
-    //   name: 'happy drinking times',
-    //   bars: JSON.stringify(data.bars)
-    // });
+    if (pos) {
+      statemachine.updateState('newBarRoute', data.bars);
+    } else {
+      pos = waypts.shift();
+    }
     window.showEntireRoute(pos, window.mapAccess.directionsService, window.mapAccess.directionsDisplay, waypts);
   };
 }

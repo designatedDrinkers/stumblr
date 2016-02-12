@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import { RouteForm } from './newroute';
 import { RouteList } from './route-list-component';
+import { Header } from '../header';
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -12,10 +14,9 @@ var Login = React.createClass({
       <main>
         <div className="splash">
           <img className="splash-map" src="images/map.jpg" />
-          <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
+          <a href="/auth/twitter"><button className="btn btn-primary" className="btn btn-primary btn-lg">Login with Twitter</button></a>
         </div>
       </main>
-
     );
   }
 });
@@ -39,6 +40,12 @@ var Dashboard = React.createClass({
 var SplashDash = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
+  },
+  componentDidMount: function() {
+    if (this.state.user) {
+      statemachine.setMenu('dash');
+      ReactDOM.render(<Header />, document.getElementById('header'));
+    }
   },
   render: function() {
     if (this.state.user) {

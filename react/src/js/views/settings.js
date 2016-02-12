@@ -4,6 +4,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
@@ -11,6 +15,8 @@ var _statemachine2 = _interopRequireDefault(_statemachine);
 var _ajaxPromise = require('ajax-promise');
 
 var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
+var _header = require('../header');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,6 +26,10 @@ var Settings = _react2.default.createClass({
   getInitialState: function getInitialState() {
     var user = _statemachine2.default.getState().user;
     return { auto_tweet: user.auto_tweet };
+  },
+  componentDidMount: function componentDidMount() {
+    _statemachine2.default.setMenu('def');
+    _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   changeTweetSettings: function changeTweetSettings(event) {
     this.setState({ auto_tweet: event.target.value });
@@ -68,12 +78,12 @@ var Settings = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.saveSettings },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.saveSettings },
         'Save'
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.goDashboard },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.goDashboard },
         'Cancel'
       )
     );

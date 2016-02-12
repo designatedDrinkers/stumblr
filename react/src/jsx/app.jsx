@@ -1,12 +1,13 @@
 import ajax from 'ajax-promise';
 import statemachine from './statemachine';
-import { Header } from './header';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 import { Settings } from './views/settings';
+import { RouteDetails } from './views/routedetails';
+
 Promise.all([
   ajax.get('/api/users/current-user'),
   ajax.get('/api/barroutes')
@@ -34,12 +35,13 @@ var App = React.createClass({
 
 function renderApp(user) {
   ReactDOM.render(<App />, document.getElementById('app'));
-  ReactDOM.render(<Header />, document.getElementById('header'));
+  // ReactDOM.render(<Header />, document.getElementById('header'));
   if (user) {
     ReactDOM.render((
       <Router history={browserHistory}>
         <Route path="/" component={SplashDash} />
         <Route path="/routes/new" component={NewRoute} />
+        <Route path="/routes/:index" component={RouteDetails} />
         <Route path="/settings" component={Settings} />
       </Router>
     ), document.getElementById('main'));
@@ -47,7 +49,3 @@ function renderApp(user) {
     ReactDOM.render(<SplashDash />, document.getElementById('main'));
   }
 }
-
-// Goes up there when routes exist^
-// <Route path="/routes" component={RouteList} />
-// <Route path="/routes/:routeId" component={RouteDetail} />

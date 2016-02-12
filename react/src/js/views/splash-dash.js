@@ -4,6 +4,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
@@ -11,6 +15,8 @@ var _statemachine2 = _interopRequireDefault(_statemachine);
 var _newroute = require('./newroute');
 
 var _routeListComponent = require('./route-list-component');
+
+var _header = require('../header');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,7 +39,7 @@ var Login = _react2.default.createClass({
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'button' },
+            { className: 'btn btn-primary', className: 'btn btn-primary btn-lg' },
             'Login with Twitter'
           )
         )
@@ -69,6 +75,12 @@ var SplashDash = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
+  },
+  componentDidMount: function componentDidMount() {
+    if (this.state.user) {
+      _statemachine2.default.setMenu('dash');
+      _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
+    }
   },
   render: function render() {
     if (this.state.user) {

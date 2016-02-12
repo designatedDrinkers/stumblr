@@ -22,67 +22,74 @@ var Header = _react2.default.createClass({
   },
   render: function render() {
     if (this.state.user) {
-      return(
-        // <header className="contain-to-grid sticky">
+      return _react2.default.createElement(
+        'header',
+        null,
         _react2.default.createElement(
-          'div',
-          { className: 'top-bar' },
+          'nav',
+          { className: 'navbar' },
           _react2.default.createElement(
             'div',
-            { className: 'top-bar-left' },
+            { className: 'container-fluid' },
             _react2.default.createElement(
-              'ul',
-              { className: 'dropdown menu', 'data-dropdown-menu': true },
+              'div',
+              { className: 'navbar-header' },
               _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' })
+                'a',
+                { className: 'navbar-brand', href: '/' },
+                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'pull-left' },
+                  'Stumblr'
+                )
               ),
               _react2.default.createElement(
-                'li',
-                { className: 'menu-text' },
-                'Stumblr'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'top-bar-right' },
-            _react2.default.createElement(
-              'ul',
-              { className: 'dropdown menu', 'data-dropdown-menu': true },
-              _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement('a', { href: '#', className: 'menu-icon' }),
+                'ul',
+                { className: 'hamburger nav navbar-nav navbar-right' },
                 _react2.default.createElement(
-                  'ul',
-                  { className: 'menu vertical' },
+                  'li',
+                  { role: 'presentation', className: 'dropdown' },
+                  _react2.default.createElement(
+                    'a',
+                    { className: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#', role: 'button' },
+                    _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
+                  ),
                   _react2.default.createElement(Menu, null)
                 )
               )
             )
           )
         )
-        // </header>
-
       );
     } else {
-        return _react2.default.createElement(
+      return _react2.default.createElement(
+        'header',
+        null,
+        _react2.default.createElement(
           'nav',
-          null,
+          { className: 'navbar' },
           _react2.default.createElement(
             'div',
-            { className: 'title-area left' },
-            _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
+            { className: 'container-fluid' },
             _react2.default.createElement(
-              'span',
-              null,
-              'Stumblr'
+              'div',
+              { className: 'navbar-header' },
+              _react2.default.createElement(
+                'a',
+                { className: 'navbar-brand', href: '/' },
+                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'pull-left' },
+                  'Stumblr'
+                )
+              )
             )
           )
-        );
-      }
+        )
+      );
+    }
   }
 });
 
@@ -91,15 +98,6 @@ var Menu = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
-  },
-  componentDidMount: function componentDidMount() {
-    // generate menu...
-    var menu = [{
-      link: '#/settings', text: 'Settings'
-    }, {
-      link: '/auth/logout', text: 'Log Out'
-    }];
-    this.setState(_statemachine2.default.updateState('menu', menu));
   },
   render: function render() {
     var component = this;
@@ -116,7 +114,7 @@ var Menu = _react2.default.createClass({
     });
     return _react2.default.createElement(
       'ul',
-      { className: 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
+      { className: 'dropdown-menu' },
       lis
     );
   }

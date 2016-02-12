@@ -55,10 +55,10 @@ route.post('/', function(request, response, next){
           console.log(user.routes);
           db.collection('users').updateOne({'twitter_id': request.user.twitter_id}, { $set: {routes: user.routes }}, function(err, result){
             db.close();
-            if(err){
+            if (err) {
               response.json({message: err});
-            }else{
-              response.json({data: request.body})
+            } else {
+              response.json({ index: user.routes.length - 1 });
             }
           })
         }

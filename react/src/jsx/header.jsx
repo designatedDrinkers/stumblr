@@ -9,35 +9,39 @@ var Header = React.createClass({
   render: function() {
     if (this.state.user) {
       return (
-        // <header className="contain-to-grid sticky">
-          <div className="top-bar">
-            <div className="top-bar-left">
-              <ul className="dropdown menu" data-dropdown-menu>
-                <li><img className="logo" src="images/stumblr-logo.png" /></li>
-                <li className="menu-text">Stumblr</li>
-              </ul>
-            </div>
-            <div className="top-bar-right">
-              <ul className="dropdown menu" data-dropdown-menu>
-                <li>
-                  <a href="#" className="menu-icon"></a>
-                  <ul className="menu vertical">
+        <header>
+          <nav className="navbar">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="/">
+                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <span className="pull-left">Stumblr</span>
+                </a>
+                <ul className="hamburger nav navbar-nav navbar-right">
+                  <li role="presentation" className="dropdown">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="#" role="button"><span className="glyphicon glyphicon-menu-hamburger"></span></a>
                     <Menu />
-                  </ul>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        // </header>
+          </nav>
+        </header>
       );
     } else {
       return (
-        <nav>
-          <div className="title-area left">
-            <img className="logo" src="images/stumblr-logo.png" />
-            <span>Stumblr</span>
-          </div>
-        </nav>
+        <header>
+          <nav className="navbar">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="/">
+                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <span className="pull-left">Stumblr</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </header>
       );
     }
   }
@@ -46,15 +50,6 @@ var Header = React.createClass({
 var Menu = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
-  },
-  componentDidMount: function() {
-    // generate menu...
-    var menu = [{
-      link: '#/settings', text: 'Settings'
-    },{
-      link: '/auth/logout', text: 'Log Out'
-    }];
-    this.setState(statemachine.updateState('menu', menu));
   },
   render: function() {
     var component = this;
@@ -68,7 +63,7 @@ var Menu = React.createClass({
       );
     });
     return (
-      <ul className="menu" data-responsive-menu="drilldown medium-dropdown">
+      <ul className="dropdown-menu">
         {lis}
       </ul>
     );
