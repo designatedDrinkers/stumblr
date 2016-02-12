@@ -1,7 +1,7 @@
 var route = require('express').Router();
 var unirest = require('unirest');
-var Twitter = require('twitter');
 var nodeTwitter = require('node-twitter');
+var mongo = require('../services/db');
 require('dotenv').load();
 
 module.exports = route;
