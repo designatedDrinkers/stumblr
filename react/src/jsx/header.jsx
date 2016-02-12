@@ -47,15 +47,6 @@ var Menu = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
   },
-  componentDidMount: function() {
-    // generate menu...
-    var menu = [{
-      link: '#/settings', text: 'Settings'
-    },{
-      link: '/auth/logout', text: 'Log Out'
-    }];
-    this.setState(statemachine.updateState('menu', menu));
-  },
   render: function() {
     var component = this;
     var lis = this.state.menu.map(function(item, i) {

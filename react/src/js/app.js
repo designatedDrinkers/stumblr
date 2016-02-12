@@ -8,8 +8,6 @@ var _statemachine = require('./statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
-var _header = require('./header');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -27,6 +25,9 @@ var _newroute = require('./views/newroute');
 var _settings = require('./views/settings');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { Header } from './header';
+
 
 _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   if (Object.keys(user).length) {
@@ -48,7 +49,7 @@ var App = _react2.default.createClass({
 
 function renderApp(user) {
   _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
-  _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
+  // ReactDOM.render(<Header />, document.getElementById('header'));
   if (user) {
     _reactDom2.default.render(_react2.default.createElement(
       _reactRouter.Router,

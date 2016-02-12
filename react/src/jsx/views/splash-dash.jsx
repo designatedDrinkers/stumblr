@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import { RouteForm } from './newroute';
+import { Header } from '../header';
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -14,7 +16,6 @@ var Login = React.createClass({
           <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
         </div>
       </main>
-
     );
   }
 });
@@ -37,6 +38,12 @@ var Dashboard = React.createClass({
 var SplashDash = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
+  },
+  componentDidMount: function() {
+    if (this.state.user) {
+      statemachine.setMenu('dash');
+      ReactDOM.render(<Header />, document.getElementById('header'));
+    }
   },
   render: function() {
     if (this.state.user) {

@@ -1,11 +1,17 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
+import { Header } from '../header';
 
 var Settings = React.createClass({
   getInitialState: function() {
     var user = statemachine.getState().user;
     return { auto_tweet: user.auto_tweet };
+  },
+  componentDidMount: function() {
+    statemachine.setMenu('def');
+    ReactDOM.render(<Header />, document.getElementById('header'));
   },
   changeTweetSettings: function(event) {
     this.setState({ auto_tweet: event.target.value });

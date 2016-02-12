@@ -1,12 +1,16 @@
 import React from 'react';
+// import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import routeData from '../barroute-data';
+// import { Header } from '../header';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
   },
   componentDidMount: function() {
+    // statemachine.setMenu('def');
+    // ReactDOM.render(<Header />, document.getElementById('header'));
     routeData(this.state.routeToBe.barcount, this.state.routeToBe.start)
     .then(function(good) {
       console.log(good);
