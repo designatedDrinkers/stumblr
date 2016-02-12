@@ -34,8 +34,6 @@ _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   }
   renderApp(_statemachine2.default.getState().user);
 }).catch(renderApp);
-// import { Header } from './header';
-
 
 var App = _react2.default.createClass({
   displayName: 'App',

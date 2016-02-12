@@ -16,20 +16,26 @@ var RouteDetails = React.createClass({
     var component = this;
     ajax.get('/api/barroutes/' + this.props.params.index).then(function(result) {
       component.setState(statemachine.updateState('currentRoute', result.route));
-      routeData.recreate(result.route.route);
+      routeData.recreate(result.route);
     });
   },
 
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
-    return (
-      <div>
-        <p>Route Details</p>
-        <ul>
-          {lis}
-        </ul>
-      </div>
-    );
+    if (lis) {
+      return (
+        <div>
+          <p>Route Details</p>
+          <ul>
+            {lis}
+          </ul>
+        </div>
+      );
+    } else {
+      return (
+        <p>Loading...</p>
+      );
+    }
   }
 });
 
@@ -39,20 +45,20 @@ module.exports = {
 
 function composeList(component, route) {
   if (!route) return [];
-  var lis = route.bars.map(function(bar) {
+  var lis = route.bars.map(function(bar, i) {
     if (bar.checked_in || bar.skipped) {
       var status = bar.checked_in ? 'Checked In' : 'Skipped';
     }
     if (status) {
       return (
-        <li>
+        <li key={i}>
           <p>Bar: {bar.name}</p>
           <p>Status: {status}</p>
         </li>
       );
     } else {
       return (
-        <li>
+        <li key={i}>
           <p>Bar: {bar.name}</p>
           <p>Status: Pending</p>
           <button className="btn btn-primary" onClick={component.checkIn}>Check In</button>

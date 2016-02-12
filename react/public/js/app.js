@@ -37840,8 +37840,6 @@ _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   }
   renderApp(_statemachine2.default.getState().user);
 }).catch(renderApp);
-// import { Header } from './header';
-
 
 var App = _react2.default.createClass({
   displayName: 'App',
@@ -37900,32 +37898,35 @@ var Header = _react2.default.createClass({
         null,
         _react2.default.createElement(
           'nav',
-          { className: 'navbar navbar-default' },
+          { className: 'navbar' },
           _react2.default.createElement(
             'div',
             { className: 'container-fluid' },
             _react2.default.createElement(
               'div',
               { className: 'navbar-header' },
-              _react2.default.createElement('button', { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
-              _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
               _react2.default.createElement(
                 'a',
-                { className: 'navbar-brand', href: '#' },
-                'Stumblr'
+                { className: 'navbar-brand', href: '/' },
+                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'pull-left' },
+                  'Stumblr'
+                )
               ),
               _react2.default.createElement(
                 'ul',
-                { className: 'nav navbar-nav navbar-right' },
+                { className: 'hamburger nav navbar-nav navbar-right' },
                 _react2.default.createElement(
                   'li',
-                  { className: 'dropdown' },
+                  { role: 'presentation', className: 'dropdown' },
                   _react2.default.createElement(
                     'a',
-                    { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
-                    'Dropdown ',
-                    _react2.default.createElement('span', { 'class': 'caret' })
-                  )
+                    { className: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#', role: 'button' },
+                    _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
+                  ),
+                  _react2.default.createElement(Menu, null)
                 )
               )
             )
@@ -37934,16 +37935,28 @@ var Header = _react2.default.createClass({
       );
     } else {
       return _react2.default.createElement(
-        'nav',
+        'header',
         null,
         _react2.default.createElement(
-          'div',
-          { className: 'title-area left' },
-          _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
+          'nav',
+          { className: 'navbar' },
           _react2.default.createElement(
-            'span',
-            null,
-            'Stumblr'
+            'div',
+            { className: 'container-fluid' },
+            _react2.default.createElement(
+              'div',
+              { className: 'navbar-header' },
+              _react2.default.createElement(
+                'a',
+                { className: 'navbar-brand', href: '/' },
+                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'pull-left' },
+                  'Stumblr'
+                )
+              )
+            )
           )
         )
       );
@@ -38219,26 +38232,34 @@ var RouteDetails = _react2.default.createClass({
     var component = this;
     _ajaxPromise2.default.get('/api/barroutes/' + this.props.params.index).then(function (result) {
       component.setState(_statemachine2.default.updateState('currentRoute', result.route));
-      _barrouteData2.default.recreate(result.route.route);
+      _barrouteData2.default.recreate(result.route);
     });
   },
 
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
+    if (lis) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'p',
+          null,
+          'Route Details'
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          lis
+        )
+      );
+    } else {
+      return _react2.default.createElement(
         'p',
         null,
-        'Route Details'
-      ),
-      _react2.default.createElement(
-        'ul',
-        null,
-        lis
-      )
-    );
+        'Loading...'
+      );
+    }
   }
 });
 
@@ -38248,14 +38269,14 @@ module.exports = {
 
 function composeList(component, route) {
   if (!route) return [];
-  var lis = route.bars.map(function (bar) {
+  var lis = route.bars.map(function (bar, i) {
     if (bar.checked_in || bar.skipped) {
       var status = bar.checked_in ? 'Checked In' : 'Skipped';
     }
     if (status) {
       return _react2.default.createElement(
         'li',
-        null,
+        { key: i },
         _react2.default.createElement(
           'p',
           null,
@@ -38272,7 +38293,7 @@ function composeList(component, route) {
     } else {
       return _react2.default.createElement(
         'li',
-        null,
+        { key: i },
         _react2.default.createElement(
           'p',
           null,
@@ -38435,7 +38456,7 @@ var Login = _react2.default.createClass({
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-primary', className: 'btn btn-primary' },
+            { className: 'btn btn-primary', className: 'btn btn-primary btn-lg' },
             'Login with Twitter'
           )
         )

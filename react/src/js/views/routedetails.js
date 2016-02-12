@@ -36,26 +36,34 @@ var RouteDetails = _react2.default.createClass({
     var component = this;
     _ajaxPromise2.default.get('/api/barroutes/' + this.props.params.index).then(function (result) {
       component.setState(_statemachine2.default.updateState('currentRoute', result.route));
-      _barrouteData2.default.recreate(result.route.route);
+      _barrouteData2.default.recreate(result.route);
     });
   },
 
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
+    if (lis) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'p',
+          null,
+          'Route Details'
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          lis
+        )
+      );
+    } else {
+      return _react2.default.createElement(
         'p',
         null,
-        'Route Details'
-      ),
-      _react2.default.createElement(
-        'ul',
-        null,
-        lis
-      )
-    );
+        'Loading...'
+      );
+    }
   }
 });
 
@@ -65,14 +73,14 @@ module.exports = {
 
 function composeList(component, route) {
   if (!route) return [];
-  var lis = route.bars.map(function (bar) {
+  var lis = route.bars.map(function (bar, i) {
     if (bar.checked_in || bar.skipped) {
       var status = bar.checked_in ? 'Checked In' : 'Skipped';
     }
     if (status) {
       return _react2.default.createElement(
         'li',
-        null,
+        { key: i },
         _react2.default.createElement(
           'p',
           null,
@@ -89,7 +97,7 @@ function composeList(component, route) {
     } else {
       return _react2.default.createElement(
         'li',
-        null,
+        { key: i },
         _react2.default.createElement(
           'p',
           null,

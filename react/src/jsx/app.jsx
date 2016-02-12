@@ -1,6 +1,5 @@
 import ajax from 'ajax-promise';
 import statemachine from './statemachine';
-// import { Header } from './header';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
