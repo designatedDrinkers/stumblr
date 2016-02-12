@@ -112,11 +112,15 @@ var Menu = _react2.default.createClass({
         )
       );
     });
-    return _react2.default.createElement(
-      'ul',
-      { className: 'dropdown-menu' },
-      lis
-    );
+    if (lis.length) {
+      return _react2.default.createElement(
+        'ul',
+        { className: 'dropdown-menu' },
+        lis
+      );
+    } else {
+      return _react2.default.createElement('span', null);
+    }
   }
 });
 

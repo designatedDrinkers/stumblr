@@ -45,5 +45,8 @@ var set = {
     }, {
       link: '/auth/logout', text: 'Log Out'
     }];
+  },
+  none: function none() {
+    return [];
   }
 };
