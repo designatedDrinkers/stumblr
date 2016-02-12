@@ -26,9 +26,6 @@ var _settings = require('./views/settings');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { Header } from './header';
-
-
 _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   if (Object.keys(user).length) {
     _statemachine2.default.updateState('user', user);
