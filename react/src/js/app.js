@@ -24,10 +24,9 @@ var _newroute = require('./views/newroute');
 
 var _settings = require('./views/settings');
 
+var _routedetails = require('./views/routedetails');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// import { Header } from './header';
-
 
 _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   if (Object.keys(user).length) {
@@ -35,6 +34,8 @@ _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
   }
   renderApp(_statemachine2.default.getState().user);
 }).catch(renderApp);
+// import { Header } from './header';
+
 
 var App = _react2.default.createClass({
   displayName: 'App',
@@ -56,13 +57,10 @@ function renderApp(user) {
       { history: _reactRouter.browserHistory },
       _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
       _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/routes/:index', component: _routedetails.RouteDetails }),
       _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _settings.Settings })
     ), document.getElementById('main'));
   } else {
     _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
   }
 }
-
-// Goes up there when routes exist^
-// <Route path="/routes" component={RouteList} />
-// <Route path="/routes/:routeId" component={RouteDetail} />
