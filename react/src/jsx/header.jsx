@@ -33,7 +33,7 @@ var Menu = React.createClass({
   componentDidMount: function() {
     // generate menu...
     var menu = [{
-      link: '#/route-two', text: 'menu option 2'
+      link: '#/settings', text: 'Settings'
     },{
       link: '/auth/logout', text: 'Log Out'
     }];
