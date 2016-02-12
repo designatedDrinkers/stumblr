@@ -78,12 +78,12 @@ var Settings = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.saveSettings },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.saveSettings },
         'Save'
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.goDashboard },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.goDashboard },
         'Cancel'
       )
     );

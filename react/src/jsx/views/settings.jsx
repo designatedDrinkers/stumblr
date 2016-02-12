@@ -39,8 +39,8 @@ var Settings = React.createClass({
           <option value="false">Never Tweet</option>
           <option value="null">Ask Every Time</option>
         </select>
-        <button type="submit" onClick={this.saveSettings}>Save</button>
-        <button type="submit" onClick={this.goDashboard}>Cancel</button>
+        <button className="btn btn-primary" type="submit" onClick={this.saveSettings}>Save</button>
+        <button className="btn btn-primary" type="submit" onClick={this.goDashboard}>Cancel</button>
       </form>
     );
   }

@@ -44,14 +44,14 @@ var RouteForm = React.createClass({
     return (
       <form onSubmit={this.createRoute}>
         <label htmlFor="location">Select Starting Point:</label>
-        <input id="location" type="text" placeholder="Use Current Location"
+        <input className="form-control" id="location" type="text" placeholder="Use Current Location"
         onChange={this.changeStart} name="location" value={this.state.start} />
-        <select name="barcount" onChange={this.changeBarcount} value={this.state.barcount}>
+        <select className="form-control" name="barcount" onChange={this.changeBarcount} value={this.state.barcount}>
           <option value="3">Fun Run</option>
           <option value="5">5k</option>
           <option value="8">Marathon</option>
         </select>
-        <button className="button" type="submit">Create Route</button>
+        <button className="btn btn-primary" type="submit">Create Route</button>
       </form>
     );
   }

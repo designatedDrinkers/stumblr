@@ -67,11 +67,11 @@ var RouteForm = _react2.default.createClass({
         { htmlFor: 'location' },
         'Select Starting Point:'
       ),
-      _react2.default.createElement('input', { id: 'location', type: 'text', placeholder: 'Use Current Location',
+      _react2.default.createElement('input', { className: 'form-control', id: 'location', type: 'text', placeholder: 'Use Current Location',
         onChange: this.changeStart, name: 'location', value: this.state.start }),
       _react2.default.createElement(
         'select',
-        { name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
+        { className: 'form-control', name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
         _react2.default.createElement(
           'option',
           { value: '3' },
@@ -90,7 +90,7 @@ var RouteForm = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { className: 'button', type: 'submit' },
+        { className: 'btn btn-primary', type: 'submit' },
         'Create Route'
       )
     );
