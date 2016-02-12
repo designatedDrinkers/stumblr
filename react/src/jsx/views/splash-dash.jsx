@@ -8,7 +8,13 @@ var Login = React.createClass({
   },
   render: function(){
     return (
-      <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
+      <main>
+        <div className="splash">
+          <img className="splash-map" src="images/map.jpg" />
+          <a href="/auth/twitter"><button className="button">Login with Twitter</button></a>
+        </div>
+      </main>
+
     );
   }
 });
@@ -19,7 +25,7 @@ var Dashboard = React.createClass({
   },
   render: function(){
     return (
-      <div>
+      <div className="dash">
         <img className="profile-image" src={this.state.user.twitter_image} />
         <p>{this.state.user.twitter_name}</p>
         <RouteForm />

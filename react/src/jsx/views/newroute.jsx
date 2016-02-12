@@ -47,7 +47,7 @@ var RouteForm = React.createClass({
           <option value="5">5k</option>
           <option value="8">Marathon</option>
         </select>
-        <button type="submit">Create Route</button>
+        <button className="button" type="submit">Create Route</button>
       </form>
     );
   }

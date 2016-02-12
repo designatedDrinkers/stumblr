@@ -20,12 +20,21 @@ var Login = _react2.default.createClass({
   },
   render: function render() {
     return _react2.default.createElement(
-      'a',
-      { href: '/auth/twitter' },
+      'main',
+      null,
       _react2.default.createElement(
-        'button',
-        { className: 'button' },
-        'Login with Twitter'
+        'div',
+        { className: 'splash' },
+        _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
+        _react2.default.createElement(
+          'a',
+          { href: '/auth/twitter' },
+          _react2.default.createElement(
+            'button',
+            { className: 'button' },
+            'Login with Twitter'
+          )
+        )
       )
     );
   }
@@ -40,7 +49,7 @@ var Dashboard = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       'div',
-      null,
+      { className: 'dash' },
       _react2.default.createElement('img', { className: 'profile-image', src: this.state.user.twitter_image }),
       _react2.default.createElement(
         'p',
