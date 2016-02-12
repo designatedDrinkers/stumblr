@@ -8,6 +8,10 @@ var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
+var _barrouteData = require('../barroute-data');
+
+var _barrouteData2 = _interopRequireDefault(_barrouteData);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NewRoute = _react2.default.createClass({
@@ -17,13 +21,17 @@ var NewRoute = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
-    window.renderRoute(this.state.routeToBe.barcount, this.state.routeToBe.start);
+    (0, _barrouteData2.default)(this.state.routeToBe.barcount, this.state.routeToBe.start).then(function (good) {
+      console.log(good);
+    }).catch(function (bad) {
+      console.error(bad);
+    });
   },
   render: function render() {
     return _react2.default.createElement(
       'p',
       null,
-      'Route Created'
+      '...'
     );
   }
 });
