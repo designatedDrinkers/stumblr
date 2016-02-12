@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import { RouteForm } from './newroute';
+import { RouteList } from './route-list-component';
 import { Header } from '../header';
 
 var Login = React.createClass({
@@ -30,6 +31,7 @@ var Dashboard = React.createClass({
         <img className="profile-image" src={this.state.user.twitter_image} />
         <p>{this.state.user.twitter_name}</p>
         <RouteForm />
+        <RouteList />
       </div>
     );
   }

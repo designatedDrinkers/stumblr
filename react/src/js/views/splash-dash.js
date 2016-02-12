@@ -14,6 +14,8 @@ var _statemachine2 = _interopRequireDefault(_statemachine);
 
 var _newroute = require('./newroute');
 
+var _routeListComponent = require('./route-list-component');
+
 var _header = require('../header');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -62,7 +64,8 @@ var Dashboard = _react2.default.createClass({
         null,
         this.state.user.twitter_name
       ),
-      _react2.default.createElement(_newroute.RouteForm, null)
+      _react2.default.createElement(_newroute.RouteForm, null),
+      _react2.default.createElement(_routeListComponent.RouteList, null)
     );
   }
 });

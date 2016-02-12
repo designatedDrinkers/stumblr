@@ -8,11 +8,16 @@ import { NewRoute } from './views/newroute';
 import { Settings } from './views/settings';
 import { RouteDetails } from './views/routedetails';
 
-
-ajax.get('/api/users/current-user').then(function(user) {
+Promise.all([
+  ajax.get('/api/users/current-user'),
+  ajax.get('/api/barroutes')
+]).then(function(data) {
+  var user = data[0];
+  var routes = data[1];
   if (Object.keys(user).length) {
     statemachine.updateState('user', user);
   }
+  statemachine.updateState('routes', routes.barRoutes);
   renderApp(statemachine.getState().user);
 }).catch(renderApp);
 
