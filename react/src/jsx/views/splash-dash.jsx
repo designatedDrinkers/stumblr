@@ -1,6 +1,7 @@
 import React from 'react';
 import statemachine from '../statemachine';
 import { RouteForm } from './newroute';
+import { RouteList } from './route-list-component';
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -29,6 +30,7 @@ var Dashboard = React.createClass({
         <img className="profile-image" src={this.state.user.twitter_image} />
         <p>{this.state.user.twitter_name}</p>
         <RouteForm />
+        <RouteList />
       </div>
     );
   }

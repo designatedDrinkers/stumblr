@@ -28,10 +28,13 @@ var _settings = require('./views/settings');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
+Promise.all([_ajaxPromise2.default.get('/api/users/current-user'), _ajaxPromise2.default.get('/api/barroutes')]).then(function (data) {
+  var user = data[0];
+  var routes = data[1];
   if (Object.keys(user).length) {
     _statemachine2.default.updateState('user', user);
   }
+  _statemachine2.default.updateState('routes', routes.barRoutes);
   renderApp(_statemachine2.default.getState().user);
 }).catch(renderApp);
 
