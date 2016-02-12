@@ -1,6 +1,5 @@
 var route = require('express').Router();
 var unirest = require('unirest');
-var Twitter = require('twitter');
 var nodeTwitter = require('node-twitter');
 require('dotenv').load();
 
