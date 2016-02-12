@@ -14,6 +14,9 @@ var _barrouteData2 = _interopRequireDefault(_barrouteData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import { Header } from '../header';
+
+// import ReactDOM from 'react-dom';
 var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
 
@@ -21,6 +24,8 @@ var NewRoute = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
+    // statemachine.setMenu('def');
+    // ReactDOM.render(<Header />, document.getElementById('header'));
     (0, _barrouteData2.default)(this.state.routeToBe.barcount, this.state.routeToBe.start).then(function (good) {
       console.log(good);
     }).catch(function (bad) {

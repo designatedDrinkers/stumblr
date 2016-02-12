@@ -1,6 +1,6 @@
 import ajax from 'ajax-promise';
 import statemachine from './statemachine';
-import { Header } from './header';
+// import { Header } from './header';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
@@ -29,7 +29,7 @@ var App = React.createClass({
 
 function renderApp(user) {
   ReactDOM.render(<App />, document.getElementById('app'));
-  ReactDOM.render(<Header />, document.getElementById('header'));
+  // ReactDOM.render(<Header />, document.getElementById('header'));
   if (user) {
     ReactDOM.render((
       <Router history={browserHistory}>

@@ -84,15 +84,6 @@ var Menu = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
-  componentDidMount: function componentDidMount() {
-    // generate menu...
-    var menu = [{
-      link: '#/settings', text: 'Settings'
-    }, {
-      link: '/auth/logout', text: 'Log Out'
-    }];
-    this.setState(_statemachine2.default.updateState('menu', menu));
-  },
   render: function render() {
     var component = this;
     var lis = this.state.menu.map(function (item, i) {
