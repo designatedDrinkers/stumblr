@@ -8,26 +8,33 @@ var RouteList = React.createClass({
     return statemachine.getState();
   },
 
-  render: function(){
-    return (
-      <ul>
-        {this.state.routes.map(function(route, i){
-          let date = formatDate(route.date);
-          let type = determineRouteType(route.bars);
-          let status = determineRouteStatus(route.bars);
-          return (
-            <li key={i}>{date}
-              <ul key={i}>
-                <li key={i + 'name'}>{route.name}</li>
-                <li key={i + 'type'}>{type}</li>
-                <li key={i + 'status'}>{status}</li>
-                <li key={i + 'link'}><a href="#">View Route</a></li>
-              </ul>
-            </li>
-          )
-        })}
-      </ul>
-    );
+  render: function() {
+    var routes = this.state.routes;
+    if (routes) {
+      return (
+        <ul>
+          {routes.map(function(route, i){
+            let date = formatDate(route.date);
+            let type = determineRouteType(route.bars);
+            let status = determineRouteStatus(route.bars);
+            return (
+              <li key={i}>{date}
+                <ul key={i}>
+                  <li key={i + 'name'}>{route.name}</li>
+                  <li key={i + 'type'}>{type}</li>
+                  <li key={i + 'status'}>{status}</li>
+                  <li key={i + 'link'}><a href="#">View Route</a></li>
+                </ul>
+              </li>
+            )
+          })}
+        </ul>
+      );
+    } else {
+      return (
+        <p>No Previous Bar Routes</p>
+      );
+    }
   }
 });
 
