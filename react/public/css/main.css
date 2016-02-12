@@ -9,6 +9,11 @@ body {
   width: 100vw;
   z-index: 10; }
 
+nav {
+  background-color: #620012;
+  color: #fff;
+  font-weight: 500; }
+
 .logo {
   padding: 3px; }
 

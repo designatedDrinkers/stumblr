@@ -37891,67 +37891,59 @@ var Header = _react2.default.createClass({
   },
   render: function render() {
     if (this.state.user) {
-      return(
-        // <header className="contain-to-grid sticky">
+      return _react2.default.createElement(
+        'header',
+        null,
         _react2.default.createElement(
-          'div',
-          { className: 'top-bar' },
+          'nav',
+          { 'class': 'navbar navbar-default' },
           _react2.default.createElement(
             'div',
-            { className: 'top-bar-left' },
+            { 'class': 'container-fluid' },
             _react2.default.createElement(
-              'ul',
-              { className: 'dropdown menu', 'data-dropdown-menu': true },
+              'div',
+              { 'class': 'navbar-header' },
+              _react2.default.createElement('button', { type: 'button', 'class': 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
+              _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
               _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' })
+                'a',
+                { 'class': 'navbar-brand', href: '#' },
+                'Stumblr'
               ),
               _react2.default.createElement(
-                'li',
-                { className: 'menu-text' },
-                'Stumblr'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'top-bar-right' },
-            _react2.default.createElement(
-              'ul',
-              { className: 'dropdown menu', 'data-dropdown-menu': true },
-              _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement('a', { href: '#', className: 'menu-icon' }),
+                'ul',
+                { 'class': 'nav navbar-nav navbar-right' },
                 _react2.default.createElement(
-                  'ul',
-                  { className: 'menu vertical' },
-                  _react2.default.createElement(Menu, null)
+                  'li',
+                  { 'class': 'dropdown' },
+                  _react2.default.createElement(
+                    'a',
+                    { href: '#', 'class': 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
+                    'Dropdown ',
+                    _react2.default.createElement('span', { 'class': 'caret' })
+                  )
                 )
               )
             )
           )
         )
-        // </header>
-
       );
     } else {
-        return _react2.default.createElement(
-          'nav',
-          null,
+      return _react2.default.createElement(
+        'nav',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'title-area left' },
+          _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
           _react2.default.createElement(
-            'div',
-            { className: 'title-area left' },
-            _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
-            _react2.default.createElement(
-              'span',
-              null,
-              'Stumblr'
-            )
+            'span',
+            null,
+            'Stumblr'
           )
-        );
-      }
+        )
+      );
+    }
   }
 });
 
@@ -37985,7 +37977,7 @@ var Menu = _react2.default.createClass({
     });
     return _react2.default.createElement(
       'ul',
-      { className: 'menu', 'data-responsive-menu': 'drilldown medium-dropdown' },
+      { className: 'dropdown-menu' },
       lis
     );
   }
@@ -38073,11 +38065,11 @@ var RouteForm = _react2.default.createClass({
         { htmlFor: 'location' },
         'Select Starting Point:'
       ),
-      _react2.default.createElement('input', { id: 'location', type: 'text', placeholder: 'Use Current Location',
+      _react2.default.createElement('input', { className: 'form-control', id: 'location', type: 'text', placeholder: 'Use Current Location',
         onChange: this.changeStart, name: 'location', value: this.state.start }),
       _react2.default.createElement(
         'select',
-        { name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
+        { className: 'form-control', name: 'barcount', onChange: this.changeBarcount, value: this.state.barcount },
         _react2.default.createElement(
           'option',
           { value: '3' },
@@ -38096,7 +38088,7 @@ var RouteForm = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { className: 'button', type: 'submit' },
+        { className: 'btn btn-primary', type: 'submit' },
         'Create Route'
       )
     );
@@ -38178,12 +38170,12 @@ var Settings = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.saveSettings },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.saveSettings },
         'Save'
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit', onClick: this.goDashboard },
+        { className: 'btn btn-primary', type: 'submit', onClick: this.goDashboard },
         'Cancel'
       )
     );
@@ -38227,7 +38219,7 @@ var Login = _react2.default.createClass({
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'button' },
+            { className: 'btn btn-primary', className: 'btn btn-primary' },
             'Login with Twitter'
           )
         )

@@ -31,7 +31,7 @@ var Login = _react2.default.createClass({
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'button' },
+            { className: 'btn btn-primary', className: 'btn btn-primary' },
             'Login with Twitter'
           )
         )
