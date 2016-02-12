@@ -27,29 +27,29 @@ var Header = _react2.default.createClass({
         null,
         _react2.default.createElement(
           'nav',
-          { 'class': 'navbar navbar-default' },
+          { className: 'navbar navbar-default' },
           _react2.default.createElement(
             'div',
-            { 'class': 'container-fluid' },
+            { className: 'container-fluid' },
             _react2.default.createElement(
               'div',
-              { 'class': 'navbar-header' },
-              _react2.default.createElement('button', { type: 'button', 'class': 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
+              { className: 'navbar-header' },
+              _react2.default.createElement('button', { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' }),
               _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
               _react2.default.createElement(
                 'a',
-                { 'class': 'navbar-brand', href: '#' },
+                { className: 'navbar-brand', href: '#' },
                 'Stumblr'
               ),
               _react2.default.createElement(
                 'ul',
-                { 'class': 'nav navbar-nav navbar-right' },
+                { className: 'nav navbar-nav navbar-right' },
                 _react2.default.createElement(
                   'li',
-                  { 'class': 'dropdown' },
+                  { className: 'dropdown' },
                   _react2.default.createElement(
                     'a',
-                    { href: '#', 'class': 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
+                    { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
                     'Dropdown ',
                     _react2.default.createElement('span', { 'class': 'caret' })
                   )
