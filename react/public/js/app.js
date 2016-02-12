@@ -37825,6 +37825,8 @@ var _splashDash = require('./views/splash-dash');
 
 var _newroute = require('./views/newroute');
 
+var _settings = require('./views/settings');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _ajaxPromise2.default.get('/api/users/current-user').then(function (user) {
@@ -37853,7 +37855,8 @@ function renderApp(user) {
       _reactRouter.Router,
       { history: _reactRouter.browserHistory },
       _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
-      _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute })
+      _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _settings.Settings })
     ), document.getElementById('main'));
   } else {
     _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
@@ -37863,7 +37866,7 @@ function renderApp(user) {
 // Goes up there when routes exist^
 // <Route path="/routes" component={RouteList} />
 // <Route path="/routes/:routeId" component={RouteDetail} />
-},{"./header":245,"./statemachine":246,"./views/newroute":247,"./views/splash-dash":248,"ajax-promise":1,"react":240,"react-dom":87,"react-router":107}],245:[function(require,module,exports){
+},{"./header":245,"./statemachine":246,"./views/newroute":247,"./views/settings":248,"./views/splash-dash":249,"ajax-promise":1,"react":240,"react-dom":87,"react-router":107}],245:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -37961,7 +37964,7 @@ var Menu = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     // generate menu...
     var menu = [{
-      link: '#/dashboard', text: 'Dashboard'
+      link: '#/settings', text: 'Settings'
     }, {
       link: '/auth/logout', text: 'Log Out'
     }];
@@ -38105,6 +38108,92 @@ module.exports = {
   RouteForm: RouteForm
 };
 },{"../barroute-data":243,"../statemachine":246,"react":240}],248:[function(require,module,exports){
+'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _statemachine = require('../statemachine');
+
+var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Settings = _react2.default.createClass({
+  displayName: 'Settings',
+
+  getInitialState: function getInitialState() {
+    var user = _statemachine2.default.getState().user;
+    return { auto_tweet: user.auto_tweet };
+  },
+  changeTweetSettings: function changeTweetSettings(event) {
+    this.setState({ auto_tweet: event.target.value });
+  },
+  saveSettings: function saveSettings(event) {
+    event.preventDefault();
+    var component = this;
+    _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
+      var user = _statemachine2.default.getState().user;
+      user.auto_tweet = component.state.auto_tweet;
+      _statemachine2.default.updateState('user', user);
+      component.goDashboard();
+    });
+  },
+  goDashboard: function goDashboard(event) {
+    if (event) event.preventDefault();
+    window.location.assign('/#');
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'form',
+      null,
+      _react2.default.createElement(
+        'label',
+        { htmlFor: 'auto-tweet' },
+        'Twitter Settings (When I check-in to a bar)'
+      ),
+      _react2.default.createElement(
+        'select',
+        { id: 'auto-tweet', value: this.state.auto_tweet, onChange: this.changeTweetSettings },
+        _react2.default.createElement(
+          'option',
+          { value: 'true' },
+          'Always Tweet'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: 'false' },
+          'Never Tweet'
+        ),
+        _react2.default.createElement(
+          'option',
+          { value: 'null' },
+          'Ask Every Time'
+        )
+      ),
+      _react2.default.createElement(
+        'button',
+        { type: 'submit', onClick: this.saveSettings },
+        'Save'
+      ),
+      _react2.default.createElement(
+        'button',
+        { type: 'submit', onClick: this.goDashboard },
+        'Cancel'
+      )
+    );
+  }
+});
+
+module.exports = {
+  Settings: Settings
+};
+},{"../statemachine":246,"ajax-promise":1,"react":240}],249:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');

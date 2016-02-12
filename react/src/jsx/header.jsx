@@ -50,7 +50,7 @@ var Menu = React.createClass({
   componentDidMount: function() {
     // generate menu...
     var menu = [{
-      link: '#/dashboard', text: 'Dashboard'
+      link: '#/settings', text: 'Settings'
     },{
       link: '/auth/logout', text: 'Log Out'
     }];

@@ -95,7 +95,7 @@ var Menu = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     // generate menu...
     var menu = [{
-      link: '#/dashboard', text: 'Dashboard'
+      link: '#/settings', text: 'Settings'
     }, {
       link: '/auth/logout', text: 'Log Out'
     }];
