@@ -14,29 +14,15 @@ body {
   z-index: 10;
 }
 
-// ul {
-//   list-style: none;
-// }
-//
-// nav {
-//   display: flex;
-// }
+nav {
+  background-color: #620012;
+  color: #fff;
+  font-weight: 500;
+}
 
 .logo {
   padding: 3px;
 }
-
-// .top-bar {
-//   background-color: #620012;
-//   color: #fff;
-//   font-size: 1.5em;
-//   font-weight: 600;
-//   margin: 5px;
-// }
-
-// .menu-icon {
-//   float: right;
-// }
 
 #main {
   display: flex;

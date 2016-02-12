@@ -9,26 +9,23 @@ var Header = React.createClass({
   render: function() {
     if (this.state.user) {
       return (
-        // <header className="contain-to-grid sticky">
-          <div className="top-bar">
-            <div className="top-bar-left">
-              <ul className="dropdown menu" data-dropdown-menu>
-                <li><img className="logo" src="images/stumblr-logo.png" /></li>
-                <li className="menu-text">Stumblr</li>
-              </ul>
+        <header>
+          <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                </button>
+                <img className="logo" src="images/stumblr-logo.png" />
+                <a class="navbar-brand" href="#">Stumblr</a>
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Dropdown <span class="caret"></span></a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div className="top-bar-right">
-              <ul className="dropdown menu" data-dropdown-menu>
-                <li>
-                  <a href="#" className="menu-icon"></a>
-                  <ul className="menu vertical">
-                    <Menu />
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-        // </header>
+          </nav>
+        </header>
       );
     } else {
       return (
@@ -68,7 +65,7 @@ var Menu = React.createClass({
       );
     });
     return (
-      <ul className="menu" data-responsive-menu="drilldown medium-dropdown">
+      <ul className="dropdown-menu">
         {lis}
       </ul>
     );
