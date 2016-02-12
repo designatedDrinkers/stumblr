@@ -9,18 +9,35 @@ var Header = React.createClass({
   render: function() {
     if (this.state.user) {
       return (
-        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
-          <div className="title-bar-title">Stumblr</div>
-          <button className="menu-icon" type="button" data-toggle>
-            <Menu />
-          </button>
-        </header>
+        // <header className="contain-to-grid sticky">
+          <div className="top-bar">
+            <div className="top-bar-left">
+              <ul className="dropdown menu" data-dropdown-menu>
+                <li><img className="logo" src="images/stumblr-logo.png" /></li>
+                <li className="menu-text">Stumblr</li>
+              </ul>
+            </div>
+            <div className="top-bar-right">
+              <ul className="dropdown menu" data-dropdown-menu>
+                <li>
+                  <a href="#" className="menu-icon"></a>
+                  <ul className="menu vertical">
+                    <Menu />
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        // </header>
       );
     } else {
       return (
-        <header id="header" className="top-bar-left" data-responsive-toggle data-hide-for="medium">
-          <div className="title-bar-title">Stumblr</div>
-        </header>
+        <nav>
+          <div className="title-area left">
+            <img className="logo" src="images/stumblr-logo.png" />
+            <span>Stumblr</span>
+          </div>
+        </nav>
       );
     }
   }

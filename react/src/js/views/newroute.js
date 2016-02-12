@@ -85,7 +85,7 @@ var RouteForm = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'button',
-        { type: 'submit' },
+        { className: 'button', type: 'submit' },
         'Create Route'
       )
     );

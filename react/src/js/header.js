@@ -22,31 +22,67 @@ var Header = _react2.default.createClass({
   },
   render: function render() {
     if (this.state.user) {
-      return _react2.default.createElement(
-        'header',
-        { id: 'header', className: 'top-bar-left', 'data-responsive-toggle': true, 'data-hide-for': 'medium' },
+      return(
+        // <header className="contain-to-grid sticky">
         _react2.default.createElement(
           'div',
-          { className: 'title-bar-title' },
-          'Stumblr'
-        ),
-        _react2.default.createElement(
-          'button',
-          { className: 'menu-icon', type: 'button', 'data-toggle': true },
-          _react2.default.createElement(Menu, null)
+          { className: 'top-bar' },
+          _react2.default.createElement(
+            'div',
+            { className: 'top-bar-left' },
+            _react2.default.createElement(
+              'ul',
+              { className: 'dropdown menu', 'data-dropdown-menu': true },
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' })
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'menu-text' },
+                'Stumblr'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'top-bar-right' },
+            _react2.default.createElement(
+              'ul',
+              { className: 'dropdown menu', 'data-dropdown-menu': true },
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement('a', { href: '#', className: 'menu-icon' }),
+                _react2.default.createElement(
+                  'ul',
+                  { className: 'menu vertical' },
+                  _react2.default.createElement(Menu, null)
+                )
+              )
+            )
+          )
         )
+        // </header>
+
       );
     } else {
-      return _react2.default.createElement(
-        'header',
-        { id: 'header', className: 'top-bar-left', 'data-responsive-toggle': true, 'data-hide-for': 'medium' },
-        _react2.default.createElement(
-          'div',
-          { className: 'title-bar-title' },
-          'Stumblr'
-        )
-      );
-    }
+        return _react2.default.createElement(
+          'nav',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'title-area left' },
+            _react2.default.createElement('img', { className: 'logo', src: 'images/stumblr-logo.png' }),
+            _react2.default.createElement(
+              'span',
+              null,
+              'Stumblr'
+            )
+          )
+        );
+      }
   }
 });
 
