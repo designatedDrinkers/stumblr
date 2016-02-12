@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
+import { Settings } from './views/settings';
 
 ajax.get('/api/users/current-user').then(function(user) {
   if (Object.keys(user).length) {
@@ -34,6 +35,7 @@ function renderApp(user) {
       <Router history={browserHistory}>
         <Route path="/" component={SplashDash} />
         <Route path="/routes/new" component={NewRoute} />
+        <Route path="/settings" component={Settings} />
       </Router>
     ), document.getElementById('main'));
   } else {
