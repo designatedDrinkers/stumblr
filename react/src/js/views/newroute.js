@@ -12,11 +12,14 @@ var _barrouteData = require('../barroute-data');
 
 var _barrouteData2 = _interopRequireDefault(_barrouteData);
 
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import { Header } from '../header';
 
-// import ReactDOM from 'react-dom';
 var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
 
@@ -39,11 +42,12 @@ var NewRoute = _react2.default.createClass({
   saveRoute: function saveRoute(event) {
     event.preventDefault();
     var route = _statemachine2.default.getState().newBarRoute;
-    ajax.post('/api/routes', {
+    _ajaxPromise2.default.post('/api/barroutes', {
       name: this.state.newName,
       bars: JSON.stringify(route)
     }).then(function (data) {
-      window.location.assign('/#/routes/' + (data.index || ''));
+      var url = '/#/' + (data.index ? 'routes/' + data.index : '');
+      window.location.assign(url);
     }).catch(this.goDashboard);
   },
   goDashboard: function goDashboard(event) {
@@ -79,6 +83,8 @@ var NewRoute = _react2.default.createClass({
     }
   }
 });
+// import ReactDOM from 'react-dom';
+
 
 var RouteForm = _react2.default.createClass({
   displayName: 'RouteForm',

@@ -2,6 +2,7 @@ import React from 'react';
 // import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import routeData from '../barroute-data';
+import ajax from 'ajax-promise';
 // import { Header } from '../header';
 
 var NewRoute = React.createClass({
@@ -25,11 +26,12 @@ var NewRoute = React.createClass({
   saveRoute: function(event) {
     event.preventDefault();
     var route = statemachine.getState().newBarRoute;
-    ajax.post('/api/routes', {
+    ajax.post('/api/barroutes', {
       name: this.state.newName,
       bars: JSON.stringify(route)
     }).then(function(data) {
-      window.location.assign('/#/routes/' + (data.index || ''));
+      var url = '/#/' + (data.index ? 'routes/' + data.index : '');
+      window.location.assign(url);
     }).catch(this.goDashboard);
   },
   goDashboard: function(event) {

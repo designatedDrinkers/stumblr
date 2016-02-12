@@ -6,6 +6,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 import { Settings } from './views/settings';
+import { RouteDetails } from './views/routedetails';
+
 
 ajax.get('/api/users/current-user').then(function(user) {
   if (Object.keys(user).length) {
@@ -34,6 +36,7 @@ function renderApp(user) {
       <Router history={browserHistory}>
         <Route path="/" component={SplashDash} />
         <Route path="/routes/new" component={NewRoute} />
+        <Route path="/routes/:index" component={RouteDetails} />
         <Route path="/settings" component={Settings} />
       </Router>
     ), document.getElementById('main'));
@@ -41,7 +44,3 @@ function renderApp(user) {
     ReactDOM.render(<SplashDash />, document.getElementById('main'));
   }
 }
-
-// Goes up there when routes exist^
-// <Route path="/routes" component={RouteList} />
-// <Route path="/routes/:routeId" component={RouteDetail} />
