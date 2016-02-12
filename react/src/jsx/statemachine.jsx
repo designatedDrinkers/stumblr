@@ -44,5 +44,8 @@ const set = {
     },{
       link: '/auth/logout', text: 'Log Out'
     }]
+  },
+  none: function() {
+    return [];
   }
 };

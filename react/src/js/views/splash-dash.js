@@ -79,8 +79,10 @@ var SplashDash = _react2.default.createClass({
   componentDidMount: function componentDidMount() {
     if (this.state.user) {
       _statemachine2.default.setMenu('dash');
-      _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
+    } else {
+      _statemachine2.default.setMenu('none');
     }
+    _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   render: function render() {
     if (this.state.user) {

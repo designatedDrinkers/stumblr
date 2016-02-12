@@ -44,8 +44,10 @@ var SplashDash = React.createClass({
   componentDidMount: function() {
     if (this.state.user) {
       statemachine.setMenu('dash');
-      ReactDOM.render(<Header />, document.getElementById('header'));
+    } else {
+      statemachine.setMenu('none');
     }
+    ReactDOM.render(<Header />, document.getElementById('header'));
   },
   render: function() {
     if (this.state.user) {

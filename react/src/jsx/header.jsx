@@ -62,11 +62,17 @@ var Menu = React.createClass({
         </li>
       );
     });
-    return (
-      <ul className="dropdown-menu">
-        {lis}
-      </ul>
-    );
+    if (lis.length) {
+      return (
+        <ul className="dropdown-menu">
+          {lis}
+        </ul>
+      );
+    } else {
+      return (
+        <span></span>
+      );
+    }
   }
 })
 
