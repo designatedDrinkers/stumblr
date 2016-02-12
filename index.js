@@ -7,6 +7,7 @@ var auth = require('./services/auth');
 var testing = require('./testing/test');
 var users = require('./routes/users');
 var maps = require('./routes/maps');
+var twitter = require('./routes/twitter');
 var barRoutes = require('./routes/barroutes');
 var bodyParser = require('body-parser');
 
@@ -21,6 +22,7 @@ app.use('/test', testing);
 app.use('/api/users', users);
 app.use('/api/maps', maps);
 app.use('/api/barroutes', barRoutes);
+app.use('/api/twitter', twitter);
 
 app.get('/', function(request, response, next) {
   response.send('Welcome to Stumblr');

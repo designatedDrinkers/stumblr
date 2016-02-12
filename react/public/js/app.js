@@ -37795,11 +37795,11 @@ function makeRouteFrom(pos) {
       };
     });
     _statemachine2.default.updateState('newBarRoute', data.bars);
-    return _ajaxPromise2.default.post('/api/barroutes', {
-      name: 'happy drinking times',
-      bars: JSON.stringify(data.bars)
-    });
-    // window.showEntireRoute(pos, window.mapAccess.directionsService, window.mapAccess.directionsDisplay, waypts);
+    // return ajax.post('/api/barroutes', {
+    //   name: 'happy drinking times',
+    //   bars: JSON.stringify(data.bars)
+    // });
+    window.showEntireRoute(pos, window.mapAccess.directionsService, window.mapAccess.directionsDisplay, waypts);
   };
 }
 },{"./statemachine":248,"ajax-promise":1}],246:[function(require,module,exports){
