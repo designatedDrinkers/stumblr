@@ -27,7 +27,6 @@ passport.use(new TwitterStrategy({
     callbackURL: "/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, cb) {
-    console.log(profile);
     findOrCreate(profile, token, tokenSecret).then(function(user) {
       cb(null, user);
     }).catch(cb);

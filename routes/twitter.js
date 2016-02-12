@@ -7,27 +7,43 @@ require('dotenv').load();
 module.exports = route;
 
 route.post('/checkin', function(request, response, next){
-  console.log('here');
-  console.log(request.user);
+  var barIndex = request.body.bar_index;
+  var routeIndex = request.body.route_index;
   var twitterRestClient = new nodeTwitter.RestClient(
     process.env.TWITTER_CONSUMER_KEY,
     process.env.TWITTER_CONSUMER_SECRET,
     request.user.twitter_token,
     request.user.twitter_secret
   );
-  twitterRestClient.statusesUpdate(
-    {
-      'status': 'I just checked in to a bar on my stumblr'
-    },
-    function(error, result){
-      if(error){
-        console.log(error);
-        response.json({error: error});
-      }
-      if(result){
-        console.log(result);
-        response.json({result: result});
-      }
-    }
-  );
+  if(request.user){
+    mongo.connect().then(function(db) {
+      db.collection('users').findOne({ twitter_id: request.user.twitter_id }, function(err, user)  {
+        db.close();
+        if(err){
+          response.json({message: error});
+        }else{
+          console.log(user);
+          var currentBar = user.routes[routeIndex].bars[barIndex].name;
+          var message = "I just checked in at " + currentBar + " on @stumblr_app #stumblr";
+          twitterRestClient.statusesUpdate(
+            {
+              'status': message
+            },
+            function(error, result){
+              if(error){
+                console.log(error);
+                response.json({error: error});
+              }
+              if(result){
+                console.log(result);
+                response.json({result: result});
+              }
+            }
+          );
+        }
+      });
+    });
+  }else{
+    response.json({message: 'You must be logged in'});
+  }
 });

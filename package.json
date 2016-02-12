@@ -20,7 +20,6 @@
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "promise": "^7.1.1",
-    "twitter": "^1.2.5",
     "unirest": "^0.4.2"
   },
   "devDependencies": {
