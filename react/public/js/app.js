@@ -37754,6 +37754,65 @@ var _statemachine = require('./statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function (barcount, start) {
+  if (start) {
+    return _ajaxPromise2.default.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start).then(posFromAddress).then(getBars(barcount));
+  } else if (window.navigator.geolocation) {
+    return new Promise(function (resolve, reject) {
+      window.navigator.geolocation.getCurrentPosition(resolve, reject);
+    }).then(posFromNavigator).then(getBars(barcount));
+  }
+};
+
+function posFromAddress(results) {
+  if (results.results.length == 0) return Promise.reject('Address Not Found');else return Promise.resolve({
+    lat: results.results[0].geometry.location.lat,
+    lng: results.results[0].geometry.location.lng
+  });
+}
+
+function posFromNavigator(results) {
+  return Promise.resolve({
+    lat: results.coords.latitude,
+    lng: results.coords.longitude
+  });
+}
+
+function getBars(barcount) {
+  return function (pos) {
+    var url = ['/api/maps/route?barcount=', barcount || 3, '&location=', [pos.lat, pos.lng].join(',')].join('');
+    return _ajaxPromise2.default.get(url).then(makeRouteFrom(pos));
+  };
+}
+
+function makeRouteFrom(pos) {
+  return function (data) {
+    var waypts = data.bars.map(function (bar) {
+      return {
+        location: new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng)
+      };
+    });
+    _statemachine2.default.updateState('newBarRoute', data.bars);
+    return _ajaxPromise2.default.post('/api/barroutes', {
+      name: 'happy drinking times',
+      bars: JSON.stringify(data.bars)
+    });
+    // window.showEntireRoute(pos, window.mapAccess.directionsService, window.mapAccess.directionsDisplay, waypts);
+  };
+}
+},{"./statemachine":248,"ajax-promise":1}],246:[function(require,module,exports){
+'use strict';
+
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
+var _statemachine = require('./statemachine');
+
+var _statemachine2 = _interopRequireDefault(_statemachine);
+
 var _header = require('./header');
 
 var _react = require('react');
@@ -37808,7 +37867,7 @@ function renderApp(user) {
 // Goes up there when routes exist^
 // <Route path="/routes" component={RouteList} />
 // <Route path="/routes/:routeId" component={RouteDetail} />
-},{"./header":246,"./statemachine":247,"./views/newroute":248,"./views/splash-dash":249,"ajax-promise":1,"react":244,"react-dom":62,"react-router":82}],246:[function(require,module,exports){
+},{"./header":247,"./statemachine":248,"./views/newroute":249,"./views/splash-dash":250,"ajax-promise":1,"react":244,"react-dom":62,"react-router":82}],247:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -37900,7 +37959,7 @@ var Menu = _react2.default.createClass({
 module.exports = {
   Header: Header
 };
-},{"./statemachine":247,"ajax-promise":1,"react":244}],247:[function(require,module,exports){
+},{"./statemachine":248,"ajax-promise":1,"react":244}],248:[function(require,module,exports){
 "use strict";
 
 var appState = { user: undefined, routes: [], badges: [], menu: [] };
@@ -37914,7 +37973,7 @@ module.exports = {
     return appState;
   }
 };
-},{}],248:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -37925,6 +37984,10 @@ var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
 
+var _barrouteData = require('../barroute-data');
+
+var _barrouteData2 = _interopRequireDefault(_barrouteData);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NewRoute = _react2.default.createClass({
@@ -37934,13 +37997,17 @@ var NewRoute = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
-    window.renderRoute(this.state.routeToBe.barcount, this.state.routeToBe.start);
+    (0, _barrouteData2.default)(this.state.routeToBe.barcount, this.state.routeToBe.start).then(function (good) {
+      console.log(good);
+    }).catch(function (bad) {
+      console.error(bad);
+    });
   },
   render: function render() {
     return _react2.default.createElement(
       'p',
       null,
-      'Route Created'
+      '...'
     );
   }
 });
@@ -38005,7 +38072,7 @@ module.exports = {
   NewRoute: NewRoute,
   RouteForm: RouteForm
 };
-},{"../statemachine":247,"react":244}],249:[function(require,module,exports){
+},{"../barroute-data":245,"../statemachine":248,"react":244}],250:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -38078,4 +38145,4 @@ var SplashDash = _react2.default.createClass({
 module.exports = {
   SplashDash: SplashDash
 };
-},{"../statemachine":247,"./newroute":248,"react":244}]},{},[245])
+},{"../statemachine":248,"./newroute":249,"react":244}]},{},[246])

@@ -1,16 +1,22 @@
 import React from 'react';
 import statemachine from '../statemachine';
+import routeData from '../barroute-data';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
   },
   componentDidMount: function() {
-    window.renderRoute(this.state.routeToBe.barcount, this.state.routeToBe.start);
+    routeData(this.state.routeToBe.barcount, this.state.routeToBe.start)
+    .then(function(good) {
+      console.log(good);
+    }).catch(function(bad) {
+      console.error(bad);
+    });
   },
   render: function() {
     return (
-      <p>Route Created</p>
+      <p>...</p>
     );
   }
 });
