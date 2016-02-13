@@ -42,10 +42,19 @@ const set = {
     return [{
       link: '#/', text: 'Dashboard'
     },{
+      link: '#/', text: 'Settings'
+    },{
       link: '/auth/logout', text: 'Log Out'
-    }]
+    }];
   },
   none: function() {
     return [];
+  },
+  settings: function() {
+    return [{
+      link: '#/', text: 'Dashboard'
+    },{
+      link: '/auth/logout', text: 'Log Out'
+    }];
   }
 };

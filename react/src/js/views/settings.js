@@ -18,6 +18,10 @@ var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
 
 var _header = require('../header');
 
+var _methods = require('../methods');
+
+var _methods2 = _interopRequireDefault(_methods);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Settings = _react2.default.createClass({
@@ -28,7 +32,8 @@ var Settings = _react2.default.createClass({
     return { auto_tweet: user.auto_tweet };
   },
   componentDidMount: function componentDidMount() {
-    _statemachine2.default.setMenu('def');
+    _methods2.default.hideMap();
+    _statemachine2.default.setMenu('settings');
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   changeTweetSettings: function changeTweetSettings(event) {

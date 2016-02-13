@@ -43,10 +43,19 @@ var set = {
     return [{
       link: '#/', text: 'Dashboard'
     }, {
+      link: '#/', text: 'Settings'
+    }, {
       link: '/auth/logout', text: 'Log Out'
     }];
   },
   none: function none() {
     return [];
+  },
+  settings: function settings() {
+    return [{
+      link: '#/', text: 'Dashboard'
+    }, {
+      link: '/auth/logout', text: 'Log Out'
+    }];
   }
 };

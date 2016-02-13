@@ -18,6 +18,10 @@ var _routeListComponent = require('./route-list-component');
 
 var _header = require('../header');
 
+var _methods = require('../methods');
+
+var _methods2 = _interopRequireDefault(_methods);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Login = _react2.default.createClass({
@@ -77,6 +81,8 @@ var SplashDash = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
+    _methods2.default.hideMap();
+    this.setState(_statemachine2.default.getState());
     if (this.state.user) {
       _statemachine2.default.setMenu('dash');
     } else {

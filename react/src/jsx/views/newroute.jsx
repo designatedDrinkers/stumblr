@@ -1,26 +1,26 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import routeData from '../barroute-data';
 import ajax from 'ajax-promise';
-// import { Header } from '../header';
+import { Header } from '../header';
 
 var NewRoute = React.createClass({
   getInitialState: function() {
     return { loading: true, newName: '' };
   },
   componentDidMount: function() {
-    // statemachine.setMenu('def');
-    // ReactDOM.render(<Header />, document.getElementById('header'));
+    statemachine.setMenu('def');
+    ReactDOM.render(<Header />, document.getElementById('header'));
     var component = this;
     var route = statemachine.getState().routeToBe;
     routeData(route.barcount, route.start)
     .then(function(good) {
       component.setState({ loading: false, newName: '' });
-      console.log(good);
+      // console.log(good);
     }).catch(function(bad) {
       component.setState({ loading: false, newName: '' });
-      console.error(bad);
+      // console.error(bad);
     });
   },
   saveRoute: function(event) {
@@ -29,6 +29,12 @@ var NewRoute = React.createClass({
     ajax.post('/api/barroutes', {
       name: this.state.newName,
       bars: JSON.stringify(route)
+    }).then(function(data) {
+      return ajax.get('/api/barroutes').then(function(routes) {
+        statemachine.updateState('routes', routes.barRoutes);
+      }).then(function() {
+        return Promise.resolve(data);
+      });
     }).then(function(data) {
       var url = '/#/' + (data.index ? 'routes/' + data.index : '');
       window.location.assign(url);
@@ -64,7 +70,6 @@ var RouteForm = React.createClass({
   },
   createRoute: function(event) {
     event.preventDefault();
-    console.log(this.state);
     statemachine.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
