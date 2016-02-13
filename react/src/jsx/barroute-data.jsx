@@ -2,6 +2,7 @@ import ajax from 'ajax-promise';
 import statemachine from './statemachine';
 
 module.exports = function(barcount, start) {
+  console.log(barcount, start);
   if (start) {
     return ajax.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start)
     .then(posFromAddress).then(getBars(barcount));
@@ -9,6 +10,8 @@ module.exports = function(barcount, start) {
     return new Promise(function(resolve, reject) {
       window.navigator.geolocation.getCurrentPosition(resolve, reject)
     }).then(posFromNavigator).then(getBars(barcount));
+  } else {
+    return Promise.reject('Unable to get starting location');
   }
 };
 module.exports.recreate = makeRouteFrom();

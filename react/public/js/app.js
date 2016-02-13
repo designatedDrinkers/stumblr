@@ -41364,12 +41364,15 @@ var _statemachine2 = _interopRequireDefault(_statemachine);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (barcount, start) {
+  console.log(barcount, start);
   if (start) {
     return _ajaxPromise2.default.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start).then(posFromAddress).then(getBars(barcount));
   } else if (window.navigator.geolocation) {
     return new Promise(function (resolve, reject) {
       window.navigator.geolocation.getCurrentPosition(resolve, reject);
     }).then(posFromNavigator).then(getBars(barcount));
+  } else {
+    return Promise.reject('Unable to get starting location');
   }
 };
 module.exports.recreate = makeRouteFrom();
@@ -41758,13 +41761,14 @@ var RouteForm = _react2.default.createClass({
   },
   createRoute: function createRoute(event) {
     event.preventDefault();
+    console.log(this.state);
     _statemachine2.default.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
   changeStart: function changeStart(event) {
     this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
-  changeBarcount: function changeBarcount(e) {
+  changeBarcount: function changeBarcount(event) {
     this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function render() {
@@ -41835,48 +41839,57 @@ var RouteList = _react2.default.createClass({
   },
 
   render: function render() {
-    return _react2.default.createElement(
-      'ul',
-      null,
-      this.state.routes.map(function (route, i) {
-        var date = formatDate(route.date);
-        var type = determineRouteType(route.bars);
-        var status = determineRouteStatus(route.bars);
-        return _react2.default.createElement(
-          'li',
-          { key: i },
-          date,
-          _react2.default.createElement(
-            'ul',
+    var routes = this.state.routes;
+    if (routes) {
+      return _react2.default.createElement(
+        'ul',
+        null,
+        routes.map(function (route, i) {
+          var date = formatDate(route.date);
+          var type = determineRouteType(route.bars);
+          var status = determineRouteStatus(route.bars);
+          return _react2.default.createElement(
+            'li',
             { key: i },
+            date,
             _react2.default.createElement(
-              'li',
-              { key: i + 'name' },
-              route.name
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'type' },
-              type
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'status' },
-              status
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'link' },
+              'ul',
+              { key: i },
               _react2.default.createElement(
-                'a',
-                { href: '#' },
-                'View Route'
+                'li',
+                { key: i + 'name' },
+                route.name
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'type' },
+                type
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'status' },
+                status
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'link' },
+                _react2.default.createElement(
+                  'a',
+                  { href: '/#/routes/' + i },
+                  'View Route'
+                )
               )
             )
-          )
-        );
-      })
-    );
+          );
+        })
+      );
+    } else {
+      return _react2.default.createElement(
+        'p',
+        null,
+        'No Previous Bar Routes'
+      );
+    }
   }
 });
 
@@ -41965,7 +41978,20 @@ var RouteDetails = _react2.default.createClass({
       _barrouteData2.default.recreate(result.route);
     });
   },
-
+  skip: function skip(i) {
+    var component = this;
+    _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
+  checkIn: function checkIn(i) {
+    var component = this;
+    _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     if (lis) {
@@ -42021,6 +42047,8 @@ function composeList(component, route) {
         )
       );
     } else {
+      var checkIn = component.checkIn.bind(component, i);
+      var skip = component.skip.bind(component, i);
       return _react2.default.createElement(
         'li',
         { key: i },
@@ -42037,12 +42065,12 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: component.checkIn },
+          { className: 'btn btn-primary', onClick: checkIn },
           'Check In'
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: component.skip },
+          { className: 'btn btn-primary', onClick: skip },
           'Skip'
         )
       );

@@ -7,12 +7,12 @@ route.get('/', function(request, response, next){
   if(request.user){
     mongo.connect().then(function(db){
       db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
-          if(err){
-            response.json({message: err});
-          }else{
-            response.json({barRoutes: user.routes})
-          }
-          db.close();
+        if(err){
+          response.json({message: err});
+        }else{
+          response.json({barRoutes: user.routes})
+        }
+        db.close();
       })
     })
   }else{
@@ -82,7 +82,7 @@ route.put('/:index', function(request, response, next){
           currentRoute.name = request.body.name;
         } else if (request.body.skip) {
           currentRoute.bars[request.body.bar_id].skipped = true;
-        } else if (request.body.checked_in){
+        } else if (request.body.check_in){
           currentRoute.bars[request.body.bar_id].checked_in = true;
         } else if (request.body.forfeit){
           currentRoute.bars.forEach(function(bar){
@@ -95,7 +95,7 @@ route.put('/:index', function(request, response, next){
           if (err){
             response.json({message: error});
           }else{
-            response.json({sucess: true});
+            response.json({ bar: currentRoute.bars[request.body.bar_id] });
           }
         });
       });

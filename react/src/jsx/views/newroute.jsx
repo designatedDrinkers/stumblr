@@ -64,13 +64,14 @@ var RouteForm = React.createClass({
   },
   createRoute: function(event) {
     event.preventDefault();
+    console.log(this.state);
     statemachine.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
   changeStart: function(event) {
     this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
-  changeBarcount: function(e) {
+  changeBarcount: function(event) {
     this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function() {

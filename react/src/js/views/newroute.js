@@ -94,13 +94,14 @@ var RouteForm = _react2.default.createClass({
   },
   createRoute: function createRoute(event) {
     event.preventDefault();
+    console.log(this.state);
     _statemachine2.default.updateState('routeToBe', this.state);
     window.location.assign('/#/routes/new');
   },
   changeStart: function changeStart(event) {
     this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
-  changeBarcount: function changeBarcount(e) {
+  changeBarcount: function changeBarcount(event) {
     this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function render() {

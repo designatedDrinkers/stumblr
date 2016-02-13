@@ -22,48 +22,57 @@ var RouteList = _react2.default.createClass({
   },
 
   render: function render() {
-    return _react2.default.createElement(
-      'ul',
-      null,
-      this.state.routes.map(function (route, i) {
-        var date = formatDate(route.date);
-        var type = determineRouteType(route.bars);
-        var status = determineRouteStatus(route.bars);
-        return _react2.default.createElement(
-          'li',
-          { key: i },
-          date,
-          _react2.default.createElement(
-            'ul',
+    var routes = this.state.routes;
+    if (routes) {
+      return _react2.default.createElement(
+        'ul',
+        null,
+        routes.map(function (route, i) {
+          var date = formatDate(route.date);
+          var type = determineRouteType(route.bars);
+          var status = determineRouteStatus(route.bars);
+          return _react2.default.createElement(
+            'li',
             { key: i },
+            date,
             _react2.default.createElement(
-              'li',
-              { key: i + 'name' },
-              route.name
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'type' },
-              type
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'status' },
-              status
-            ),
-            _react2.default.createElement(
-              'li',
-              { key: i + 'link' },
+              'ul',
+              { key: i },
               _react2.default.createElement(
-                'a',
-                { href: '#' },
-                'View Route'
+                'li',
+                { key: i + 'name' },
+                route.name
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'type' },
+                type
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'status' },
+                status
+              ),
+              _react2.default.createElement(
+                'li',
+                { key: i + 'link' },
+                _react2.default.createElement(
+                  'a',
+                  { href: '/#/routes/' + i },
+                  'View Route'
+                )
               )
             )
-          )
-        );
-      })
-    );
+          );
+        })
+      );
+    } else {
+      return _react2.default.createElement(
+        'p',
+        null,
+        'No Previous Bar Routes'
+      );
+    }
   }
 });
 
