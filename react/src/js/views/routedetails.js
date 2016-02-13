@@ -39,7 +39,20 @@ var RouteDetails = _react2.default.createClass({
       _barrouteData2.default.recreate(result.route);
     });
   },
-
+  skip: function skip(i) {
+    var component = this;
+    _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
+  checkIn: function checkIn(i) {
+    var component = this;
+    _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     if (lis) {
@@ -95,6 +108,8 @@ function composeList(component, route) {
         )
       );
     } else {
+      var checkIn = component.checkIn.bind(component, i);
+      var skip = component.skip.bind(component, i);
       return _react2.default.createElement(
         'li',
         { key: i },
@@ -111,12 +126,12 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: component.checkIn },
+          { className: 'btn btn-primary', onClick: checkIn },
           'Check In'
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: component.skip },
+          { className: 'btn btn-primary', onClick: skip },
           'Skip'
         )
       );

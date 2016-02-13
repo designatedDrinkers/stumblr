@@ -23,7 +23,7 @@ var RouteList = React.createClass({
                   <li key={i + 'name'}>{route.name}</li>
                   <li key={i + 'type'}>{type}</li>
                   <li key={i + 'status'}>{status}</li>
-                  <li key={i + 'link'}><a href="#">View Route</a></li>
+                  <li key={i + 'link'}><a href={'/#/routes/' + i}>View Route</a></li>
                 </ul>
               </li>
             )
@@ -62,6 +62,7 @@ function determineRouteStatus(barArray){
 };
 
 function determineRouteType(barArray){
+
   let barCount = barArray.length;
   switch (barCount) {
     case 3:

@@ -4,6 +4,7 @@ import statemachine from '../statemachine';
 import { RouteForm } from './newroute';
 import { RouteList } from './route-list-component';
 import { Header } from '../header';
+import methods from '../methods';
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -42,6 +43,8 @@ var SplashDash = React.createClass({
     return statemachine.getState();
   },
   componentDidMount: function() {
+    methods.hideMap();
+    this.setState(statemachine.getState());
     if (this.state.user) {
       statemachine.setMenu('dash');
     } else {

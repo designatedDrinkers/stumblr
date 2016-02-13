@@ -19,7 +19,22 @@ var RouteDetails = React.createClass({
       routeData.recreate(result.route);
     });
   },
-
+  skip: function(i) {
+    var component = this;
+    ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
+    .then(function(result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
+  checkIn: function(i) {
+    var component = this;
+    ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
+    .then(function(result) {
+      component.state.currentRoute.bars[i] = result.bar;
+      component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
+    });
+  },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     if (lis) {
@@ -57,12 +72,14 @@ function composeList(component, route) {
         </li>
       );
     } else {
+      var checkIn = component.checkIn.bind(component, i);
+      var skip = component.skip.bind(component, i);
       return (
         <li key={i}>
           <p>Bar: {bar.name}</p>
           <p>Status: Pending</p>
-          <button className="btn btn-primary" onClick={component.checkIn}>Check In</button>
-          <button className="btn btn-primary" onClick={component.skip}>Skip</button>
+          <button className="btn btn-primary" onClick={checkIn}>Check In</button>
+          <button className="btn btn-primary" onClick={skip}>Skip</button>
         </li>
       );
     }

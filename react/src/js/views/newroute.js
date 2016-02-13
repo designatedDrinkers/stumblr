@@ -4,6 +4,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _statemachine = require('../statemachine');
 
 var _statemachine2 = _interopRequireDefault(_statemachine);
@@ -16,9 +20,9 @@ var _ajaxPromise = require('ajax-promise');
 
 var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _header = require('../header');
 
-// import { Header } from '../header';
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NewRoute = _react2.default.createClass({
   displayName: 'NewRoute',
@@ -27,16 +31,16 @@ var NewRoute = _react2.default.createClass({
     return { loading: true, newName: '' };
   },
   componentDidMount: function componentDidMount() {
-    // statemachine.setMenu('def');
-    // ReactDOM.render(<Header />, document.getElementById('header'));
+    _statemachine2.default.setMenu('def');
+    _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
     var component = this;
     var route = _statemachine2.default.getState().routeToBe;
     (0, _barrouteData2.default)(route.barcount, route.start).then(function (good) {
       component.setState({ loading: false, newName: '' });
-      console.log(good);
+      // console.log(good);
     }).catch(function (bad) {
       component.setState({ loading: false, newName: '' });
-      console.error(bad);
+      // console.error(bad);
     });
   },
   saveRoute: function saveRoute(event) {
@@ -45,6 +49,12 @@ var NewRoute = _react2.default.createClass({
     _ajaxPromise2.default.post('/api/barroutes', {
       name: this.state.newName,
       bars: JSON.stringify(route)
+    }).then(function (data) {
+      return _ajaxPromise2.default.get('/api/barroutes').then(function (routes) {
+        _statemachine2.default.updateState('routes', routes.barRoutes);
+      }).then(function () {
+        return Promise.resolve(data);
+      });
     }).then(function (data) {
       var url = '/#/' + (data.index ? 'routes/' + data.index : '');
       window.location.assign(url);
@@ -83,8 +93,6 @@ var NewRoute = _react2.default.createClass({
     }
   }
 });
-// import ReactDOM from 'react-dom';
-
 
 var RouteForm = _react2.default.createClass({
   displayName: 'RouteForm',
@@ -100,7 +108,7 @@ var RouteForm = _react2.default.createClass({
   changeStart: function changeStart(event) {
     this.setState({ start: event.target.value, barcount: this.state.barcount });
   },
-  changeBarcount: function changeBarcount(e) {
+  changeBarcount: function changeBarcount(event) {
     this.setState({ start: this.state.start, barcount: event.target.value });
   },
   render: function render() {

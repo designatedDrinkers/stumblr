@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import { Header } from '../header';
+import methods from '../methods';
 
 var Settings = React.createClass({
   getInitialState: function() {
@@ -10,7 +11,8 @@ var Settings = React.createClass({
     return { auto_tweet: user.auto_tweet };
   },
   componentDidMount: function() {
-    statemachine.setMenu('def');
+    methods.hideMap();
+    statemachine.setMenu('settings');
     ReactDOM.render(<Header />, document.getElementById('header'));
   },
   changeTweetSettings: function(event) {
