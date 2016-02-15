@@ -10,6 +10,8 @@ var RouteComplete = React.createClass({
     return statemachine.getState();
   },
   componentDidMount: function() {
+    statemachine.setMenu('def');
+    ReactDOM.render(<Header />, document.getElementById('header'));
     methods.hideMap();
     var component = this;
     ajax.get('/api/barroutes/' + this.props.params.index).then(function(result) {
@@ -20,20 +22,20 @@ var RouteComplete = React.createClass({
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
     if (status){
       return (
-        <div>
-          <h1>Route Complete!</h1>
-          <h2>You earned a badge...</h2>
-          <img src="#" alt="badge icon" />
-          <button className="btn btn-uber">Call an Uber</button>
+        <div className="done-container">
+          <h1 className="win">Route Complete!</h1>
+          <h3>You earned a badge...</h3>
+          <img src="../images/badge-placeholder.png" alt="badge icon" />
+          <button className="btn">Call an Uber</button>
         </div>
       )
     } else {
       return (
-        <div>
-          <h1>Route Forfeited.</h1>
-          <h2>You earned a badge...</h2>
-          <img src="#" alt="badge icon" />
-          <button className="btn btn-uber">Call an Uber</button>
+        <div className="done-container">
+          <h1 className="fail">Route Forfeited.</h1>
+          <h3>You earned a badge...</h3>
+          <img src="../images/badge-placeholder.png" alt="badge icon" />
+          <button className="btn">Call an Uber</button>
         </div>
       )
     }
