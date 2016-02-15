@@ -42029,6 +42029,8 @@ var RouteComplete = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   componentDidMount: function componentDidMount() {
+    _statemachine2.default.setMenu('def');
+    _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
     _methods2.default.hideMap();
     var component = this;
     _ajaxPromise2.default.get('/api/barroutes/' + this.props.params.index).then(function (result) {
@@ -42040,42 +42042,42 @@ var RouteComplete = _react2.default.createClass({
     if (status) {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'done-container' },
         _react2.default.createElement(
           'h1',
-          null,
+          { className: 'win' },
           'Route Complete!'
         ),
         _react2.default.createElement(
-          'h2',
+          'h3',
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement('img', { src: '#', alt: 'badge icon' }),
+        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-uber' },
+          { className: 'btn' },
           'Call an Uber'
         )
       );
     } else {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'done-container' },
         _react2.default.createElement(
           'h1',
-          null,
+          { className: 'fail' },
           'Route Forfeited.'
         ),
         _react2.default.createElement(
-          'h2',
+          'h3',
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement('img', { src: '#', alt: 'badge icon' }),
+        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-uber' },
+          { className: 'btn' },
           'Call an Uber'
         )
       );
