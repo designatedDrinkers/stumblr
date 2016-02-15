@@ -20,13 +20,36 @@ var RouteList = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
-
   render: function render() {
     var routes = this.state.routes;
     if (routes) {
       return _react2.default.createElement(
         'ul',
-        null,
+        { className: 'route-list' },
+        _react2.default.createElement(
+          'li',
+          { key: '-1' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'route' },
+            _react2.default.createElement(
+              'li',
+              { key: -1 + 'date' },
+              'Date'
+            ),
+            _react2.default.createElement(
+              'li',
+              { key: -1 + 'type' },
+              'Type'
+            ),
+            _react2.default.createElement(
+              'li',
+              { key: -1 + 'status' },
+              'Status'
+            ),
+            _react2.default.createElement('li', { key: -1 + 'link' })
+          )
+        ),
         routes.map(function (route, i) {
           var date = formatDate(route.date);
           var type = determineRouteType(route.bars);
@@ -34,23 +57,22 @@ var RouteList = _react2.default.createClass({
           return _react2.default.createElement(
             'li',
             { key: i },
-            date,
             _react2.default.createElement(
               'ul',
-              { key: i },
+              { className: 'route' },
               _react2.default.createElement(
                 'li',
-                { key: i + 'name' },
-                route.name
+                { key: i + 'date', className: 'date' },
+                date
               ),
               _react2.default.createElement(
                 'li',
-                { key: i + 'type' },
+                { key: i + 'type', className: 'type' },
                 type
               ),
               _react2.default.createElement(
                 'li',
-                { key: i + 'status' },
+                { key: i + 'status', className: 'status' },
                 status
               ),
               _react2.default.createElement(
@@ -58,8 +80,8 @@ var RouteList = _react2.default.createClass({
                 { key: i + 'link' },
                 _react2.default.createElement(
                   'a',
-                  { href: '/#/routes/' + i },
-                  'View Route'
+                  { className: 'btn btn-primary route-view-button', href: '/#/routes/' + i },
+                  'View'
                 )
               )
             )
@@ -77,25 +99,25 @@ var RouteList = _react2.default.createClass({
 });
 
 function formatDate(isoDate) {
-  var formattedDate = (0, _moment2.default)(isoDate).format('dddd MMMM D, YYYY');
+  var formattedDate = (0, _moment2.default)(isoDate).format('ddd M/D/YY');
   return formattedDate;
 };
 
 function determineRouteStatus(barArray) {
-  var statuses = [];
-  var result = null;
+  var statuses = [],
+      result = null;
   for (var i = 0; i < barArray.length; i += 1) {
     if (barArray[i].checked_in) {
       continue;
     } else if (barArray[i].skipped) {
-      result = 'Forefeit';
+      result = _react2.default.createElement('i', { className: 'fa fa-frown-o' });
       break;
     } else if (!barArray[i].skipped && !barArray[i].checked_in) {
-      result = 'In Process';
+      result = _react2.default.createElement('i', { className: 'fa fa-ellipsis-h' });
       break;
     }
   }
-  return result || 'Complete';
+  return result || _react2.default.createElement('i', { className: 'fa fa-smile-o' });
 };
 
 function determineRouteType(barArray) {

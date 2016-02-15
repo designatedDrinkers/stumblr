@@ -34,13 +34,12 @@ var NewRoute = _react2.default.createClass({
     _statemachine2.default.setMenu('def');
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
     var component = this;
-    var route = _statemachine2.default.getState().routeToBe;
-    (0, _barrouteData2.default)(route.barcount, route.start).then(function (good) {
-      component.setState({ loading: false, newName: '' });
-      // console.log(good);
+    var route = _statemachine2.default.getState().routeToBe || {};
+    (0, _barrouteData2.default)(route.barcount || 3, route.start || '').then(function (good) {
+      var bars = _statemachine2.default.getState().newBarRoute;
+      component.setState({ loading: false, newName: '', bars: bars });
     }).catch(function (bad) {
       component.setState({ loading: false, newName: '' });
-      // console.error(bad);
     });
   },
   saveRoute: function saveRoute(event) {
@@ -65,29 +64,50 @@ var NewRoute = _react2.default.createClass({
     window.location.assign('/#');
   },
   changeName: function changeName(event) {
-    this.setState({ loading: false, newName: event.target.value });
+    this.setState({ loading: false, newName: event.target.value, bars: this.state.bars });
   },
   render: function render() {
     if (this.state.loading) {
       return _react2.default.createElement(
-        'p',
-        null,
-        'Loading...'
+        'div',
+        { className: 'new-route loading' },
+        _react2.default.createElement('i', { className: 'fa fa-beer fa-spin' })
       );
     } else {
+      var bars = this.state.bars.map(function (bar, i) {
+        return _react2.default.createElement(
+          'li',
+          { key: i },
+          bar.name
+        );
+      });
       return _react2.default.createElement(
         'div',
-        null,
-        _react2.default.createElement('input', { value: this.state.newName, onChange: this.changeName, placeholder: 'Enter Route Name (optional)' }),
+        { className: 'new-route' },
         _react2.default.createElement(
-          'button',
-          { className: 'btn btn-primary', onClick: this.saveRoute },
-          'Save'
+          'form',
+          null,
+          _react2.default.createElement('input', { className: 'form-control', value: this.state.newName, onChange: this.changeName, placeholder: 'Enter Route Name (optional)' }),
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-primary', onClick: this.saveRoute },
+            'Save'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-primary', onClick: this.goDashboard },
+            'Cancel'
+          )
         ),
         _react2.default.createElement(
-          'button',
-          { className: 'btn btn-primary', onClick: this.goDashboard },
-          'Cancel'
+          'ul',
+          { className: 'bar-list' },
+          _react2.default.createElement(
+            'li',
+            { key: '-1' },
+            'Bars'
+          ),
+          bars
         )
       );
     }

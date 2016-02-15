@@ -23,43 +23,22 @@ var Header = _react2.default.createClass({
   render: function render() {
     if (this.state.user) {
       return _react2.default.createElement(
-        'header',
-        null,
+        'nav',
+        { className: 'navbar' },
         _react2.default.createElement(
-          'nav',
-          { className: 'navbar' },
+          'div',
+          { className: 'navbar-header' },
           _react2.default.createElement(
-            'div',
-            { className: 'container-fluid' },
+            'a',
+            { className: 'navbar-brand', href: '#/' },
+            _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
             _react2.default.createElement(
-              'div',
-              { className: 'navbar-header' },
-              _react2.default.createElement(
-                'a',
-                { className: 'navbar-brand', href: '/' },
-                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'pull-left' },
-                  'Stumblr'
-                )
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'hamburger nav navbar-nav navbar-right' },
-                _react2.default.createElement(
-                  'li',
-                  { role: 'presentation', className: 'dropdown' },
-                  _react2.default.createElement(
-                    'a',
-                    { className: 'dropdown-toggle', 'data-toggle': 'dropdown', href: '#', role: 'button' },
-                    _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
-                  ),
-                  _react2.default.createElement(Menu, null)
-                )
-              )
+              'span',
+              { className: 'pull-left' },
+              'Stumblr'
             )
-          )
+          ),
+          _react2.default.createElement(Menu, null)
         )
       );
     } else {
@@ -104,7 +83,7 @@ var Menu = _react2.default.createClass({
     var lis = this.state.menu.map(function (item, i) {
       return _react2.default.createElement(
         'li',
-        { key: i },
+        { key: i, className: 'dropdown', role: 'presentation' },
         _react2.default.createElement(
           'a',
           { href: item.link },
@@ -114,21 +93,17 @@ var Menu = _react2.default.createClass({
     });
     if (lis.length) {
       return _react2.default.createElement(
-        'ul',
-        { className: 'nav navbar-nav navbar-right' },
+        'div',
+        { className: 'hamburger nav navbar-nav navbar-right' },
         _react2.default.createElement(
-          'li',
-          { className: 'dropdown' },
-          _react2.default.createElement(
-            'a',
-            { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
-            _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
-          ),
-          _react2.default.createElement(
-            'ul',
-            { className: 'dropdown-menu' },
-            lis
-          )
+          'a',
+          { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
+          _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'dropdown-menu' },
+          lis
         )
       );
     } else {
