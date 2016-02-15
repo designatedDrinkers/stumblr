@@ -238,3 +238,15 @@ ul.route-list {
     margin-right: 10px;
   }
 }
+
+.loading {
+  margin-top: $header-height;
+  padding-top: $header-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  i {
+    font-size: 10rem;
+  }
+}

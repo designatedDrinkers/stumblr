@@ -37,7 +37,7 @@ var RouteDetails = React.createClass({
   },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
-    if (lis) {
+    if (lis.length) {
       return (
         <div className="route-details">
           <ul className="bar-list">
@@ -48,8 +48,8 @@ var RouteDetails = React.createClass({
       );
     } else {
       return (
-        <div className="new-route">
-          <i className="fa fa-spinner fa-spin"></i>
+        <div className="route-details loading">
+          <i className="fa fa-beer fa-spin"></i>
         </div>
       );
     }

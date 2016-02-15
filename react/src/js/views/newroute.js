@@ -70,8 +70,8 @@ var NewRoute = _react2.default.createClass({
     if (this.state.loading) {
       return _react2.default.createElement(
         'div',
-        { className: 'new-route' },
-        _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' })
+        { className: 'new-route loading' },
+        _react2.default.createElement('i', { className: 'fa fa-beer fa-spin' })
       );
     } else {
       var bars = this.state.bars.map(function (bar, i) {

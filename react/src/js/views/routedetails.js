@@ -55,7 +55,7 @@ var RouteDetails = _react2.default.createClass({
   },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
-    if (lis) {
+    if (lis.length) {
       return _react2.default.createElement(
         'div',
         { className: 'route-details' },
@@ -73,8 +73,8 @@ var RouteDetails = _react2.default.createClass({
     } else {
       return _react2.default.createElement(
         'div',
-        { className: 'new-route' },
-        _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' })
+        { className: 'route-details loading' },
+        _react2.default.createElement('i', { className: 'fa fa-beer fa-spin' })
       );
     }
   }

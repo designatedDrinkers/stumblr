@@ -49,8 +49,8 @@ var NewRoute = React.createClass({
   render: function() {
     if (this.state.loading) {
       return (
-        <div className="new-route">
-          <i className="fa fa-spinner fa-spin"></i>
+        <div className="new-route loading">
+          <i className="fa fa-beer fa-spin"></i>
         </div>
       );
     } else {
