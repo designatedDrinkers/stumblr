@@ -42144,15 +42144,21 @@ var RouteDetails = _react2.default.createClass({
   skip: function skip(i) {
     currentBar = i;
     var component = this;
+    var status = this.complete;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (status()) {
+        console.log('complete bitches');
+        window.location.assign('#/routes/' + component.props.params.index + '/done');
+      }
     });
   },
   checkIn: function checkIn(i) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
+    var status = this.complete;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
@@ -42164,6 +42170,9 @@ var RouteDetails = _react2.default.createClass({
       } else {
         console.log('user:', component.state.user);
         tweet(i, route_index, component.state.user.auto_tweet);
+      }
+      if (status()) {
+        window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
   },
@@ -42177,7 +42186,7 @@ var RouteDetails = _react2.default.createClass({
       window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
-  showForfeit: function showForfeit() {
+  complete: function complete() {
     var component = this;
     var route = component.state.currentRoute || { bars: [{}] };
     return route.bars.filter(function (bar) {
@@ -42187,7 +42196,7 @@ var RouteDetails = _react2.default.createClass({
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(TweetModal, null) : '';
-    var showFButton = this.showForfeit();
+    var showFButton = this.complete();
     if (lis.length) {
       return _react2.default.createElement(
         'div',
