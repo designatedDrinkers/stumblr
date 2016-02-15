@@ -50,9 +50,28 @@ var RouteDetails = React.createClass({
       }
     });
   },
+  forfeit: function(i){
+    var component = this;
+    var bars = currentRoute.bars;
+    console.log('forfeit', this.props.params.index);
+    ajax.put('/api/barroutes/' + this.props.params.index, {forfeit: true})
+    .then(function(response){
+      console.log(response);
+      component.setState(statemachine.updateState('currentRoute', response.route));
+      window.location.assign('#/routes/' + component.props.params.index + '/done');
+      })
+  },
+  showForfeit: function(){
+    var component = this;
+    var route = component.state.currentRoute || { bars: [{}] };
+    return route.bars.filter(function(bar){
+      return bar.checked_in || bar.skipped;
+    }).length == route.bars.length;
+  },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? <TweetModal /> : '';
+    var showFButton = this.showForfeit();
     if (lis.length) {
       return (
         <div className="route-details">
@@ -61,6 +80,7 @@ var RouteDetails = React.createClass({
             {lis}
           </ul>
           {modal}
+          {!showFButton ? (<button className="btn btn-warning" onClick={this.forfeit}>Forfeit</button>) : null}
         </div>
       );
     } else {
@@ -72,6 +92,14 @@ var RouteDetails = React.createClass({
     }
   }
 });
+
+// var Forfeit = React.createClass({
+//   render: function(){
+//     return(
+//
+//     )
+//   }
+// })
 
 var TweetModal = React.createClass({
   getInitialState: function() {

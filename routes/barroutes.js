@@ -74,6 +74,7 @@ route.put('/:index', function(request, response, next){
     mongo.connect().then(function(db){
       db.collection('users').findOne({'twitter_id': request.user.twitter_id}, function(err, user){
         var currentRoute = user.routes[request.params.index];
+        var forfeitBars = [];
         // response.json({route: currentRoute});
         if (err) {
           response.json({ message: err });
@@ -85,7 +86,7 @@ route.put('/:index', function(request, response, next){
         } else if (request.body.check_in){
           currentRoute.bars[request.body.bar_id].checked_in = new Date;
         } else if (request.body.forfeit){
-          currentRoute.bars.forEach(function(bar){
+          currentRoute.bars.forEach(function(bar, i){
             if(!bar.checked_in){
               bar.skipped = true;
             }
@@ -99,7 +100,7 @@ route.put('/:index', function(request, response, next){
           if (err) {
             response.json({message: error});
           } else {
-            response.json({ bar: currentRoute.bars[request.body.bar_id], route: currentRoute, newBadges: newBadges });
+            response.json({ bar: currentRoute.bars[request.body.bar_id], route: currentRoute});
           }
         });
       });
