@@ -41438,6 +41438,8 @@ var _settings = require('./views/settings');
 
 var _routedetails = require('./views/routedetails');
 
+var _routecomplete = require('./views/routecomplete');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 Promise.all([_ajaxPromise2.default.get('/api/users/current-user'), _ajaxPromise2.default.get('/api/barroutes')]).then(function (data) {
@@ -41470,6 +41472,7 @@ function renderApp(user) {
       { history: _reactRouter.browserHistory },
       _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
       _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/routes/:index/done', component: _routecomplete.RouteComplete }),
       _react2.default.createElement(_reactRouter.Route, { path: '/routes/:index', component: _routedetails.RouteDetails }),
       _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _settings.Settings })
     ), document.getElementById('main'));
@@ -41477,7 +41480,7 @@ function renderApp(user) {
     _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
   }
 }
-},{"./statemachine":248,"./views/newroute":249,"./views/routedetails":251,"./views/settings":252,"./views/splash-dash":253,"ajax-promise":1,"react":241,"react-dom":88,"react-router":108}],246:[function(require,module,exports){
+},{"./statemachine":248,"./views/newroute":249,"./views/routecomplete":251,"./views/routedetails":252,"./views/settings":253,"./views/splash-dash":254,"ajax-promise":1,"react":241,"react-dom":88,"react-router":108}],246:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42013,6 +42016,104 @@ var _ajaxPromise = require('ajax-promise');
 
 var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
 
+var _methods = require('../methods');
+
+var _methods2 = _interopRequireDefault(_methods);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RouteComplete = _react2.default.createClass({
+  displayName: 'RouteComplete',
+
+  getInitialState: function getInitialState() {
+    return _statemachine2.default.getState();
+  },
+  componentDidMount: function componentDidMount() {
+    _methods2.default.hideMap();
+    var component = this;
+    _ajaxPromise2.default.get('/api/barroutes/' + this.props.params.index).then(function (result) {
+      component.setState(_statemachine2.default.updateState('currentRoute', result.route));
+    });
+  },
+  render: function render() {
+    var status = isRouteComplete((this.state.currentRoute || {}).bars);
+    if (status) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Route Complete!'
+        ),
+        _react2.default.createElement(
+          'h2',
+          null,
+          'You earned a badge...'
+        ),
+        _react2.default.createElement('img', { src: '#', alt: 'badge icon' }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-uber' },
+          'Call an Uber'
+        )
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Route Forfeited.'
+        ),
+        _react2.default.createElement(
+          'h2',
+          null,
+          'You earned a badge...'
+        ),
+        _react2.default.createElement('img', { src: '#', alt: 'badge icon' }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-uber' },
+          'Call an Uber'
+        )
+      );
+    }
+  }
+});
+
+function isRouteComplete(barArray) {
+  barArray = barArray || [{}];
+  return barArray.filter(function (bar) {
+    return bar.checked_in;
+  }).length == barArray.length;
+};
+
+module.exports = {
+  RouteComplete: RouteComplete
+};
+},{"../header":246,"../methods":247,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],252:[function(require,module,exports){
+'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _header = require('../header');
+
+var _statemachine = require('../statemachine');
+
+var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
 var _barrouteData = require('../barroute-data');
 
 var _barrouteData2 = _interopRequireDefault(_barrouteData);
@@ -42242,7 +42343,7 @@ function tweet(bar_index, route_index, autoTweet) {
     });
   }
 }
-},{"../barroute-data":244,"../header":246,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],252:[function(require,module,exports){
+},{"../barroute-data":244,"../header":246,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],253:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42360,7 +42461,7 @@ function destupidify(input) {
       return input;
   }
 }
-},{"../header":246,"../methods":247,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],253:[function(require,module,exports){
+},{"../header":246,"../methods":247,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],254:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
