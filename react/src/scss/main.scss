@@ -202,9 +202,14 @@ ul.route-list {
   }
 }
 
-.new-route, .route-details {
+.new-route, .route-details, .settings {
   padding: 0 10px;
-  margin-top: -50px;
+  &:not(.settings) {
+    margin-top: -50px;
+  }
+  &.settings {
+    margin-top: 10px;
+  }
   .bar-list {
     padding: 0;
     :first-child {

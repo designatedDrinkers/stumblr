@@ -34,16 +34,18 @@ var Settings = React.createClass({
   },
   render: function() {
     return (
-      <form>
-        <label htmlFor="auto-tweet">Twitter Settings (When I check-in to a bar)</label>
-        <select id="auto-tweet" value={this.state.auto_tweet} onChange={this.changeTweetSettings}>
-          <option value="true">Always Tweet</option>
-          <option value="false">Never Tweet</option>
-          <option value="null">Ask Every Time</option>
-        </select>
-        <button className="btn btn-primary" type="submit" onClick={this.saveSettings}>Save</button>
-        <button className="btn btn-primary" type="submit" onClick={this.goDashboard}>Cancel</button>
-      </form>
+      <div className="settings">
+        <form>
+          <label htmlFor="auto-tweet">Twitter Settings (When I check-in to a bar)</label>
+          <select className="form-control" id="auto-tweet" value={this.state.auto_tweet} onChange={this.changeTweetSettings}>
+            <option value="true">Always Tweet</option>
+            <option value="false">Never Tweet</option>
+            <option value="null">Ask Every Time</option>
+          </select>
+          <button className="btn btn-primary" type="submit" onClick={this.saveSettings}>Save</button>
+          <button className="btn btn-primary" type="submit" onClick={this.goDashboard}>Cancel</button>
+        </form>
+      </div>
     );
   }
 });

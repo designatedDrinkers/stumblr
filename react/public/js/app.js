@@ -42211,41 +42211,45 @@ var Settings = _react2.default.createClass({
   },
   render: function render() {
     return _react2.default.createElement(
-      'form',
-      null,
+      'div',
+      { className: 'settings' },
       _react2.default.createElement(
-        'label',
-        { htmlFor: 'auto-tweet' },
-        'Twitter Settings (When I check-in to a bar)'
-      ),
-      _react2.default.createElement(
-        'select',
-        { id: 'auto-tweet', value: this.state.auto_tweet, onChange: this.changeTweetSettings },
+        'form',
+        null,
         _react2.default.createElement(
-          'option',
-          { value: 'true' },
-          'Always Tweet'
+          'label',
+          { htmlFor: 'auto-tweet' },
+          'Twitter Settings (When I check-in to a bar)'
         ),
         _react2.default.createElement(
-          'option',
-          { value: 'false' },
-          'Never Tweet'
+          'select',
+          { className: 'form-control', id: 'auto-tweet', value: this.state.auto_tweet, onChange: this.changeTweetSettings },
+          _react2.default.createElement(
+            'option',
+            { value: 'true' },
+            'Always Tweet'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'false' },
+            'Never Tweet'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'null' },
+            'Ask Every Time'
+          )
         ),
         _react2.default.createElement(
-          'option',
-          { value: 'null' },
-          'Ask Every Time'
+          'button',
+          { className: 'btn btn-primary', type: 'submit', onClick: this.saveSettings },
+          'Save'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', type: 'submit', onClick: this.goDashboard },
+          'Cancel'
         )
-      ),
-      _react2.default.createElement(
-        'button',
-        { className: 'btn btn-primary', type: 'submit', onClick: this.saveSettings },
-        'Save'
-      ),
-      _react2.default.createElement(
-        'button',
-        { className: 'btn btn-primary', type: 'submit', onClick: this.goDashboard },
-        'Cancel'
       )
     );
   }
