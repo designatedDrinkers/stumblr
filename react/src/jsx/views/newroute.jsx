@@ -13,14 +13,13 @@ var NewRoute = React.createClass({
     statemachine.setMenu('def');
     ReactDOM.render(<Header />, document.getElementById('header'));
     var component = this;
-    var route = statemachine.getState().routeToBe;
-    routeData(route.barcount, route.start)
+    var route = statemachine.getState().routeToBe || {};
+    routeData(route.barcount || 3, route.start || '')
     .then(function(good) {
-      component.setState({ loading: false, newName: '' });
-      // console.log(good);
+      var bars = statemachine.getState().newBarRoute;
+      component.setState({ loading: false, newName: '', bars: bars });
     }).catch(function(bad) {
       component.setState({ loading: false, newName: '' });
-      // console.error(bad);
     });
   },
   saveRoute: function(event) {
@@ -45,19 +44,30 @@ var NewRoute = React.createClass({
     window.location.assign('/#');
   },
   changeName: function(event) {
-    this.setState({ loading: false, newName: event.target.value });
+    this.setState({ loading: false, newName: event.target.value, bars: this.state.bars });
   },
   render: function() {
     if (this.state.loading) {
       return (
-        <p>Loading...</p>
+        <div className="new-route">
+          <i className="fa fa-spinner fa-spin"></i>
+        </div>
       );
     } else {
+      var bars = this.state.bars.map(function(bar, i) {
+        return <li key={i}>{bar.name}</li>;
+      });
       return (
-        <div>
-          <input value={this.state.newName} onChange={this.changeName} placeholder="Enter Route Name (optional)" />
-          <button className="btn btn-primary" onClick={this.saveRoute}>Save</button>
-          <button className="btn btn-primary" onClick={this.goDashboard}>Cancel</button>
+        <div className="new-route">
+          <form>
+            <input className="form-control" value={this.state.newName} onChange={this.changeName} placeholder="Enter Route Name (optional)" />
+            <button className="btn btn-primary" onClick={this.saveRoute}>Save</button>
+            <button className="btn btn-primary" onClick={this.goDashboard}>Cancel</button>
+          </form>
+          <ul className="bar-list">
+            <li key="-1">Bars</li>
+            {bars}
+          </ul>
         </div>
       );
     }

@@ -42,7 +42,7 @@ const set = {
     return [{
       link: '#/', text: 'Dashboard'
     },{
-      link: '#/', text: 'Settings'
+      link: '#/settings', text: 'Settings'
     },{
       link: '/auth/logout', text: 'Log Out'
     }];
