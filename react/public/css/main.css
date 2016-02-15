@@ -113,11 +113,10 @@ main {
 
 #footer {
   background-color: #003260;
-  min-height: 50px;
   max-height: 100%; }
   #footer p {
     color: #fff;
-    padding: 5px;
+    padding: 10px 0;
     margin: 0;
     text-align: center; }
 
@@ -147,19 +146,23 @@ ul.route-list {
     list-style: none;
     width: 100%; }
 
-.new-route {
-  padding: 0 10px; }
-  .new-route form {
-    margin-top: -50px;
+.new-route, .route-details {
+  padding: 0 10px;
+  margin-top: -50px; }
+  .new-route .bar-list, .route-details .bar-list {
+    padding: 0; }
+    .new-route .bar-list :first-child, .route-details .bar-list :first-child {
+      font-weight: bold; }
+  .new-route form, .route-details form {
     display: flex;
     flex-wrap: wrap; }
-    .new-route form input {
+    .new-route form input, .route-details form input {
       width: 100%; }
-    .new-route form * {
+    .new-route form *, .route-details form * {
       flex-shrink: 0; }
-    .new-route form :not(input) {
+    .new-route form :not(input), .route-details form :not(input) {
       margin-right: 10px; }
-  .new-route .bar-list {
-    padding: 0; }
-    .new-route .bar-list :first-child {
-      font-weight: bold; }
+
+.bar-status button {
+  padding: 3px 10px;
+  margin-right: 10px; }

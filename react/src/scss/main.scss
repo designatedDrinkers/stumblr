@@ -157,11 +157,11 @@ main {
 
 #footer {
   background-color: #003260;
-  min-height: 50px;
+  // min-height: 30px;
   max-height: 100%;
   p {
     color: #fff;
-    padding: 5px;
+    padding: 10px 0;
     margin: 0;
     text-align: center;
   }
@@ -202,10 +202,16 @@ ul.route-list {
   }
 }
 
-.new-route {
+.new-route, .route-details {
   padding: 0 10px;
+  margin-top: -50px;
+  .bar-list {
+    padding: 0;
+    :first-child {
+      font-weight: bold;
+    }
+  }
   form {
-    margin-top: -50px;
     display: flex;
     flex-wrap: wrap;
     input {
@@ -219,10 +225,11 @@ ul.route-list {
       margin-right: 10px;
     }
   }
-  .bar-list {
-    padding: 0;
-    :first-child {
-      font-weight: bold;
-    }
+}
+
+.bar-status {
+  button {
+    padding: 3px 10px;
+    margin-right: 10px;
   }
 }

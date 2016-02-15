@@ -39,16 +39,18 @@ var RouteDetails = React.createClass({
     var lis = composeList(this, this.state.currentRoute);
     if (lis) {
       return (
-        <div>
-          <p>Route Details</p>
-          <ul>
+        <div className="route-details">
+          <ul className="bar-list">
+            <li key="-1">Route Details:</li>
             {lis}
           </ul>
         </div>
       );
     } else {
       return (
-        <p>Loading...</p>
+        <div className="new-route">
+          <i className="fa fa-spinner fa-spin"></i>
+        </div>
       );
     }
   }
@@ -66,18 +68,18 @@ function composeList(component, route) {
     }
     if (status) {
       return (
-        <li key={i}>
-          <p>Bar: {bar.name}</p>
-          <p>Status: {status}</p>
+        <li key={i} className="bar-status">
+          <p>{bar.name}</p>
+          <p><span>Status: </span><span>{status}</span></p>
         </li>
       );
     } else {
       var checkIn = component.checkIn.bind(component, i);
       var skip = component.skip.bind(component, i);
       return (
-        <li key={i}>
-          <p>Bar: {bar.name}</p>
-          <p>Status: Pending</p>
+        <li key={i} className="bar-status">
+          <p>{bar.name}</p>
+          <p><span>Status: </span><span>Pending</span></p>
           <button className="btn btn-primary" onClick={checkIn}>Check In</button>
           <button className="btn btn-primary" onClick={skip}>Skip</button>
         </li>

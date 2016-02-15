@@ -42057,23 +42057,23 @@ var RouteDetails = _react2.default.createClass({
     if (lis) {
       return _react2.default.createElement(
         'div',
-        null,
-        _react2.default.createElement(
-          'p',
-          null,
-          'Route Details'
-        ),
+        { className: 'route-details' },
         _react2.default.createElement(
           'ul',
-          null,
+          { className: 'bar-list' },
+          _react2.default.createElement(
+            'li',
+            { key: '-1' },
+            'Route Details:'
+          ),
           lis
         )
       );
     } else {
       return _react2.default.createElement(
-        'p',
-        null,
-        'Loading...'
+        'div',
+        { className: 'new-route' },
+        _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' })
       );
     }
   }
@@ -42092,18 +42092,25 @@ function composeList(component, route) {
     if (status) {
       return _react2.default.createElement(
         'li',
-        { key: i },
+        { key: i, className: 'bar-status' },
         _react2.default.createElement(
           'p',
           null,
-          'Bar: ',
           bar.name
         ),
         _react2.default.createElement(
           'p',
           null,
-          'Status: ',
-          status
+          _react2.default.createElement(
+            'span',
+            null,
+            'Status: '
+          ),
+          _react2.default.createElement(
+            'span',
+            null,
+            status
+          )
         )
       );
     } else {
@@ -42111,17 +42118,25 @@ function composeList(component, route) {
       var skip = component.skip.bind(component, i);
       return _react2.default.createElement(
         'li',
-        { key: i },
+        { key: i, className: 'bar-status' },
         _react2.default.createElement(
           'p',
           null,
-          'Bar: ',
           bar.name
         ),
         _react2.default.createElement(
           'p',
           null,
-          'Status: Pending'
+          _react2.default.createElement(
+            'span',
+            null,
+            'Status: '
+          ),
+          _react2.default.createElement(
+            'span',
+            null,
+            'Pending'
+          )
         ),
         _react2.default.createElement(
           'button',
