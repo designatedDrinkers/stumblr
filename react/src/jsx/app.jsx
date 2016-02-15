@@ -7,6 +7,7 @@ import { SplashDash } from './views/splash-dash';
 import { NewRoute } from './views/newroute';
 import { Settings } from './views/settings';
 import { RouteDetails } from './views/routedetails';
+import { RouteComplete } from './views/routecomplete';
 
 Promise.all([
   ajax.get('/api/users/current-user'),
@@ -41,6 +42,7 @@ function renderApp(user) {
       <Router history={browserHistory}>
         <Route path="/" component={SplashDash} />
         <Route path="/routes/new" component={NewRoute} />
+        <Route path="/routes/:index/done" component={RouteComplete} />
         <Route path="/routes/:index" component={RouteDetails} />
         <Route path="/settings" component={Settings} />
       </Router>
