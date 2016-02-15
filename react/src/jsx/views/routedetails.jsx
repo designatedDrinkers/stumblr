@@ -58,7 +58,7 @@ var RouteDetails = React.createClass({
     .then(function(response){
       console.log(response);
       component.setState(statemachine.updateState('currentRoute', response.route));
-      window.location.assign('#/routes/done');
+      window.location.assign('#/routes/' + component.props.params.index + '/done');
       })
   },
   showForfeit: function(){

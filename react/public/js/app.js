@@ -42172,7 +42172,7 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
       console.log(response);
       component.setState(_statemachine2.default.updateState('currentRoute', response.route));
-      window.location.assign('#/routes/done');
+      window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
   showForfeit: function showForfeit() {
