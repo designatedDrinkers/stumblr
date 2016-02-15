@@ -37,7 +37,7 @@ var Header = _react2.default.createClass({
               _react2.default.createElement(
                 'a',
                 { className: 'navbar-brand', href: '/' },
-                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
                 _react2.default.createElement(
                   'span',
                   { className: 'pull-left' },
@@ -78,7 +78,7 @@ var Header = _react2.default.createClass({
               _react2.default.createElement(
                 'a',
                 { className: 'navbar-brand', href: '/' },
-                _react2.default.createElement('img', { className: 'pull-left', src: 'images/stumblr-logo.png' }),
+                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
                 _react2.default.createElement(
                   'span',
                   { className: 'pull-left' },
@@ -115,8 +115,21 @@ var Menu = _react2.default.createClass({
     if (lis.length) {
       return _react2.default.createElement(
         'ul',
-        { className: 'dropdown-menu' },
-        lis
+        { className: 'nav navbar-nav navbar-right' },
+        _react2.default.createElement(
+          'li',
+          { className: 'dropdown' },
+          _react2.default.createElement(
+            'a',
+            { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button' },
+            _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger' })
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'dropdown-menu' },
+            lis
+          )
+        )
       );
     } else {
       return _react2.default.createElement('span', null);

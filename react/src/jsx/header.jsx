@@ -14,7 +14,7 @@ var Header = React.createClass({
             <div className="container-fluid">
               <div className="navbar-header">
                 <a className="navbar-brand" href="/">
-                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <img className="pull-left logo" src="images/stumblr-logo.png" />
                   <span className="pull-left">Stumblr</span>
                 </a>
                 <ul className="hamburger nav navbar-nav navbar-right">
@@ -35,7 +35,7 @@ var Header = React.createClass({
             <div className="container-fluid">
               <div className="navbar-header">
                 <a className="navbar-brand" href="/">
-                  <img className="pull-left" src="images/stumblr-logo.png" />
+                  <img className="pull-left logo" src="images/stumblr-logo.png" />
                   <span className="pull-left">Stumblr</span>
                 </a>
               </div>
@@ -64,8 +64,13 @@ var Menu = React.createClass({
     });
     if (lis.length) {
       return (
-        <ul className="dropdown-menu">
-          {lis}
+        <ul className="nav navbar-nav navbar-right">
+          <li className="dropdown">
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"><span className="glyphicon glyphicon-menu-hamburger"></span></a>
+            <ul className="dropdown-menu">
+              {lis}
+            </ul>
+          </li>
         </ul>
       );
     } else {
