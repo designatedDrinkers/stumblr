@@ -1,5 +1,6 @@
 var route = require('express').Router();
 var mongo = require('../services/db');
+var earnBadge = require('../services/badges');
 
 module.exports = route;
 
@@ -82,7 +83,7 @@ route.put('/:index', function(request, response, next){
         } else if (request.body.skip) {
           currentRoute.bars[request.body.bar_id].skipped = true;
         } else if (request.body.check_in){
-          currentRoute.bars[request.body.bar_id].checked_in = true;
+          currentRoute.bars[request.body.bar_id].checked_in = new Date;
         } else if (request.body.forfeit){
           currentRoute.bars.forEach(function(bar){
             if(!bar.checked_in){
@@ -90,11 +91,15 @@ route.put('/:index', function(request, response, next){
             }
           });
         }
-        db.collection('users').update({'twitter_id': request.user.twitter_id}, {$set: {routes: user.routes }}, function(err, result){
-          if (err){
+        if (request.body.skip || request.body.check_in || request.body.forfeit) {
+          var newBadges = earnBadge(request.params.index, user);
+        }
+        db.collection('users').update({'twitter_id': request.user.twitter_id}, {$set: { badges: user.badges, routes: user.routes }}, function(err, result){
+          db.close();
+          if (err) {
             response.json({message: error});
-          }else{
-            response.json({ bar: currentRoute.bars[request.body.bar_id] });
+          } else {
+            response.json({ bar: currentRoute.bars[request.body.bar_id], route: currentRoute, newBadges: newBadges });
           }
         });
       });
