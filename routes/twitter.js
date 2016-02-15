@@ -7,6 +7,7 @@ require('dotenv').load();
 module.exports = route;
 
 route.post('/checkin', function(request, response, next){
+  console.log('hit checkin route', request.user);
   var barIndex = request.body.bar_index;
   var routeIndex = request.body.route_index;
   var twitterRestClient = new nodeTwitter.RestClient(
