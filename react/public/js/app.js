@@ -42165,9 +42165,27 @@ var RouteDetails = _react2.default.createClass({
       }
     });
   },
+  forfeit: function forfeit(i) {
+    var component = this;
+    var bars = currentRoute.bars;
+    console.log('forfeit', this.props.params.index);
+    _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
+      console.log(response);
+      component.setState(_statemachine2.default.updateState('currentRoute', response.route));
+      window.location.assign('#/routes/' + component.props.params.index + '/done');
+    });
+  },
+  showForfeit: function showForfeit() {
+    var component = this;
+    var route = component.state.currentRoute || { bars: [{}] };
+    return route.bars.filter(function (bar) {
+      return bar.checked_in || bar.skipped;
+    }).length == route.bars.length;
+  },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(TweetModal, null) : '';
+    var showFButton = this.showForfeit();
     if (lis.length) {
       return _react2.default.createElement(
         'div',
@@ -42182,7 +42200,12 @@ var RouteDetails = _react2.default.createClass({
           ),
           lis
         ),
-        modal
+        modal,
+        !showFButton ? _react2.default.createElement(
+          'button',
+          { className: 'btn btn-warning', onClick: this.forfeit },
+          'Forfeit'
+        ) : null
       );
     } else {
       return _react2.default.createElement(
@@ -42193,6 +42216,14 @@ var RouteDetails = _react2.default.createClass({
     }
   }
 });
+
+// var Forfeit = React.createClass({
+//   render: function(){
+//     return(
+//
+//     )
+//   }
+// })
 
 var TweetModal = _react2.default.createClass({
   displayName: 'TweetModal',
