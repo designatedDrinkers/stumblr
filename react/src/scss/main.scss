@@ -1,13 +1,6 @@
 $header-height: 60px;
 $map-pad: 10px;
 
-// html {
-//   height: 100vh;
-//   body {
-//     overflow: scroll;
-//   }
-// }
-
 body {
   background-color: #fbebed;
 }
@@ -15,13 +8,11 @@ body {
 #wrap {
   max-height: 90vh;
   height: auto;
-  // margin: 0 auto -50px;
   padding: 0 0 50px;
 }
 
 #header {
   height: $header-height;
-  // max-height: 100%;
   position: fixed;
   color: #fff;
   top: 0;
@@ -57,10 +48,6 @@ body {
   }
 }
 
-// .btn {
-//   margin: 20px;
-// }
-
 form {
   margin-bottom: 20px;
 }
@@ -86,8 +73,10 @@ main {
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  min-height: 100%;
-  // background-color: #fbebed;
+}
+
+#main {
+  min-height: 88vh;
 }
 
 .splash {
@@ -98,7 +87,6 @@ main {
   justify-content: center;
   background: url('../images/splash.jpg');
   background-size: cover;
-  margin-top: -20px;
   .splash-map {
     width: 180px;
     height: 180px;
@@ -157,11 +145,10 @@ main {
 
 #footer {
   background-color: #003260;
-  // min-height: 30px;
-  max-height: 100%;
+  min-height: 100%;
   p {
     color: #fff;
-    padding: 10px 0;
+    padding: 20px 0;
     margin: 0;
     text-align: center;
   }
@@ -249,4 +236,33 @@ ul.route-list {
   i {
     font-size: 10rem;
   }
+}
+
+.done-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 180px;
+  font-weight: 600;
+
+  img {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0 60px;
+  }
+
+  .btn {
+    background-color: #171718;
+    color: #fff;
+    font-size: 3em;
+    padding: 35px 70px;
+  }
+}
+
+.win {
+  color:#0eaa35;
+}
+
+.fail {
+  color:#5f5f60;
 }
