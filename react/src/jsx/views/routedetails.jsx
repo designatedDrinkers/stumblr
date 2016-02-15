@@ -25,16 +25,22 @@ var RouteDetails = React.createClass({
   skip: function(i) {
     currentBar = i;
     var component = this;
+    var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
+      if(status()){
+        console.log('complete bitches');
+        window.location.assign('#/routes/' + component.props.params.index + '/done');
+      }
     });
   },
   checkIn: function(i) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
+    var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
@@ -47,6 +53,9 @@ var RouteDetails = React.createClass({
       }else{
         console.log('user:', component.state.user);
         tweet(i, route_index, component.state.user.auto_tweet);
+      }
+      if(status()){
+        window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
   },
@@ -61,7 +70,7 @@ var RouteDetails = React.createClass({
       window.location.assign('#/routes/' + component.props.params.index + '/done');
       })
   },
-  showForfeit: function(){
+  complete: function(){
     var component = this;
     var route = component.state.currentRoute || { bars: [{}] };
     return route.bars.filter(function(bar){
@@ -71,7 +80,7 @@ var RouteDetails = React.createClass({
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? <TweetModal /> : '';
-    var showFButton = this.showForfeit();
+    var showFButton = this.complete();
     if (lis.length) {
       return (
         <div className="route-details">
