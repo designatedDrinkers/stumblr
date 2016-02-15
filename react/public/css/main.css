@@ -1,56 +1,67 @@
-body {
-  overflow: scroll; }
+html {
+  height: 100%; }
+  html body {
+    overflow: scroll; }
+
+#wrap {
+  max-height: 90vh;
+  height: auto;
+  margin: 0 auto -50px;
+  padding: 0 0 50px; }
 
 #header {
-  height: 45px;
+  min-height: 60px;
+  max-height: 100%;
   position: fixed;
   color: #fff;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   z-index: 10; }
 
 .btn {
   margin: 20px; }
 
 nav {
-  background-color: #620012; }
+  background-color: #003260; }
 
 .logo {
-  margin: 3px; }
+  height: 35px;
+  width: 35px;
+  margin: 0 5px; }
 
 .navbar-brand span {
   color: #fff;
-  font-weight: 500;
-  margin: 5px; }
-
-.hamburger {
-  float: right; }
+  font-weight: 500; }
 
 .glyphicon {
   font-size: 2em;
   color: #fff; }
 
-#main {
+.hamburger {
+  float: right; }
+
+main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-content: center;
   justify-content: center;
-  min-height: 89vh;
+  min-height: 100%;
   background-color: #fbebed; }
 
 .splash {
-  min-height: 89vh;
+  min-height: 88vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url("../images/splash.jpg"); }
+  background: url("../images/splash.jpg");
+  background-size: cover;
+  margin-top: -20px; }
   .splash .splash-map {
     width: 180px;
     height: 180px;
-    border-radius: 50%;
-    margin-bottom: 20px; }
+    border-radius: 50%; }
 
 .dash {
   padding: 20px; }
@@ -65,7 +76,7 @@ nav {
   margin: 20px; }
 
 .map-container {
-  margin-top: 45px;
+  margin-top: 60px;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -78,7 +89,7 @@ nav {
 
 #app {
   width: 100vw;
-  margin-top: 45px; }
+  margin-top: 60px; }
   #app > * {
     width: 100vw;
     display: flex;
@@ -89,8 +100,9 @@ nav {
       flex-grow: 1; }
 
 #footer {
-  background-color: #620012;
-  flex-grow: 1; }
+  background-color: #003260;
+  min-height: 50px;
+  max-height: 100%; }
   #footer p {
     color: #fff;
     padding: 5px;
