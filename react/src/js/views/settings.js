@@ -44,7 +44,7 @@ var Settings = _react2.default.createClass({
     var component = this;
     _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
       var user = _statemachine2.default.getState().user;
-      user.auto_tweet = component.state.auto_tweet;
+      user.auto_tweet = destupidify(component.state.auto_tweet);
       _statemachine2.default.updateState('user', user);
       component.goDashboard();
     });
@@ -102,3 +102,16 @@ var Settings = _react2.default.createClass({
 module.exports = {
   Settings: Settings
 };
+
+function destupidify(input) {
+  switch (input) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    case "null":
+      return null;
+    default:
+      return input;
+  }
+}

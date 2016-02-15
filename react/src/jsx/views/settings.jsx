@@ -23,7 +23,7 @@ var Settings = React.createClass({
     var component = this;
     ajax.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function() {
       var user = statemachine.getState().user;
-      user.auto_tweet = component.state.auto_tweet;
+      user.auto_tweet = destupidify(component.state.auto_tweet);
       statemachine.updateState('user', user);
       component.goDashboard();
     });
@@ -53,3 +53,16 @@ var Settings = React.createClass({
 module.exports = {
   Settings: Settings
 };
+
+function destupidify(input) {
+  switch(input) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    case "null":
+      return null;
+    default:
+      return input;
+  }
+}

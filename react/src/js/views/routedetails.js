@@ -64,6 +64,7 @@ var RouteDetails = _react2.default.createClass({
         // component.showModal = true;
         component.setState(_statemachine2.default.updateState('showModal', true));
       } else {
+        console.log('user:', component.state.user);
         tweet(i, route_index, component.state.user.auto_tweet);
       }
     });
@@ -80,8 +81,6 @@ var RouteDetails = _react2.default.createClass({
   },
   showForfeit: function showForfeit() {
     var component = this;
-    console.log('state', component.state);
-    console.log('currentRoute', component.state.currentRoute);
     var route = component.state.currentRoute || { bars: [{}] };
     return route.bars.filter(function (bar) {
       return bar.checked_in || bar.skipped;
@@ -181,12 +180,12 @@ var TweetModal = _react2.default.createClass({
             { className: 'modal-footer' },
             _react2.default.createElement(
               'button',
-              { type: 'button', className: 'btn btn-primary', 'data-dismiss': 'modal', onClick: this.tweetAndHide },
+              { type: 'button', className: 'btn btn-info', 'data-dismiss': 'modal', onClick: this.tweetAndHide },
               'Yes'
             ),
             _react2.default.createElement(
               'button',
-              { type: 'button', className: 'btn btn-primary', 'data-dismiss': 'modal', onClick: this.hideModal },
+              { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.hideModal },
               'No'
             )
           )

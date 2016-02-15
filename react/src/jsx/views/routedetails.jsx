@@ -45,6 +45,7 @@ var RouteDetails = React.createClass({
           // component.showModal = true;
           component.setState(statemachine.updateState('showModal', true));
       }else{
+        console.log('user:', component.state.user);
         tweet(i, route_index, component.state.user.auto_tweet);
       }
     });
@@ -124,8 +125,8 @@ var TweetModal = React.createClass({
               Would you like to tweet your check in?
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.tweetAndHide}>Yes</button>
-              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.hideModal}>No</button>
+              <button type="button" className="btn btn-info" data-dismiss="modal" onClick={this.tweetAndHide}>Yes</button>
+              <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>No</button>
             </div>
           </div>
         </div>

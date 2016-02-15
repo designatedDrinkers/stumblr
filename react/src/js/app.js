@@ -26,6 +26,8 @@ var _settings = require('./views/settings');
 
 var _routedetails = require('./views/routedetails');
 
+var _routecomplete = require('./views/routecomplete');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 Promise.all([_ajaxPromise2.default.get('/api/users/current-user'), _ajaxPromise2.default.get('/api/barroutes')]).then(function (data) {
@@ -58,6 +60,7 @@ function renderApp(user) {
       { history: _reactRouter.browserHistory },
       _react2.default.createElement(_reactRouter.Route, { path: '/', component: _splashDash.SplashDash }),
       _react2.default.createElement(_reactRouter.Route, { path: '/routes/new', component: _newroute.NewRoute }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/routes/:index/done', component: _routecomplete.RouteComplete }),
       _react2.default.createElement(_reactRouter.Route, { path: '/routes/:index', component: _routedetails.RouteDetails }),
       _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _settings.Settings })
     ), document.getElementById('main'));
