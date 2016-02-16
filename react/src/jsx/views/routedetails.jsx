@@ -25,37 +25,25 @@ var RouteDetails = React.createClass({
   skip: function(i) {
     currentBar = i;
     var component = this;
-    var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
-      if(status()){
-        console.log('complete bitches');
-        window.location.assign('#/routes/' + component.props.params.index + '/done');
-      }
+      tweet(null, component.props.params.index);
     });
   },
   checkIn: function(i) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
-    var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
-      console.log('here', component.state.user.auto_tweet);
-      if(component.state.user.auto_tweet === null){
-        console.log('here as well');
-          // component.showModal = true;
-          component.setState(statemachine.updateState('showModal', true));
-      }else{
-        console.log('user:', component.state.user);
+      if(component.state.user.auto_tweet === null) {
+        component.setState(statemachine.updateState('showModal', true));
+      } else {
         tweet(i, route_index, component.state.user.auto_tweet);
-      }
-      if(status()){
-        window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
   },
@@ -68,15 +56,9 @@ var RouteDetails = React.createClass({
       console.log(response);
       component.setState(statemachine.updateState('currentRoute', response.route));
       window.location.assign('#/routes/' + component.props.params.index + '/done');
-      })
+    });
   },
-  complete: function(){
-    var component = this;
-    var route = component.state.currentRoute || { bars: [{}] };
-    return route.bars.filter(function(bar){
-      return bar.checked_in || bar.skipped;
-    }).length == route.bars.length;
-  },
+  complete: isRouteComplete,
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? <TweetModal /> : '';
@@ -116,10 +98,11 @@ var TweetModal = React.createClass({
   },
   hideModal: function() {
     this.setState(statemachine.updateState('showModal', false));
+    tweet(currentBar, currentRoute, false);
   },
   tweetAndHide: function(){
-    tweet(currentBar, currentRoute, true);
     this.setState(statemachine.updateState('showModal', false));
+    tweet(currentBar, currentRoute, true);
   },
   render: function(){
     return(
@@ -178,10 +161,22 @@ function composeList(component, route) {
 }
 
 function tweet(bar_index, route_index, autoTweet){
-  console.log(autoTweet);
   if(autoTweet){
     ajax.post('/api/twitter/checkin', {bar_index: bar_index, route_index: route_index}).then(function(data){
-      console.log(data);
-    })
+      if (isRouteComplete()) {
+        window.location.assign('#/routes/' + route_index + '/done');
+      }
+    });
+  } else {
+    if (isRouteComplete()) {
+      window.location.assign('#/routes/' + route_index + '/done');
+    }
   }
+}
+
+function isRouteComplete() {
+  var route = statemachine.getState().currentRoute || { bars: [{}] };
+  return route.bars.filter(function(bar){
+    return bar.checked_in || bar.skipped;
+  }).length == route.bars.length;
 }

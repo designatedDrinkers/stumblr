@@ -12,6 +12,9 @@ route.get('/', function(request, response, next){
           response.json({message: err});
         }else{
           user.routes = user.routes || [];
+          user.routes.forEach(function(route, i) {
+            route.index = i;
+          });
           var sortedRoutes = user.routes.sort(function(a, b){
               return b.date.getTime() - a.date.getTime();
           });
