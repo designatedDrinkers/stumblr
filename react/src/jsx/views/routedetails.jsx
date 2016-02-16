@@ -28,10 +28,11 @@ var RouteDetails = React.createClass({
     var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
     .then(function(result) {
-      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
       if(status()){
+        var newBadges = result.newBadges || [];
+        component.setState(statemachine.updateState('newBadges', newBadges));
         window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
@@ -43,19 +44,17 @@ var RouteDetails = React.createClass({
     var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
     .then(function(result) {
-      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
-      console.log('here', component.state.user.auto_tweet);
       if(component.state.user.auto_tweet === null){
-        console.log('here as well');
           // component.showModal = true;
           component.setState(statemachine.updateState('showModal', true));
       }else{
-        console.log('user:', component.state.user);
         tweet(i, route_index, component.state.user.auto_tweet);
       }
       if(status()){
+        var newBadges = result.newBadges || [];
+        component.setState(statemachine.updateState('newBadges', newBadges));
         window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
@@ -63,12 +62,10 @@ var RouteDetails = React.createClass({
   forfeit: function(i){
     var component = this;
     var bars = currentRoute.bars;
-    console.log('forfeit', this.props.params.index);
     ajax.put('/api/barroutes/' + this.props.params.index, {forfeit: true})
     .then(function(response){
-      component.state.newBadges = response.newBadges || [];
-      console.log(response);
-      component.setState(statemachine.updateState('currentRoute', response.route));
+      var newBadges = response.newBadges || [];
+      component.setState(statemachine.updateState('newBadges', newBadges));
       window.location.assign('#/routes/' + component.props.params.index + '/done');
       })
   },
@@ -104,13 +101,6 @@ var RouteDetails = React.createClass({
   }
 });
 
-// var Forfeit = React.createClass({
-//   render: function(){
-//     return(
-//
-//     )
-//   }
-// })
 
 var TweetModal = React.createClass({
   getInitialState: function() {
@@ -180,10 +170,8 @@ function composeList(component, route) {
 }
 
 function tweet(bar_index, route_index, autoTweet){
-  console.log(autoTweet);
   if(autoTweet){
     ajax.post('/api/twitter/checkin', {bar_index: bar_index, route_index: route_index}).then(function(data){
-      console.log(data);
     })
   }
 }

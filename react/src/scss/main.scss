@@ -297,3 +297,38 @@ ul.route-list {
 .fail {
   color:#5f5f60;
 }
+
+.completeBadgeContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+figure.completeBadge{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 20px;
+  width: 50%;
+  box-sizing: border-box;
+  div{
+    margin: 5px;
+  }
+
+  img{
+    width: 75px;
+    height: 75px;
+    margin: 0;
+  }
+
+  figcaption{
+    font-size: 1.3em;
+    text-align: center;
+    margin-top: 2px;
+  }
+
+
+}

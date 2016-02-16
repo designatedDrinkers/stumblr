@@ -121,7 +121,6 @@ function determineRouteStatus(barArray) {
 };
 
 function determineRouteType(barArray) {
-
   var barCount = barArray.length;
   switch (barCount) {
     case 3:

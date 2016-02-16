@@ -24,6 +24,37 @@ var _methods2 = _interopRequireDefault(_methods);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Badges = _react2.default.createClass({
+  displayName: 'Badges',
+
+  getInitialState: function getInitialState() {
+    return _statemachine2.default.getState();
+  },
+  render: function render() {
+    var component = this;
+    return _react2.default.createElement(
+      'div',
+      { className: 'completeBadgeContainer' },
+      this.state.newBadges.map(function (badge, i) {
+        return _react2.default.createElement(
+          'div',
+          { key: i },
+          _react2.default.createElement(
+            'figure',
+            { className: 'completeBadge' },
+            _react2.default.createElement('img', { src: 'images/badge-placeholder.png', alt: badge.name }),
+            _react2.default.createElement(
+              'figcaption',
+              null,
+              badge.name
+            )
+          )
+        );
+      })
+    );
+  }
+});
+
 var RouteComplete = _react2.default.createClass({
   displayName: 'RouteComplete',
 
@@ -40,8 +71,6 @@ var RouteComplete = _react2.default.createClass({
     });
   },
   render: function render() {
-    console.log(this.state.user);
-    console.log(this.state.user.newBadges);
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
     if (status) {
       return _react2.default.createElement(
@@ -57,7 +86,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null,
         _react2.default.createElement(
           'button',
           { className: 'btn' },
@@ -78,8 +107,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement(Badges, null),
-        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null,
         _react2.default.createElement(
           'button',
           { className: 'btn' },
@@ -96,23 +124,6 @@ function isRouteComplete(barArray) {
     return bar.checked_in;
   }).length == barArray.length;
 };
-
-var Badges = _react2.default.createClass({
-  displayName: 'Badges',
-
-  getInitialState: function getInitialState() {
-    return _statemachine2.default.getState();
-  },
-  render: function render() {
-    if (this.state.newBadges.length > 0) {
-      return this.state.newBadges.map(function (badge, i) {
-        return _react2.default.createElement('img', { src: '{badge.image}', alt: '{badge.name}' });
-      });
-    } else {
-      return null;
-    }
-  }
-});
 
 module.exports = {
   RouteComplete: RouteComplete
