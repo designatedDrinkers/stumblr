@@ -116,19 +116,20 @@ main {
       li.badge {
         background-color: rgba(0, 0, 0, 0);
         padding: 0;
+        margin-right: 10px;
         .badge-count {
-          height: 25px;
-          width: 35px;
+          height: 32px;
+          width: 40px;
           background-size: contain;
           background-repeat: no-repeat;
           display: flex;
           justify-content: flex-end;
-          span {
+          span.quantity {
             background-color: black;
             border-radius: 50%;
             flex-shrink: 1;
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
             display: flex;
             flex-direction: column;
             justify-content: center;

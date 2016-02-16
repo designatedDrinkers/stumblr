@@ -58,6 +58,9 @@ var Dashboard = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    this.setState(_statemachine2.default.getState());
+  },
   render: function render() {
     var badges = (this.state.user.badges || []).map(function (badge, i) {
       var style = {
@@ -71,7 +74,7 @@ var Dashboard = _react2.default.createClass({
           { style: style, className: 'badge-count' },
           _react2.default.createElement(
             'span',
-            null,
+            { className: 'quantity' },
             badge.quantity
           )
         )
