@@ -226,6 +226,7 @@ ul.route-list {
       }
       &.status {
         color: #600032;
+        font-size: 2rem;
       }
     }
   }
@@ -313,6 +314,13 @@ ul.route-list {
   color:#5f5f60;
 }
 
+.modal-body {
+  textarea {
+    width: 100%;
+    resize: none;
+  }
+}
+
 .completeBadgeContainer{
   display: flex;
   flex-direction: row;
@@ -349,6 +357,4 @@ figure.completeBadge{
     text-align: center;
     margin-top: 2px;
   }
-
-
 }
