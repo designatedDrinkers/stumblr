@@ -41865,6 +41865,10 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RouteList = _react2.default.createClass({
@@ -41873,9 +41877,15 @@ var RouteList = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    var component = this;
+    _ajaxPromise2.default.get('/api/barroutes').then(function (routes) {
+      component.setState(_statemachine2.default.updateState('routes', routes.barRoutes));
+    });
+  },
   render: function render() {
     var routes = this.state.routes;
-    if (routes) {
+    if (routes && routes.length) {
       return _react2.default.createElement(
         'ul',
         { className: 'route-list' },
@@ -41933,7 +41943,7 @@ var RouteList = _react2.default.createClass({
                 { key: i + 'link' },
                 _react2.default.createElement(
                   'a',
-                  { className: 'btn btn-primary route-view-button', href: '/#/routes/' + i },
+                  { className: 'btn btn-primary route-view-button', href: '/#/routes/' + route.index },
                   'View'
                 )
               )
@@ -41994,7 +42004,7 @@ function determineRouteType(barArray) {
 module.exports = {
   RouteList: RouteList
 };
-},{"../statemachine":248,"moment":85,"react":241}],251:[function(require,module,exports){
+},{"../statemachine":248,"ajax-promise":1,"moment":85,"react":241}],251:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42174,35 +42184,31 @@ var RouteDetails = _react2.default.createClass({
   skip: function skip(i) {
     currentBar = i;
     var component = this;
-    var status = this.complete;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
-      if (status()) {
+      if (isRouteComplete) {
         var newBadges = result.newBadges || [];
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
-        window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
+      tweet(null, component.props.params.index);
     });
   },
   checkIn: function checkIn(i) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
-    var status = this.complete;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (isRouteComplete()) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       if (component.state.user.auto_tweet === null) {
-        // component.showModal = true;
         component.setState(_statemachine2.default.updateState('showModal', true));
       } else {
         tweet(i, route_index, component.state.user.auto_tweet);
-      }
-      if (status()) {
-        var newBadges = result.newBadges || [];
-        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
-        window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
   },
@@ -42215,13 +42221,7 @@ var RouteDetails = _react2.default.createClass({
       window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
-  complete: function complete() {
-    var component = this;
-    var route = component.state.currentRoute || { bars: [{}] };
-    return route.bars.filter(function (bar) {
-      return bar.checked_in || bar.skipped;
-    }).length == route.bars.length;
-  },
+  complete: isRouteComplete,
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(TweetModal, null) : '';
@@ -42237,7 +42237,7 @@ var RouteDetails = _react2.default.createClass({
             'li',
             { key: '-1' },
             'Route Details: "',
-            this.state.currentRoute.name,
+            this.state.currentRoute.name || '(No Name)',
             '"'
           ),
           lis
@@ -42267,10 +42267,11 @@ var TweetModal = _react2.default.createClass({
   },
   hideModal: function hideModal() {
     this.setState(_statemachine2.default.updateState('showModal', false));
+    tweet(currentBar, currentRoute, false);
   },
   tweetAndHide: function tweetAndHide() {
-    tweet(currentBar, currentRoute, true);
     this.setState(_statemachine2.default.updateState('showModal', false));
+    tweet(currentBar, currentRoute, true);
   },
   render: function render() {
     return _react2.default.createElement(
@@ -42342,7 +42343,9 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name
+          bar.name,
+          ': ',
+          bar.vicinity
         ),
         _react2.default.createElement(
           'p',
@@ -42402,8 +42405,23 @@ function composeList(component, route) {
 
 function tweet(bar_index, route_index, autoTweet) {
   if (autoTweet) {
-    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index }).then(function (data) {});
+    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index }).then(function (data) {
+      if (isRouteComplete()) {
+        window.location.assign('#/routes/' + route_index + '/done');
+      }
+    });
+  } else {
+    if (isRouteComplete()) {
+      window.location.assign('#/routes/' + route_index + '/done');
+    }
   }
+}
+
+function isRouteComplete() {
+  var route = _statemachine2.default.getState().currentRoute || { bars: [{}] };
+  return route.bars.filter(function (bar) {
+    return bar.checked_in || bar.skipped;
+  }).length == route.bars.length;
 }
 },{"../barroute-data":244,"../header":246,"../statemachine":248,"ajax-promise":1,"react":241,"react-dom":88}],253:[function(require,module,exports){
 'use strict';
@@ -42584,6 +42602,9 @@ var Dashboard = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    this.setState(_statemachine2.default.getState());
+  },
   render: function render() {
     var badges = (this.state.user.badges || []).map(function (badge, i) {
       var style = {
@@ -42597,7 +42618,7 @@ var Dashboard = _react2.default.createClass({
           { style: style, className: 'badge-count' },
           _react2.default.createElement(
             'span',
-            null,
+            { className: 'quantity' },
             badge.quantity
           )
         )

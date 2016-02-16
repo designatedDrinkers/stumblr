@@ -26,6 +26,9 @@ var Dashboard = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
   },
+  componentDidMount: function() {
+    this.setState(statemachine.getState());
+  },
   render: function() {
     var badges = (this.state.user.badges || []).map(function(badge, i) {
       var style = {
@@ -34,7 +37,7 @@ var Dashboard = React.createClass({
       return (
         <li className="badge" key={i}>
           <div style={style} className="badge-count">
-            <span>{badge.quantity}</span>
+            <span className="quantity">{badge.quantity}</span>
           </div>
         </li>
       );

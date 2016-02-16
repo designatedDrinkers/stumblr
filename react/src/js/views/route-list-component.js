@@ -12,6 +12,10 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RouteList = _react2.default.createClass({
@@ -20,9 +24,15 @@ var RouteList = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  componentDidMount: function componentDidMount() {
+    var component = this;
+    _ajaxPromise2.default.get('/api/barroutes').then(function (routes) {
+      component.setState(_statemachine2.default.updateState('routes', routes.barRoutes));
+    });
+  },
   render: function render() {
     var routes = this.state.routes;
-    if (routes) {
+    if (routes && routes.length) {
       return _react2.default.createElement(
         'ul',
         { className: 'route-list' },
@@ -80,7 +90,7 @@ var RouteList = _react2.default.createClass({
                 { key: i + 'link' },
                 _react2.default.createElement(
                   'a',
-                  { className: 'btn btn-primary route-view-button', href: '/#/routes/' + i },
+                  { className: 'btn btn-primary route-view-button', href: '/#/routes/' + route.index },
                   'View'
                 )
               )

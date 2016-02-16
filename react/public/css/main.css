@@ -94,20 +94,21 @@ main {
       justify-content: space-between; }
       .dash .user-details ul.badges li.badge {
         background-color: transparent;
-        padding: 0; }
+        padding: 0;
+        margin-right: 10px; }
         .dash .user-details ul.badges li.badge .badge-count {
-          height: 25px;
-          width: 35px;
+          height: 32px;
+          width: 40px;
           background-size: contain;
           background-repeat: no-repeat;
           display: flex;
           justify-content: flex-end; }
-          .dash .user-details ul.badges li.badge .badge-count span {
+          .dash .user-details ul.badges li.badge .badge-count span.quantity {
             background-color: black;
             border-radius: 50%;
             flex-shrink: 1;
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
             display: flex;
             flex-direction: column;
             justify-content: center; }
@@ -234,7 +235,8 @@ ul.route-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around; }
+  justify-content: space-around;
+  align-items: space-around; }
 
 figure.completeBadge {
   display: flex;
@@ -252,6 +254,6 @@ figure.completeBadge {
     height: 75px;
     margin: 0; }
   figure.completeBadge figcaption {
-    font-size: 1.3em;
+    font-size: 1.2em;
     text-align: center;
     margin-top: 2px; }

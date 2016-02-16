@@ -1,15 +1,21 @@
 import React from 'react';
 import statemachine from '../statemachine';
 import moment from 'moment';
-
+import ajax from 'ajax-promise';
 
 var RouteList = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
   },
+  componentDidMount: function() {
+    var component = this;
+    ajax.get('/api/barroutes').then(function(routes) {
+      component.setState(statemachine.updateState('routes', routes.barRoutes));
+    });
+  },
   render: function() {
     var routes = this.state.routes;
-    if (routes) {
+    if (routes && routes.length) {
       return (
         <ul className="route-list">
           <li key="-1">
@@ -30,7 +36,7 @@ var RouteList = React.createClass({
                   <li key={i + 'date'} className="date">{date}</li>
                   <li key={i + 'type'} className="type">{type}</li>
                   <li key={i + 'status'} className="status">{status}</li>
-                  <li key={i + 'link'}><a className="btn btn-primary route-view-button" href={'/#/routes/' + i}>View</a></li>
+                  <li key={i + 'link'}><a className="btn btn-primary route-view-button" href={'/#/routes/' + route.index}>View</a></li>
                 </ul>
               </li>
             )
