@@ -58,7 +58,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
-          { className: 'btn' },
+          { className: 'btn', onClick: launchUber },
           'Call an Uber'
         )
       );
@@ -79,7 +79,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
-          { className: 'btn' },
+          { className: 'btn', onClick: launchUber },
           'Call an Uber'
         )
       );

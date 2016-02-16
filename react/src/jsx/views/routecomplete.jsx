@@ -26,7 +26,7 @@ var RouteComplete = React.createClass({
           <h1 className="win">Route Complete!</h1>
           <h3>You earned a badge...</h3>
           <img src="../images/badge-placeholder.png" alt="badge icon" />
-          <button className="btn">Call an Uber</button>
+          <button className="btn" onClick={launchUber}>Call an Uber</button>
         </div>
       )
     } else {
@@ -35,7 +35,7 @@ var RouteComplete = React.createClass({
           <h1 className="fail">Route Forfeited.</h1>
           <h3>You earned a badge...</h3>
           <img src="../images/badge-placeholder.png" alt="badge icon" />
-          <button className="btn">Call an Uber</button>
+          <button className="btn" onClick={launchUber}>Call an Uber</button>
         </div>
       )
     }
@@ -48,6 +48,27 @@ function isRouteComplete(barArray){
     return bar.checked_in;
   }).length == barArray.length;
 };
+
+function launchUber(){
+  var deepLink = 'uber://?action=setPickup&pickup=my_location';
+  var uberURL = 'https://m.uber.com/sign-up';
+  var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
+  var isAndroid = navigator.userAgent.match(/android/i) != null;
+
+  if (isiPhone) {
+  //   if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]]) {
+  //     window.location = deepLink;
+  //   } else {
+  //     window.location = 'https://itunes.apple.com/us/app/uber/id368677368?mt=8'
+  //   }
+  // } else if (isAndroid) {
+  //   if(is installed on android){
+  //     window.location = deepLink;
+  //   } else {
+  //     window.location = 'https://play.google.com/store/apps/details?id=com.ubercab';
+  //   }
+  }
+}
 
 module.exports = {
   RouteComplete: RouteComplete
