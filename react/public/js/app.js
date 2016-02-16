@@ -42038,6 +42038,8 @@ var RouteComplete = _react2.default.createClass({
     });
   },
   render: function render() {
+    console.log(this.state.user);
+    console.log(this.state.user.newBadges);
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
     if (status) {
       return _react2.default.createElement(
@@ -42074,6 +42076,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
+        _react2.default.createElement(Badges, null),
         _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
@@ -42091,6 +42094,23 @@ function isRouteComplete(barArray) {
     return bar.checked_in;
   }).length == barArray.length;
 };
+
+var Badges = _react2.default.createClass({
+  displayName: 'Badges',
+
+  getInitialState: function getInitialState() {
+    return _statemachine2.default.getState();
+  },
+  render: function render() {
+    if (this.state.newBadges.length > 0) {
+      return this.state.newBadges.map(function (badge, i) {
+        return _react2.default.createElement('img', { src: '{badge.image}', alt: '{badge.name}' });
+      });
+    } else {
+      return null;
+    }
+  }
+});
 
 module.exports = {
   RouteComplete: RouteComplete
@@ -42145,11 +42165,12 @@ var RouteDetails = _react2.default.createClass({
     currentBar = i;
     var component = this;
     var status = this.complete;
+    component.state.newBadges = [];
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
+      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
       if (status()) {
-        console.log('complete bitches');
         window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
@@ -42159,7 +42180,9 @@ var RouteDetails = _react2.default.createClass({
     var component = this;
     var route_index = this.props.params.index;
     var status = this.complete;
+    component.state.newBadges = [];
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
+      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
       console.log('here', component.state.user.auto_tweet);
@@ -42179,8 +42202,10 @@ var RouteDetails = _react2.default.createClass({
   forfeit: function forfeit(i) {
     var component = this;
     var bars = currentRoute.bars;
+    component.state.newBadges = [];
     console.log('forfeit', this.props.params.index);
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
+      component.state.newBadges = response.newBadges || [];
       console.log(response);
       component.setState(_statemachine2.default.updateState('currentRoute', response.route));
       window.location.assign('#/routes/' + component.props.params.index + '/done');

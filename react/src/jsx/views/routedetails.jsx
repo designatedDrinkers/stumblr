@@ -28,10 +28,10 @@ var RouteDetails = React.createClass({
     var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
     .then(function(result) {
+      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
       if(status()){
-        console.log('complete bitches');
         window.location.assign('#/routes/' + component.props.params.index + '/done');
       }
     });
@@ -43,6 +43,7 @@ var RouteDetails = React.createClass({
     var status = this.complete;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
     .then(function(result) {
+      component.state.newBadges = result.newBadges || [];
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
       console.log('here', component.state.user.auto_tweet);
@@ -65,6 +66,7 @@ var RouteDetails = React.createClass({
     console.log('forfeit', this.props.params.index);
     ajax.put('/api/barroutes/' + this.props.params.index, {forfeit: true})
     .then(function(response){
+      component.state.newBadges = response.newBadges || [];
       console.log(response);
       component.setState(statemachine.updateState('currentRoute', response.route));
       window.location.assign('#/routes/' + component.props.params.index + '/done');

@@ -40,6 +40,8 @@ var RouteComplete = _react2.default.createClass({
     });
   },
   render: function render() {
+    console.log(this.state.user);
+    console.log(this.state.user.newBadges);
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
     if (status) {
       return _react2.default.createElement(
@@ -76,6 +78,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
+        _react2.default.createElement(Badges, null),
         _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
         _react2.default.createElement(
           'button',
@@ -93,6 +96,23 @@ function isRouteComplete(barArray) {
     return bar.checked_in;
   }).length == barArray.length;
 };
+
+var Badges = _react2.default.createClass({
+  displayName: 'Badges',
+
+  getInitialState: function getInitialState() {
+    return _statemachine2.default.getState();
+  },
+  render: function render() {
+    if (this.state.newBadges.length > 0) {
+      return this.state.newBadges.map(function (badge, i) {
+        return _react2.default.createElement('img', { src: '{badge.image}', alt: '{badge.name}' });
+      });
+    } else {
+      return null;
+    }
+  }
+});
 
 module.exports = {
   RouteComplete: RouteComplete
