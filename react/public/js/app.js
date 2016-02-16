@@ -42207,7 +42207,9 @@ var RouteDetails = _react2.default.createClass({
           _react2.default.createElement(
             'li',
             { key: '-1' },
-            'Route Details:'
+            'Route Details: "',
+            this.state.currentRoute.name,
+            '"'
           ),
           lis
         ),
@@ -42565,14 +42567,45 @@ var Dashboard = _react2.default.createClass({
     return _statemachine2.default.getState();
   },
   render: function render() {
+    var badges = (this.state.user.badges || []).map(function (badge, i) {
+      var style = {
+        backgroundImage: 'url(' + badge.image + ')' && 'url(/images/badge-placeholder.png)'
+      };
+      return _react2.default.createElement(
+        'li',
+        { className: 'badge', key: i },
+        _react2.default.createElement(
+          'div',
+          { style: style, className: 'badge-count' },
+          _react2.default.createElement(
+            'span',
+            null,
+            badge.quantity
+          )
+        )
+      );
+    });
     return _react2.default.createElement(
       'div',
       { className: 'dash' },
-      _react2.default.createElement('img', { className: 'profile-image', src: this.state.user.twitter_image }),
       _react2.default.createElement(
-        'p',
-        null,
-        this.state.user.twitter_name
+        'div',
+        { className: 'user-details' },
+        _react2.default.createElement(
+          'div',
+          { className: 'twitter-info' },
+          _react2.default.createElement('img', { className: 'profile-image', src: this.state.user.twitter_image }),
+          _react2.default.createElement(
+            'p',
+            null,
+            this.state.user.twitter_name
+          )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'badges' },
+          badges
+        )
       ),
       _react2.default.createElement(_newroute.RouteForm, null),
       _react2.default.createElement(_routeListComponent.RouteList, null)

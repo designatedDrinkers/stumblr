@@ -16,7 +16,8 @@ route.get('/current-user', function(request, response){
           twitter_id: data.twitter_id,
           twitter_image: data.twitter_image,
           twitter_name: data.twitter_name,
-          auto_tweet: data.auto_tweet === undefined ? null : data.auto_tweet
+          auto_tweet: data.auto_tweet === undefined ? null : data.auto_tweet,
+          badges: data.badges
         });
       });
     }).catch(function(err) {
