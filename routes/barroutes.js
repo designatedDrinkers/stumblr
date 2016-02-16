@@ -10,7 +10,11 @@ route.get('/', function(request, response, next){
         if(err){
           response.json({message: err});
         }else{
-          response.json({barRoutes: user.routes})
+          console.log(user.routes);
+          var sortedRoutes = user.routes.sort(function(a, b){
+              return b.date.getTime() - a.date.getTime();
+          });
+          response.json({barRoutes: sortedRoutes})
         }
         db.close();
       })
