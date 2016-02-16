@@ -42212,17 +42212,16 @@ var RouteDetails = _react2.default.createClass({
       tweet(null, component.props.params.index);
     });
   },
-  checkIn: function checkIn(i) {
+  checkIn: function checkIn(i, message) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
-      if (component.state.user.auto_tweet === null) {
-        component.setState(_statemachine2.default.updateState('showModal', true));
-      } else {
-        tweet(i, route_index, component.state.user.auto_tweet);
+      document.getElementById('tweet-message-box').value = message;
+      if (component.state.user.auto_tweet !== null) {
+        tweet(i, route_index, component.state.user.auto_tweet, message);
       }
     });
   },
@@ -42274,27 +42273,15 @@ var RouteDetails = _react2.default.createClass({
   }
 });
 
-// var Forfeit = React.createClass({
-//   render: function(){
-//     return(
-//
-//     )
-//   }
-// })
-
 var TweetModal = _react2.default.createClass({
   displayName: 'TweetModal',
 
-  getInitialState: function getInitialState() {
-    return _statemachine2.default.getState();
-  },
   hideModal: function hideModal() {
-    this.setState(_statemachine2.default.updateState('showModal', false));
     tweet(currentBar, currentRoute, false);
   },
   tweetAndHide: function tweetAndHide() {
-    this.setState(_statemachine2.default.updateState('showModal', false));
-    tweet(currentBar, currentRoute, true);
+    var message = document.getElementById('tweet-message-box').value;
+    tweet(currentBar, currentRoute, !!message, message);
   },
   render: function render() {
     return _react2.default.createElement(
@@ -42327,7 +42314,12 @@ var TweetModal = _react2.default.createClass({
           _react2.default.createElement(
             'div',
             { className: 'modal-body' },
-            'Would you like to tweet your check in?'
+            _react2.default.createElement(
+              'p',
+              null,
+              'Tweet your status update:'
+            ),
+            _react2.default.createElement('textarea', { id: 'tweet-message-box' })
           ),
           _react2.default.createElement(
             'div',
@@ -42386,7 +42378,7 @@ function composeList(component, route) {
         )
       );
     } else {
-      var checkIn = component.checkIn.bind(component, i);
+      var checkIn = component.checkIn.bind(component, i, defaultTweet(bar.name));
       var skip = component.skip.bind(component, i);
       return _react2.default.createElement(
         'li',
@@ -42426,9 +42418,9 @@ function composeList(component, route) {
   return lis;
 }
 
-function tweet(bar_index, route_index, autoTweet) {
+function tweet(bar_index, route_index, autoTweet, message) {
   if (autoTweet) {
-    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index }).then(function (data) {
+    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index, message: message }).then(function (data) {
       if (isRouteComplete()) {
         window.location.assign('#/routes/' + route_index + '/done');
       }
@@ -42445,6 +42437,10 @@ function isRouteComplete() {
   return route.bars.filter(function (bar) {
     return bar.checked_in || bar.skipped;
   }).length == route.bars.length;
+}
+
+function defaultTweet(barName) {
+  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
 }
 },{"../barroute-data":247,"../header":249,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],256:[function(require,module,exports){
 'use strict';

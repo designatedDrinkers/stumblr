@@ -31,8 +31,6 @@ route.get('/current-user', function(request, response){
 route.put('/', function(request, response) {
   var autoTweet;
 
-  console.log(request.body);
-
   if (!request.user) {
     return response.json({ success: false });
   } else if (request.body.auto_tweet === null || request.body.auto_tweet === 'null') {
@@ -44,7 +42,7 @@ route.put('/', function(request, response) {
   } else {
     return response.json({ success: false });
   }
-  console.log(autoTweet);
+
   mongo.connect().then(function(db) {
     db.collection('users').updateOne({ twitter_id: request.user.twitter_id }, { $set: { auto_tweet: autoTweet } }, function(err, data) {
       db.close();
