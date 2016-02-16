@@ -100,7 +100,9 @@ var RouteDetails = _react2.default.createClass({
           _react2.default.createElement(
             'li',
             { key: '-1' },
-            'Route Details:'
+            'Route Details: "',
+            this.state.currentRoute.name,
+            '"'
           ),
           lis
         ),

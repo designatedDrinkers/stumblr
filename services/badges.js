@@ -7,10 +7,10 @@ var condition = {
     // two marathons one day
     var date = user.routes[index].date;
     var elligible = user.routes.filter(function(route, i) {
-      return status(route) && timely(route, date) && dateDist(route.date, date) <= 1 &&
+      return status(route) && timely(route, date) && dateDist(route.date, date) < 1 &&
       route.bars.length == 8 && i < index;
     });
-    if (elligible.length) {
+    if (elligible.length && status(user.routes[index]) && user.routes[index].bars.length === 8) {
       return award(user, { name: 'Designated Drinker', image: '/images/badges/designated-drinker.png' });
     }
   },
@@ -21,7 +21,7 @@ var condition = {
         return badge.name == name;
       }).length;
     });
-    if (awards[0] && awards[1] && awards[2] && !awards[3]) {
+    if (awards[0] && awards[1] && awards[2] && !awards[3] && status(user.routes[index])) {
       return award(user, { name: 'Triple Crown', image: '/images/badges/triple-crown.png' });
     }
   },
@@ -56,7 +56,7 @@ var condition = {
       return i <= index  && status(route) && timely(route, route.date) &&
         dateDist(route.date, user.routes[index].date) <= 2;
     });
-    if (elligible.length >= 3 && elligible.length % 3 == 0) {
+    if (elligible.length >= 3 && elligible.length % 3 == 0 && completed) {
       return award(user, { name: 'Bender', image: '/images/badges/bender.png' });
     }
   },
@@ -85,13 +85,9 @@ var condition = {
 };
 
 module.exports = function(index, user) {
-  return Promise.all(
-    Object.keys(condition).map(function(key) {
-      return condition[key](index, user);
-    })
-  ).then(function(badges) {
-    return Promise.resolve(badges.filter(Boolean));
-  });
+  return Object.keys(condition).map(function(key) {
+    return condition[key](index, user);
+  }).filter(Boolean);
 };
 
 function dateDist(date1, date2) {
@@ -117,7 +113,6 @@ function timely(route, date) {
 }
 
 function award(user, award) {
-  user.badges = user.badges || [];
   var existing = user.badges.filter(function(badge) {
     return badge.name == award.name;
   })[0];
