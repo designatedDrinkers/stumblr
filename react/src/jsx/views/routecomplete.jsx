@@ -5,6 +5,29 @@ import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import methods from '../methods';
 
+var Badges = React.createClass({
+  getInitialState: function(){
+    return statemachine.getState();
+  },
+  render: function(){
+    var component = this;
+    return (
+      <div className="completeBadgeContainer">
+      {this.state.newBadges.map(function(badge, i){
+        return (
+          <div key={i}>
+            <figure className="completeBadge">
+            <img src={badge.image} alt={badge.name} />
+            <figcaption>{badge.name}</figcaption>
+            </figure>
+          </div>
+          )
+        })}
+      </div>
+  )
+  }
+});
+
 var RouteComplete = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
@@ -25,8 +48,7 @@ var RouteComplete = React.createClass({
         <div className="done-container">
           <h1 className="win">Route Complete!</h1>
           <h3>You earned a badge...</h3>
-          <img src="../images/badge-placeholder.png" alt="badge icon" />
-          <button className="btn" onClick={launchUber}>Call an Uber</button>
+          { this.state.newBadges.length > 0? <Badges /> : null }
         </div>
       )
     } else {
@@ -34,8 +56,7 @@ var RouteComplete = React.createClass({
         <div className="done-container">
           <h1 className="fail">Route Forfeited.</h1>
           <h3>You earned a badge...</h3>
-          <img src="../images/badge-placeholder.png" alt="badge icon" />
-          <button className="btn" onClick={launchUber}>Call an Uber</button>
+          { this.state.newBadges.length > 0? <Badges /> : null }
         </div>
       )
     }
@@ -49,26 +70,6 @@ function isRouteComplete(barArray){
   }).length == barArray.length;
 };
 
-function launchUber(){
-  var deepLink = 'uber://?action=setPickup&pickup=my_location';
-  var uberURL = 'https://m.uber.com/sign-up';
-  var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
-  var isAndroid = navigator.userAgent.match(/android/i) != null;
-
-  if (isiPhone) {
-  //   if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]]) {
-  //     window.location = deepLink;
-  //   } else {
-  //     window.location = 'https://itunes.apple.com/us/app/uber/id368677368?mt=8'
-  //   }
-  // } else if (isAndroid) {
-  //   if(is installed on android){
-  //     window.location = deepLink;
-  //   } else {
-  //     window.location = 'https://play.google.com/store/apps/details?id=com.ubercab';
-  //   }
-  }
-}
 
 module.exports = {
   RouteComplete: RouteComplete
