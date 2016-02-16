@@ -6,9 +6,8 @@ body {
 }
 
 #wrap {
-  max-height: 90vh;
-  height: auto;
-  padding: 0 0 50px;
+  height: 100%;
+  min-height: 88vh;
 }
 
 #header {
@@ -69,6 +68,7 @@ form {
 }
 
 main {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -76,7 +76,7 @@ main {
 }
 
 #main {
-  min-height: 88vh;
+  height: 100%;
 }
 
 .splash {
@@ -86,12 +86,26 @@ main {
   align-items: center;
   justify-content: center;
   background: url('../images/splash.jpg');
-  background-size: cover;
+  background-size: auto;
+  color: #fff;
   .splash-map {
     width: 180px;
     height: 180px;
     border-radius: 50%;
     margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
+  p {
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 2px 2px #000;
+  }
+  button {
+    margin-top: 20px;
+    padding: 20px 30px;
+    font-size: 1.5em;
   }
 }
 
@@ -304,5 +318,43 @@ ul.route-list {
   textarea {
     width: 100%;
     resize: none;
+  }
+}
+
+.completeBadgeContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: space-around;
+  width: 100%;
+
+  div{
+    width: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+figure.completeBadge{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  img{
+    width: 75px;
+    height: 75px;
+    margin: 0;
+  }
+
+  figcaption{
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 2px;
   }
 }

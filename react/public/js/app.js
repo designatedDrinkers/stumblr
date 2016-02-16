@@ -42015,7 +42015,6 @@ function determineRouteStatus(barArray) {
 };
 
 function determineRouteType(barArray) {
-
   var barCount = barArray.length;
   switch (barCount) {
     case 3:
@@ -42063,6 +42062,37 @@ var _methods2 = _interopRequireDefault(_methods);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Badges = _react2.default.createClass({
+  displayName: 'Badges',
+
+  getInitialState: function getInitialState() {
+    return _statemachine2.default.getState();
+  },
+  render: function render() {
+    var component = this;
+    return _react2.default.createElement(
+      'div',
+      { className: 'completeBadgeContainer' },
+      this.state.newBadges.map(function (badge, i) {
+        return _react2.default.createElement(
+          'div',
+          { key: i },
+          _react2.default.createElement(
+            'figure',
+            { className: 'completeBadge' },
+            _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
+            _react2.default.createElement(
+              'figcaption',
+              null,
+              badge.name
+            )
+          )
+        );
+      })
+    );
+  }
+});
+
 var RouteComplete = _react2.default.createClass({
   displayName: 'RouteComplete',
 
@@ -42094,12 +42124,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
-        _react2.default.createElement(
-          'button',
-          { className: 'btn', onClick: launchUber },
-          'Call an Uber'
-        )
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     } else {
       return _react2.default.createElement(
@@ -42115,12 +42140,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        _react2.default.createElement('img', { src: '../images/badge-placeholder.png', alt: 'badge icon' }),
-        _react2.default.createElement(
-          'button',
-          { className: 'btn', onClick: launchUber },
-          'Call an Uber'
-        )
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     }
   }
@@ -42132,27 +42152,6 @@ function isRouteComplete(barArray) {
     return bar.checked_in;
   }).length == barArray.length;
 };
-
-function launchUber() {
-  var deepLink = 'uber://?action=setPickup&pickup=my_location';
-  var uberURL = 'https://m.uber.com/sign-up';
-  var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
-  var isAndroid = navigator.userAgent.match(/android/i) != null;
-
-  if (isiPhone) {
-    //   if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]]) {
-    //     window.location = deepLink;
-    //   } else {
-    //     window.location = 'https://itunes.apple.com/us/app/uber/id368677368?mt=8'
-    //   }
-    // } else if (isAndroid) {
-    //   if(is installed on android){
-    //     window.location = deepLink;
-    //   } else {
-    //     window.location = 'https://play.google.com/store/apps/details?id=com.ubercab';
-    //   }
-  }
-}
 
 module.exports = {
   RouteComplete: RouteComplete
@@ -42209,6 +42208,10 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (isRouteComplete) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       tweet(null, component.props.params.index);
     });
   },
@@ -42220,6 +42223,10 @@ var RouteDetails = _react2.default.createClass({
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
       document.getElementById('tweet-message-box').value = message;
+      if (isRouteComplete()) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       if (component.state.user.auto_tweet !== null) {
         tweet(i, route_index, component.state.user.auto_tweet, message);
       }
@@ -42228,10 +42235,9 @@ var RouteDetails = _react2.default.createClass({
   forfeit: function forfeit(i) {
     var component = this;
     var bars = currentRoute.bars;
-    console.log('forfeit', this.props.params.index);
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
-      console.log(response);
-      component.setState(_statemachine2.default.updateState('currentRoute', response.route));
+      var newBadges = response.newBadges || [];
+      component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
@@ -42319,7 +42325,7 @@ var TweetModal = _react2.default.createClass({
               null,
               'Tweet your status update:'
             ),
-            _react2.default.createElement('textarea', { id: 'tweet-message-box' })
+            _react2.default.createElement('textarea', { id: 'tweet-message-box', maxlength: '140' })
           ),
           _react2.default.createElement(
             'div',
@@ -42599,11 +42605,23 @@ var Login = _react2.default.createClass({
         { className: 'splash' },
         _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
         _react2.default.createElement(
+          'h1',
+          null,
+          'Stumblr'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Map the optimal pub crawl',
+          _react2.default.createElement('br', null),
+          ' before it\'s too late.'
+        ),
+        _react2.default.createElement(
           'a',
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-primary btn-lg' },
+            { className: 'btn btn-info btn-lg' },
             'Login with Twitter'
           )
         )

@@ -49,6 +49,10 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (isRouteComplete) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       tweet(null, component.props.params.index);
     });
   },
@@ -60,6 +64,10 @@ var RouteDetails = _react2.default.createClass({
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
       document.getElementById('tweet-message-box').value = message;
+      if (isRouteComplete()) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       if (component.state.user.auto_tweet !== null) {
         tweet(i, route_index, component.state.user.auto_tweet, message);
       }
@@ -68,10 +76,9 @@ var RouteDetails = _react2.default.createClass({
   forfeit: function forfeit(i) {
     var component = this;
     var bars = currentRoute.bars;
-    console.log('forfeit', this.props.params.index);
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
-      console.log(response);
-      component.setState(_statemachine2.default.updateState('currentRoute', response.route));
+      var newBadges = response.newBadges || [];
+      component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
