@@ -42204,7 +42204,7 @@ var RouteDetails = _react2.default.createClass({
             'li',
             { key: '-1' },
             'Route Details: "',
-            this.state.currentRoute.name,
+            this.state.currentRoute.name || '(No Name)',
             '"'
           ),
           lis
@@ -42318,7 +42318,9 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name
+          bar.name,
+          ': ',
+          bar.vicinity
         ),
         _react2.default.createElement(
           'p',

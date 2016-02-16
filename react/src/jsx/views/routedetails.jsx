@@ -67,7 +67,7 @@ var RouteDetails = React.createClass({
       return (
         <div className="route-details">
           <ul className="bar-list">
-            <li key="-1">Route Details: &quot;{this.state.currentRoute.name}&quot;</li>
+            <li key="-1">Route Details: &quot;{this.state.currentRoute.name || '(No Name)'}&quot;</li>
             {lis}
           </ul>
           {modal}
@@ -140,7 +140,7 @@ function composeList(component, route) {
     if (status) {
       return (
         <li key={i} className="bar-status">
-          <p>{bar.name}</p>
+          <p>{bar.name}: {bar.vicinity}</p>
           <p><span>Status: </span><span>{status}</span></p>
         </li>
       );
