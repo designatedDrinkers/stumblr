@@ -94,6 +94,27 @@ function isRouteComplete(barArray) {
   }).length == barArray.length;
 };
 
+function launchUber() {
+  var deepLink = 'uber://?action=setPickup&pickup=my_location';
+  var uberURL = 'https://m.uber.com/sign-up';
+  var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
+  var isAndroid = navigator.userAgent.match(/android/i) != null;
+
+  if (isiPhone) {
+    //   if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]]) {
+    //     window.location = deepLink;
+    //   } else {
+    //     window.location = 'https://itunes.apple.com/us/app/uber/id368677368?mt=8'
+    //   }
+    // } else if (isAndroid) {
+    //   if(is installed on android){
+    //     window.location = deepLink;
+    //   } else {
+    //     window.location = 'https://play.google.com/store/apps/details?id=com.ubercab';
+    //   }
+  }
+}
+
 module.exports = {
   RouteComplete: RouteComplete
 };
