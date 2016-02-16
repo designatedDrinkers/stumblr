@@ -11,18 +11,19 @@ var Badges = React.createClass({
   },
   render: function(){
     var component = this;
-    return (<div className="completeBadgeContainer">
-    {this.state.newBadges.map(function(badge, i){
-      return (
-        <div key={i}>
-          <figure className="completeBadge">
-          <img src="images/badge-placeholder.png" alt={badge.name} />
-          <figcaption>{badge.name}</figcaption>
-          </figure>
-        </div>
-        )
-      })}
-    </div>
+    return (
+      <div className="completeBadgeContainer">
+      {this.state.newBadges.map(function(badge, i){
+        return (
+          <div key={i}>
+            <figure className="completeBadge">
+            <img src={badge.image} alt={badge.name} />
+            <figcaption>{badge.name}</figcaption>
+            </figure>
+          </div>
+          )
+        })}
+      </div>
   )
   }
 });
@@ -48,7 +49,6 @@ var RouteComplete = React.createClass({
           <h1 className="win">Route Complete!</h1>
           <h3>You earned a badge...</h3>
           { this.state.newBadges.length > 0? <Badges /> : null }
-          <button className="btn">Call an Uber</button>
         </div>
       )
     } else {
@@ -57,7 +57,6 @@ var RouteComplete = React.createClass({
           <h1 className="fail">Route Forfeited.</h1>
           <h3>You earned a badge...</h3>
           { this.state.newBadges.length > 0? <Badges /> : null }
-          <button className="btn">Call an Uber</button>
         </div>
       )
     }
@@ -70,7 +69,6 @@ function isRouteComplete(barArray){
     return bar.checked_in;
   }).length == barArray.length;
 };
-
 
 
 module.exports = {

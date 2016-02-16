@@ -42,7 +42,7 @@ var Badges = _react2.default.createClass({
           _react2.default.createElement(
             'figure',
             { className: 'completeBadge' },
-            _react2.default.createElement('img', { src: 'images/badge-placeholder.png', alt: badge.name }),
+            _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
             _react2.default.createElement(
               'figcaption',
               null,
@@ -86,12 +86,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null,
-        _react2.default.createElement(
-          'button',
-          { className: 'btn' },
-          'Call an Uber'
-        )
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     } else {
       return _react2.default.createElement(
@@ -107,12 +102,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           'You earned a badge...'
         ),
-        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null,
-        _react2.default.createElement(
-          'button',
-          { className: 'btn' },
-          'Call an Uber'
-        )
+        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     }
   }

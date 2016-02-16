@@ -32,7 +32,7 @@ var Dashboard = React.createClass({
   render: function() {
     var badges = (this.state.user.badges || []).map(function(badge, i) {
       var style = {
-        backgroundImage: 'url(' + badge.image + ')' && 'url(/images/badge-placeholder.png)'
+        backgroundImage: 'url(' + badge.image + ')'
       };
       return (
         <li className="badge" key={i}>

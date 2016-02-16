@@ -236,19 +236,22 @@ ul.route-list {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: space-around; }
+  align-items: space-around;
+  width: 100%; }
+  .completeBadgeContainer div {
+    width: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
 
 figure.completeBadge {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin: 5px 20px;
-  width: 50%;
-  box-sizing: border-box; }
-  figure.completeBadge div {
-    margin: 5px; }
+  width: 100%; }
   figure.completeBadge img {
     width: 75px;
     height: 75px;
