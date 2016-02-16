@@ -11,7 +11,7 @@ route.get('/', function(request, response, next){
         if(err){
           response.json({message: err});
         }else{
-          console.log(user.routes);
+          user.routes = user.routes || [];
           var sortedRoutes = user.routes.sort(function(a, b){
               return b.date.getTime() - a.date.getTime();
           });
