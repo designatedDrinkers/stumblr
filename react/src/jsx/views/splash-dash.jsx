@@ -26,11 +26,30 @@ var Dashboard = React.createClass({
   getInitialState: function() {
     return statemachine.getState();
   },
-  render: function(){
+  render: function() {
+    var badges = (this.state.user.badges || []).map(function(badge, i) {
+      var style = {
+        backgroundImage: 'url(' + badge.image + ')' && 'url(/images/badge-placeholder.png)'
+      };
+      return (
+        <li className="badge" key={i}>
+          <div style={style} className="badge-count">
+            <span>{badge.quantity}</span>
+          </div>
+        </li>
+      );
+    })
     return (
       <div className="dash">
-        <img className="profile-image" src={this.state.user.twitter_image} />
-        <p>{this.state.user.twitter_name}</p>
+        <div className="user-details">
+          <div className="twitter-info">
+            <img className="profile-image" src={this.state.user.twitter_image} />
+            <p>{this.state.user.twitter_name}</p>
+          </div>
+          <ul className="badges">
+            {badges}
+          </ul>
+        </div>
         <RouteForm />
         <RouteList />
       </div>
