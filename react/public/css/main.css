@@ -63,7 +63,7 @@ main {
   height: 100%; }
 
 .splash {
-  min-height: 86vh;
+  min-height: 88vh;
   display: flex;
   flex-direction: column;
   align-items: center;
