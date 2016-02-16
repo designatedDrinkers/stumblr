@@ -42575,11 +42575,23 @@ var Login = _react2.default.createClass({
         { className: 'splash' },
         _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
         _react2.default.createElement(
+          'h1',
+          null,
+          'Stumblr'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Map the optimal pub crawl',
+          _react2.default.createElement('br', null),
+          ' before it\'s too late.'
+        ),
+        _react2.default.createElement(
           'a',
           { href: '/auth/twitter' },
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-primary btn-lg' },
+            { className: 'btn btn-info btn-lg' },
             'Login with Twitter'
           )
         )
@@ -42600,7 +42612,7 @@ var Dashboard = _react2.default.createClass({
   render: function render() {
     var badges = (this.state.user.badges || []).map(function (badge, i) {
       var style = {
-        backgroundImage: 'url(' + badge.image + ')' // && 'url(/images/badge-placeholder.png)'
+        backgroundImage: 'url(' + badge.image + ')'
       };
       return _react2.default.createElement(
         'li',

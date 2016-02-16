@@ -69,12 +69,23 @@ main {
   align-items: center;
   justify-content: center;
   background: url("../images/splash.jpg");
-  background-size: cover; }
+  background-size: cover;
+  color: #fff; }
   .splash .splash-map {
     width: 180px;
     height: 180px;
     border-radius: 50%;
     margin-bottom: 20px; }
+  .splash h1 {
+    font-size: 2.5em; }
+  .splash p {
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 2px 2px #000; }
+  .splash button {
+    margin-top: 20px;
+    padding: 20px 30px;
+    font-size: 1.5em; }
 
 .dash {
   padding: 0 20px 20px 20px; }
