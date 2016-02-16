@@ -42604,7 +42604,7 @@ var Dashboard = _react2.default.createClass({
   render: function render() {
     var badges = (this.state.user.badges || []).map(function (badge, i) {
       var style = {
-        backgroundImage: 'url(' + badge.image + ')' && 'url(/images/badge-placeholder.png)'
+        backgroundImage: 'url(' + badge.image + ')' // && 'url(/images/badge-placeholder.png)'
       };
       return _react2.default.createElement(
         'li',
