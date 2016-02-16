@@ -49,6 +49,10 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (isRouteComplete) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       tweet(null, component.props.params.index);
     });
   },
@@ -59,6 +63,10 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      if (isRouteComplete()) {
+        var newBadges = result.newBadges || [];
+        component.setState(_statemachine2.default.updateState('newBadges', newBadges));
+      }
       if (component.state.user.auto_tweet === null) {
         component.setState(_statemachine2.default.updateState('showModal', true));
       } else {
@@ -69,10 +77,9 @@ var RouteDetails = _react2.default.createClass({
   forfeit: function forfeit(i) {
     var component = this;
     var bars = currentRoute.bars;
-    console.log('forfeit', this.props.params.index);
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
-      console.log(response);
-      component.setState(_statemachine2.default.updateState('currentRoute', response.route));
+      var newBadges = response.newBadges || [];
+      component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       window.location.assign('#/routes/' + component.props.params.index + '/done');
     });
   },
@@ -113,14 +120,6 @@ var RouteDetails = _react2.default.createClass({
     }
   }
 });
-
-// var Forfeit = React.createClass({
-//   render: function(){
-//     return(
-//
-//     )
-//   }
-// })
 
 var TweetModal = _react2.default.createClass({
   displayName: 'TweetModal',
