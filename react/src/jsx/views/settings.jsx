@@ -4,11 +4,12 @@ import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import { Header } from '../header';
 import methods from '../methods';
+import stupid from 'destupidify';
 
 var Settings = React.createClass({
   getInitialState: function() {
     var user = statemachine.getState().user;
-    return { auto_tweet: user.auto_tweet };
+    return { auto_tweet: String(user.auto_tweet) };
   },
   componentDidMount: function() {
     methods.hideMap();
@@ -23,6 +24,7 @@ var Settings = React.createClass({
     var component = this;
     ajax.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function() {
       var user = statemachine.getState().user;
+
       user.auto_tweet = destupidify(component.state.auto_tweet);
       statemachine.updateState('user', user);
       component.goDashboard();
@@ -54,15 +56,7 @@ module.exports = {
   Settings: Settings
 };
 
-function destupidify(input) {
-  switch(input) {
-    case "true":
-      return true;
-    case "false":
-      return false;
-    case "null":
-      return null;
-    default:
-      return input;
-  }
+var destupidify = function(input) {
+  var destupidified = stupid.destupidifyAffirmativeVal(input) || stupid.destupidifyNegativeVal(input);
+  return destupidified === undefined ? null : destupidified;
 }

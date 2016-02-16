@@ -170,7 +170,8 @@ ul.route-list {
       ul.route-list ul.route li.date {
         color: #0032aa; }
       ul.route-list ul.route li.status {
-        color: #600032; }
+        color: #600032;
+        font-size: 2rem; }
   ul.route-list li {
     list-style: none;
     width: 100%; }
