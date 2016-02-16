@@ -85,7 +85,7 @@ var RouteDetails = React.createClass({
       return (
         <div className="route-details">
           <ul className="bar-list">
-            <li key="-1">Route Details:</li>
+            <li key="-1">Route Details: &quot;{this.state.currentRoute.name}&quot;</li>
             {lis}
           </ul>
           {modal}
