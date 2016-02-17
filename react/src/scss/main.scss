@@ -95,8 +95,11 @@ main {
     border-radius: 50%;
     margin-bottom: 20px;
   }
-  img {
-    width: 80%;
+  .image-container {
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
   p {
     font-size: 1.75em;

@@ -104,12 +104,31 @@ function tweet(bar_index, route_index, autoTweet, message, isRouteComplete) {
   }
 }
 
+var lastCheckin = 0;
 function defaultCheckIn(barName) {
-  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
+  var responses = ["I just checked in at " + barName + " on @stumblr_app #stumblr", "Getting crunk " + barName + "! #stumblr", "Help me finish my @stumblr_app bar hopping plan! #stumblr", "Join me at " + barName + " and we'll get #stumblr -y.", "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr-app."];
+  if (lastCheckin == responses.length) lastCheckin = 0;
+  return responses[lastCheckin++];
 }
 
-function defaultRouteComplete(badgeName) {
-  return "I just earned the " + badgeName + " badge on @stumblr_app #stumblr";
+var lastComplete = 0;
+function defaultRouteComplete(badges) {
+  var badgeList = pluralize(badges.map(function (badge) {
+    return badge.name;
+  }));
+  var responses = ["I just earned " + badgeList + " with @stumblr_app #stumblr", "Thanks, @stumblr_app for helping me drink my way to " + badgeList, "Proud of my lastest @stumblr_app acheivement: " + badgeList, "I leveled up my drinking stat! #stumblr", "Had a Blast with @stumblr_app! Hurray for http://www.stumblr.club"];
+  if (lastComplete == responses.length) lastComplete = 0;
+  return responses[lastComplete++];
 }
 
 module.exports = { TweetModal: TweetModal, tweet: tweet, defaultCheckIn: defaultCheckIn, defaultRouteComplete: defaultRouteComplete };
+
+function pluralize(array) {
+  if (array.length <= 1) return array[0] || '';
+  if (array.length == 2) return array.join(' and ');else {
+    var last = array.pop();
+    var end = array.length - 1;
+    array[end] += ', and ' + last;
+    return array.join(', ');
+  }
+}
