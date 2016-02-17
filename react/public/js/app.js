@@ -42581,7 +42581,11 @@ var Login = _react2.default.createClass({
         'div',
         { className: 'splash' },
         _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
-        _react2.default.createElement('img', { src: 'images/stumblr-logo.png' }),
+        _react2.default.createElement(
+          'div',
+          { className: 'image-container' },
+          _react2.default.createElement('img', { src: 'images/stumblr-logo.png' })
+        ),
         _react2.default.createElement(
           'p',
           null,
