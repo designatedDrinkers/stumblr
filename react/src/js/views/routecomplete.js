@@ -22,6 +22,10 @@ var _methods = require('../methods');
 
 var _methods2 = _interopRequireDefault(_methods);
 
+var _tweetmodal = require('./tweetmodal');
+
+var _tweetmodal2 = _interopRequireDefault(_tweetmodal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Badges = _react2.default.createClass({
@@ -30,27 +34,46 @@ var Badges = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  tweetBadge: function tweetBadge() {
+    var component = this;
+    var badge = this.state.newBadges[0];
+    _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(badge.name));
+    console.log('tweetBadge');
+    this.hideTweetButton();
+  },
+  hideTweetButton: function hideTweetButton() {
+    //Hide the button
+  },
   render: function render() {
     var component = this;
     return _react2.default.createElement(
       'div',
-      { className: 'completeBadgeContainer' },
-      this.state.newBadges.map(function (badge, i) {
-        return _react2.default.createElement(
-          'div',
-          { key: i },
-          _react2.default.createElement(
-            'figure',
-            { className: 'completeBadge' },
-            _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
+      null,
+      _react2.default.createElement(
+        'div',
+        { className: 'completeBadgeContainer' },
+        this.state.newBadges.map(function (badge, i) {
+          return _react2.default.createElement(
+            'div',
+            { key: i },
             _react2.default.createElement(
-              'figcaption',
-              null,
-              badge.name
+              'figure',
+              { className: 'completeBadge' },
+              _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
+              _react2.default.createElement(
+                'figcaption',
+                null,
+                badge.name
+              )
             )
-          )
-        );
-      })
+          );
+        })
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'btn btn-info', onClick: this.tweetBadge },
+        'Tweet this badge!'
+      )
     );
   }
 });
