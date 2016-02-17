@@ -84,6 +84,21 @@ var RouteDetails = _react2.default.createClass({
     });
   },
   complete: isRouteComplete,
+  focus: function focus(i) {
+    var component = this;
+    var currentRoute = component.state.currentRoute;
+    currentRoute.barToDisplay = {
+      name: currentRoute.bars[i].name,
+      address: currentRoute.bars[i].vicinity,
+      rating: currentRoute.bars[i].rating,
+      price_level: currentRoute.bars[i].price_level,
+      open: currentRoute.bars[i].opening_hours.open_now
+    };
+    currentRoute.showBarDetail = true;
+    //component.state.currentRoute.bars[i].name & .vicinity & .rating & .price_level & opening_hours.open_now(bool)
+    console.log(component.state.currentRoute.barToDisplay);
+    component.setState(_statemachine2.default.updateState('currentRoute', currentRoute));
+  },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(TweetModal, null) : '';
@@ -92,6 +107,12 @@ var RouteDetails = _react2.default.createClass({
       return _react2.default.createElement(
         'div',
         { className: 'route-details' },
+        this.state.currentRoute.showBarDetail ? _react2.default.createElement(
+          'p',
+          null,
+          this.state.currentRoute.barToDisplay.name,
+          ' '
+        ) : null,
         _react2.default.createElement(
           'ul',
           { className: 'bar-list' },
@@ -192,6 +213,10 @@ module.exports = {
   RouteDetails: RouteDetails
 };
 
+var BarDetail = function BarDetail() {
+  return;
+};
+
 function composeList(component, route) {
   if (!route) return [];
   var lis = route.bars.map(function (bar, i) {
@@ -227,12 +252,13 @@ function composeList(component, route) {
     } else {
       var checkIn = component.checkIn.bind(component, i);
       var skip = component.skip.bind(component, i);
+      var focus = component.focus.bind(component, i);
       return _react2.default.createElement(
         'li',
         { key: i, className: 'bar-status' },
         _react2.default.createElement(
           'p',
-          null,
+          { onClick: focus },
           bar.name
         ),
         _react2.default.createElement(

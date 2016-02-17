@@ -66,6 +66,21 @@ var RouteDetails = React.createClass({
     });
   },
   complete: isRouteComplete,
+  focus: function(i){
+    var component = this;
+    var currentRoute = component.state.currentRoute;
+    currentRoute.barToDisplay = {
+      name: currentRoute.bars[i].name,
+      address: currentRoute.bars[i].vicinity,
+      rating: currentRoute.bars[i].rating,
+      price_level: currentRoute.bars[i].price_level,
+      open: currentRoute.bars[i].opening_hours.open_now
+    }
+    currentRoute.showBarDetail = true;
+    //component.state.currentRoute.bars[i].name & .vicinity & .rating & .price_level & opening_hours.open_now(bool)
+    console.log(component.state.currentRoute.barToDisplay);
+    component.setState(statemachine.updateState('currentRoute', currentRoute))
+  },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? <TweetModal /> : '';
@@ -73,6 +88,7 @@ var RouteDetails = React.createClass({
     if (lis.length) {
       return (
         <div className="route-details">
+        {this.state.currentRoute.showBarDetail ? <p>{this.state.currentRoute.barToDisplay.name} </p> : null}
           <ul className="bar-list">
             <li key="-1">Route Details: &quot;{this.state.currentRoute.name || '(No Name)'}&quot;</li>
             {lis}
@@ -131,6 +147,10 @@ module.exports = {
   RouteDetails: RouteDetails
 };
 
+const BarDetail = function(){
+  return 
+}
+
 function composeList(component, route) {
   if (!route) return [];
   var lis = route.bars.map(function(bar, i) {
@@ -147,9 +167,10 @@ function composeList(component, route) {
     } else {
       var checkIn = component.checkIn.bind(component, i);
       var skip = component.skip.bind(component, i);
+      var focus = component.focus.bind(component, i);
       return (
         <li key={i} className="bar-status">
-          <p>{bar.name}</p>
+          <p onClick={focus}>{bar.name}</p>
           <p><span>Status: </span><span>Pending</span></p>
           <button className="btn btn-primary" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
           <button className="btn btn-primary" onClick={skip}>Skip</button>

@@ -11,9 +11,10 @@ function showEntireRoute(pos, service, display, waypts) {
     zoom: 15,
     center: { lat: 39, lng: -105 }
   });
+
   display.setMap(map);
   map.setCenter(pos);
-
+  window.mapAccess.map = map;
   service.route({
     origin: pos,
     destination: pos,
@@ -25,6 +26,17 @@ function showEntireRoute(pos, service, display, waypts) {
     } else {
       window.alert('Directions request failed due to ' + status);
     }
+  });
+  var marker = new google.maps.Marker({
+    position: waypts[0],
+    map: map,
+    title: 'Your mom'
+  });
+  var infowindow = new google.maps.InfoWindow({
+    content: 'Test Your Mom'
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
   });
 }
 
