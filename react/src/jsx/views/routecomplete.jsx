@@ -4,25 +4,35 @@ import { Header } from '../header';
 import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import methods from '../methods';
+import tweetModal from './tweetmodal';
 
 var Badges = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
   },
+  tweetBadge: function(){
+    var component = this;
+    var badge = this.state.newBadges[0];
+    tweetModal.tweet(null, null, true, tweetModal.defaultRouteComplete(badge.name));
+    window.location.assign('/');
+  },
   render: function(){
     var component = this;
     return (
-      <div className="completeBadgeContainer">
-      {this.state.newBadges.map(function(badge, i){
-        return (
-          <div key={i}>
-            <figure className="completeBadge">
-            <img src={badge.image} alt={badge.name} />
-            <figcaption>{badge.name}</figcaption>
-            </figure>
-          </div>
-          )
-        })}
+      <div>
+        <div className="completeBadgeContainer">
+        {this.state.newBadges.map(function(badge, i){
+          return (
+            <div key={i}>
+              <figure className="completeBadge">
+              <img src={badge.image} alt={badge.name} />
+              <figcaption>{badge.name}</figcaption>
+              </figure>
+            </div>
+            )
+          })}
+        </div>
+        <button className="btn btn-info" onClick={this.tweetBadge}>Tweet this badge!</button>
       </div>
   )
   }
@@ -69,7 +79,6 @@ function isRouteComplete(barArray){
     return bar.checked_in;
   }).length == barArray.length;
 };
-
 
 module.exports = {
   RouteComplete: RouteComplete

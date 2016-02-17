@@ -76,8 +76,8 @@ main {
     height: 180px;
     border-radius: 50%;
     margin-bottom: 20px; }
-  .splash h1 {
-    font-size: 2.5em; }
+  .splash img {
+    width: 80%; }
   .splash p {
     font-size: 1.75em;
     text-align: center;
@@ -235,11 +235,6 @@ ul.route-list {
     width: 100px;
     height: 100px;
     margin: 20px 0 60px; }
-  .done-container .btn {
-    background-color: #171718;
-    color: #fff;
-    font-size: 3em;
-    padding: 35px 70px; }
 
 .win {
   color: #0eaa35; }
