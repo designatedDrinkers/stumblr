@@ -104,7 +104,7 @@ main {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-between; }
+      justify-content: flex-start; }
       .dash .user-details ul.badges li.badge {
         background-color: transparent;
         padding: 0;
