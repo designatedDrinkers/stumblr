@@ -22,7 +22,7 @@ route.post('/checkin', function(request, response, next){
         if(err){
           response.json({message: error});
         }else{
-          var currentBar = user.routes[routeIndex].bars[barIndex].name;
+          // var currentBar = user.routes[routeIndex].bars[barIndex].name;
           var message = request.body.message;
           twitterRestClient.statusesUpdate(
             {
