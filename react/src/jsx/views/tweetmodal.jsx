@@ -74,7 +74,8 @@ function defaultRouteComplete(badges) {
     "I just earned " + badgeList + " with @stumblr_app #stumblr",
     "Thanks, @stumblr_app for helping me drink my way to " + badgeList,
     "Proud of my lastest @stumblr_app acheivement: " + badgeList,
-    "I leveled up my drinking stat! #stumblr"
+    "I leveled up my drinking stat! #stumblr",
+    "Had a Blast with @stumblr_app! Hurray for http://www.stumblr.club"
   ];
   if (lastComplete == responses.length) lastComplete = 0;
   return responses[lastComplete++];
