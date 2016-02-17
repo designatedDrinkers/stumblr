@@ -14,7 +14,7 @@ var Ratings = _react2.default.createClass({
   },
   render: function render() {
     var beers = [];
-    for (var i = 0; i < this.state.rating; i++) {
+    for (var i = 0; i < Math.floor(this.state.rating); i++) {
       beers.push(_react2.default.createElement(
         "li",
         { className: "full-beer" },
@@ -35,6 +35,11 @@ var Ratings = _react2.default.createClass({
     return _react2.default.createElement(
       "ul",
       { className: "beer-rating" },
+      _react2.default.createElement(
+        "li",
+        null,
+        "Rating:"
+      ),
       beers
     );
   }
