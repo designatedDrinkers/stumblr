@@ -36,8 +36,8 @@ var Badges = _react2.default.createClass({
   },
   tweetBadge: function tweetBadge() {
     var component = this;
-    var badge = this.state.newBadges[0];
-    _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(badge.name));
+    // var badge = this.state.newBadges[0];
+    _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
     window.location.assign('/');
   },
   render: function render() {
