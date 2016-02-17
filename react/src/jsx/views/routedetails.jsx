@@ -62,6 +62,11 @@ var RouteDetails = React.createClass({
     });
   },
   complete: isRouteComplete,
+  focus: function(i){
+    var component = this;
+    console.log(component.state.currentRoute.bars[i]);
+    window.mapAccess.map.setCenter(component.state.currentRoute.bars[i].geometry.location);
+  },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? <tweetModal.TweetModal isRouteComplete={isRouteComplete}/> : '';
@@ -91,6 +96,7 @@ module.exports = {
   RouteDetails: RouteDetails
 };
 
+
 function composeList(component, route) {
   if (!route) return [];
   var lis = route.bars.map(function(bar, i) {
@@ -107,12 +113,14 @@ function composeList(component, route) {
     } else {
       var checkIn = component.checkIn.bind(component, i, tweetModal.defaultCheckIn(bar.name));
       var skip = component.skip.bind(component, i);
+      var focus = component.focus.bind(component, i);
       return (
         <li key={i} className="bar-status well">
           <p>{bar.name}: {bar.vicinity}</p>
-          <p><span>Status: </span><span>Pending</span></p>
+          <p>Rating: {bar.rating}</p>
           <button className="btn btn-success" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
-          <button className="btn btn-primary" onClick={skip}>Skip</button>
+          <button className="btn btn-warning" onClick={skip}>Skip</button>
+          <button className="btn btn-primary" onClick={focus}><i className="fa fa-crosshairs"></i></button>
         </li>
       );
     }
