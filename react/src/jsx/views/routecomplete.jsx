@@ -14,11 +14,7 @@ var Badges = React.createClass({
     var component = this;
     var badge = this.state.newBadges[0];
     tweetModal.tweet(null, null, true, tweetModal.defaultRouteComplete(badge.name));
-    console.log('tweetBadge');
-    this.hideTweetButton()
-  },
-  hideTweetButton: function(){
-    //Hide the button
+    window.location.assign('/');
   },
   render: function(){
     var component = this;

@@ -41541,12 +41541,7 @@ var Header = _react2.default.createClass({
           _react2.default.createElement(
             'a',
             { className: 'navbar-brand', href: '#/' },
-            _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
-            _react2.default.createElement(
-              'span',
-              { className: 'pull-left' },
-              'Stumblr'
-            )
+            _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/s-icon.png' })
           ),
           _react2.default.createElement(Menu, null)
         )
@@ -41567,12 +41562,7 @@ var Header = _react2.default.createClass({
               _react2.default.createElement(
                 'a',
                 { className: 'navbar-brand', href: '/' },
-                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'pull-left' },
-                  'Stumblr'
-                )
+                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/s-icon.png' })
               )
             )
           )
@@ -42089,11 +42079,7 @@ var Badges = _react2.default.createClass({
     var component = this;
     var badge = this.state.newBadges[0];
     _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(badge.name));
-    console.log('tweetBadge');
-    this.hideTweetButton();
-  },
-  hideTweetButton: function hideTweetButton() {
-    //Hide the button
+    window.location.assign('/');
   },
   render: function render() {
     var component = this;
@@ -42591,11 +42577,7 @@ var Login = _react2.default.createClass({
         'div',
         { className: 'splash' },
         _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Stumblr'
-        ),
+        _react2.default.createElement('img', { src: 'images/stumblr-logo.png' }),
         _react2.default.createElement(
           'p',
           null,
