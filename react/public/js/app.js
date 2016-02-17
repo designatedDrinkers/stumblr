@@ -41912,7 +41912,7 @@ var Ratings = _react2.default.createClass({
       _react2.default.createElement(
         "li",
         null,
-        "Rating: "
+        "Rating:"
       ),
       beers
     );
