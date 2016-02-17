@@ -22,6 +22,10 @@ var _methods = require('../methods');
 
 var _methods2 = _interopRequireDefault(_methods);
 
+var _destupidify = require('destupidify');
+
+var _destupidify2 = _interopRequireDefault(_destupidify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Settings = _react2.default.createClass({
@@ -29,7 +33,7 @@ var Settings = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     var user = _statemachine2.default.getState().user;
-    return { auto_tweet: user.auto_tweet };
+    return { auto_tweet: String(user.auto_tweet) };
   },
   componentDidMount: function componentDidMount() {
     _methods2.default.hideMap();
@@ -44,6 +48,7 @@ var Settings = _react2.default.createClass({
     var component = this;
     _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
       var user = _statemachine2.default.getState().user;
+
       user.auto_tweet = destupidify(component.state.auto_tweet);
       _statemachine2.default.updateState('user', user);
       component.goDashboard();
@@ -103,15 +108,7 @@ module.exports = {
   Settings: Settings
 };
 
-function destupidify(input) {
-  switch (input) {
-    case "true":
-      return true;
-    case "false":
-      return false;
-    case "null":
-      return null;
-    default:
-      return input;
-  }
-}
+var destupidify = function destupidify(input) {
+  var destupidified = _destupidify2.default.destupidifyAffirmativeVal(input) || _destupidify2.default.destupidifyNegativeVal(input);
+  return destupidified === undefined ? null : destupidified;
+};

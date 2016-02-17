@@ -103,7 +103,6 @@ route.put('/:index', function(request, response, next){
         if (request.body.skip || request.body.check_in || request.body.forfeit) {
           var newBadges = earnBadge(request.params.index, user);
         }
-        console.log('new Badges:', newBadges);
         db.collection('users').update({'twitter_id': request.user.twitter_id}, {$set: { badges: user.badges, routes: user.routes }}, function(err, result){
           db.close();
           if (err) {

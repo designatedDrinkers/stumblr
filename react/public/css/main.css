@@ -2,9 +2,7 @@ body {
   background-color: #fbebed; }
 
 #wrap {
-  max-height: 90vh;
-  height: auto;
-  padding: 0 0 50px; }
+  min-height: calc(100vh - (115px)); }
 
 #header {
   height: 60px;
@@ -54,27 +52,39 @@ form {
   color: #fff; }
 
 main {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: center; }
 
 #main {
-  min-height: 88vh; }
+  height: 100%; }
 
 .splash {
-  min-height: 88vh;
+  min-height: calc(100vh - (115px));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: url("../images/splash.jpg");
-  background-size: cover; }
+  background-repeat: no-repeat;
+  color: #fff; }
   .splash .splash-map {
     width: 180px;
     height: 180px;
     border-radius: 50%;
     margin-bottom: 20px; }
+  .splash h1 {
+    font-size: 2.5em; }
+  .splash p {
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 2px 2px #000; }
+  .splash button {
+    margin-top: 20px;
+    padding: 20px 30px;
+    font-size: 1.5em; }
 
 .dash {
   padding: 0 20px 20px 20px; }
@@ -142,12 +152,13 @@ main {
 
 #footer {
   background-color: #003260;
-  min-height: 100%; }
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
   #footer p {
     color: #fff;
-    padding: 20px 0;
-    margin: 0;
-    text-align: center; }
+    margin: 0; }
 
 ul.route-list {
   padding: 0; }
@@ -170,7 +181,8 @@ ul.route-list {
       ul.route-list ul.route li.date {
         color: #0032aa; }
       ul.route-list ul.route li.status {
-        color: #600032; }
+        color: #600032;
+        font-size: 2rem; }
   ul.route-list li {
     list-style: none;
     width: 100%; }
@@ -195,9 +207,11 @@ ul.route-list {
     .new-route form :not(input), .route-details form :not(input), .settings form :not(input) {
       margin-right: 10px; }
 
-.bar-status button {
-  padding: 3px 10px;
-  margin-right: 10px; }
+.bar-status {
+  margin-bottom: 4px; }
+  .bar-status button {
+    padding: 3px 10px;
+    margin-right: 10px; }
 
 .loading {
   margin-top: 60px;
@@ -231,6 +245,10 @@ ul.route-list {
 .fail {
   color: #5f5f60; }
 
+.modal-body textarea {
+  width: 100%;
+  resize: none; }
+
 .completeBadgeContainer {
   display: flex;
   flex-direction: row;
@@ -260,3 +278,8 @@ figure.completeBadge {
     font-size: 1.2em;
     text-align: center;
     margin-top: 2px; }
+
+.forfeit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; }

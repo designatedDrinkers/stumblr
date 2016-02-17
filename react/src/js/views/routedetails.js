@@ -56,21 +56,20 @@ var RouteDetails = _react2.default.createClass({
       tweet(null, component.props.params.index);
     });
   },
-  checkIn: function checkIn(i) {
+  checkIn: function checkIn(i, message) {
     currentBar = i;
     var component = this;
     var route_index = this.props.params.index;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
+      document.getElementById('tweet-message-box').value = message;
       if (isRouteComplete()) {
         var newBadges = result.newBadges || [];
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       }
-      if (component.state.user.auto_tweet === null) {
-        component.setState(_statemachine2.default.updateState('showModal', true));
-      } else {
-        tweet(i, route_index, component.state.user.auto_tweet);
+      if (component.state.user.auto_tweet !== null) {
+        tweet(i, route_index, component.state.user.auto_tweet, message);
       }
     });
   },
@@ -86,18 +85,8 @@ var RouteDetails = _react2.default.createClass({
   complete: isRouteComplete,
   focus: function focus(i) {
     var component = this;
-    var currentRoute = component.state.currentRoute;
-    currentRoute.barToDisplay = {
-      name: currentRoute.bars[i].name,
-      address: currentRoute.bars[i].vicinity,
-      rating: currentRoute.bars[i].rating,
-      price_level: currentRoute.bars[i].price_level,
-      open: currentRoute.bars[i].opening_hours.open_now
-    };
-    currentRoute.showBarDetail = true;
-    //component.state.currentRoute.bars[i].name & .vicinity & .rating & .price_level & opening_hours.open_now(bool)
-    console.log(component.state.currentRoute.barToDisplay);
-    component.setState(_statemachine2.default.updateState('currentRoute', currentRoute));
+    console.log(component.state.currentRoute.bars[i]);
+    window.mapAccess.map.setCenter(component.state.currentRoute.bars[i].geometry.location);
   },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
@@ -107,11 +96,14 @@ var RouteDetails = _react2.default.createClass({
       return _react2.default.createElement(
         'div',
         { className: 'route-details' },
-        this.state.currentRoute.showBarDetail ? _react2.default.createElement(
-          'p',
-          null,
-          this.state.currentRoute.barToDisplay.name,
-          ' '
+        !showFButton ? _react2.default.createElement(
+          'div',
+          { className: 'forfeit-container' },
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-danger forfeit-btn', onClick: this.forfeit },
+            'Forfeit'
+          )
         ) : null,
         _react2.default.createElement(
           'ul',
@@ -125,12 +117,7 @@ var RouteDetails = _react2.default.createClass({
           ),
           lis
         ),
-        modal,
-        !showFButton ? _react2.default.createElement(
-          'button',
-          { className: 'btn btn-warning', onClick: this.forfeit },
-          'Forfeit'
-        ) : null
+        modal
       );
     } else {
       return _react2.default.createElement(
@@ -145,16 +132,12 @@ var RouteDetails = _react2.default.createClass({
 var TweetModal = _react2.default.createClass({
   displayName: 'TweetModal',
 
-  getInitialState: function getInitialState() {
-    return _statemachine2.default.getState();
-  },
   hideModal: function hideModal() {
-    this.setState(_statemachine2.default.updateState('showModal', false));
     tweet(currentBar, currentRoute, false);
   },
   tweetAndHide: function tweetAndHide() {
-    this.setState(_statemachine2.default.updateState('showModal', false));
-    tweet(currentBar, currentRoute, true);
+    var message = document.getElementById('tweet-message-box').value;
+    tweet(currentBar, currentRoute, !!message, message);
   },
   render: function render() {
     return _react2.default.createElement(
@@ -187,7 +170,12 @@ var TweetModal = _react2.default.createClass({
           _react2.default.createElement(
             'div',
             { className: 'modal-body' },
-            'Would you like to tweet your check in?'
+            _react2.default.createElement(
+              'p',
+              null,
+              'Tweet your status update:'
+            ),
+            _react2.default.createElement('textarea', { id: 'tweet-message-box', maxlength: '140' })
           ),
           _react2.default.createElement(
             'div',
@@ -213,10 +201,6 @@ module.exports = {
   RouteDetails: RouteDetails
 };
 
-var BarDetail = function BarDetail() {
-  return;
-};
-
 function composeList(component, route) {
   if (!route) return [];
   var lis = route.bars.map(function (bar, i) {
@@ -226,7 +210,7 @@ function composeList(component, route) {
     if (status) {
       return _react2.default.createElement(
         'li',
-        { key: i, className: 'bar-status' },
+        { key: i, className: 'bar-status well' },
         _react2.default.createElement(
           'p',
           null,
@@ -250,30 +234,24 @@ function composeList(component, route) {
         )
       );
     } else {
-      var checkIn = component.checkIn.bind(component, i);
+      var checkIn = component.checkIn.bind(component, i, defaultTweet(bar.name));
       var skip = component.skip.bind(component, i);
       var focus = component.focus.bind(component, i);
       return _react2.default.createElement(
         'li',
-        { key: i, className: 'bar-status' },
+        { key: i, className: 'bar-status well' },
         _react2.default.createElement(
           'p',
-          { onClick: focus },
-          bar.name
+          null,
+          bar.name,
+          ': ',
+          bar.vicinity
         ),
         _react2.default.createElement(
           'p',
           null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Status: '
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            'Pending'
-          )
+          'Rating: ',
+          bar.rating
         ),
         _react2.default.createElement(
           'button',
@@ -284,6 +262,11 @@ function composeList(component, route) {
           'button',
           { className: 'btn btn-primary', onClick: skip },
           'Skip'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: focus },
+          _react2.default.createElement('i', { className: 'fa fa-crosshairs' })
         )
       );
     }
@@ -291,9 +274,9 @@ function composeList(component, route) {
   return lis;
 }
 
-function tweet(bar_index, route_index, autoTweet) {
+function tweet(bar_index, route_index, autoTweet, message) {
   if (autoTweet) {
-    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index }).then(function (data) {
+    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index, message: message }).then(function (data) {
       if (isRouteComplete()) {
         window.location.assign('#/routes/' + route_index + '/done');
       }
@@ -310,4 +293,8 @@ function isRouteComplete() {
   return route.bars.filter(function (bar) {
     return bar.checked_in || bar.skipped;
   }).length == route.bars.length;
+}
+
+function defaultTweet(barName) {
+  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
 }
