@@ -41541,12 +41541,7 @@ var Header = _react2.default.createClass({
           _react2.default.createElement(
             'a',
             { className: 'navbar-brand', href: '#/' },
-            _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
-            _react2.default.createElement(
-              'span',
-              { className: 'pull-left' },
-              'Stumblr'
-            )
+            _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/s-icon.png' })
           ),
           _react2.default.createElement(Menu, null)
         )
@@ -41567,12 +41562,7 @@ var Header = _react2.default.createClass({
               _react2.default.createElement(
                 'a',
                 { className: 'navbar-brand', href: '/' },
-                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/stumblr-logo.png' }),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'pull-left' },
-                  'Stumblr'
-                )
+                _react2.default.createElement('img', { className: 'pull-left logo', src: 'images/s-icon.png' })
               )
             )
           )
@@ -41940,7 +41930,7 @@ var RouteList = _react2.default.createClass({
             _react2.default.createElement('li', { key: -1 + 'link' })
           )
         ),
-        routes.map(function (route, i) {
+        routes.filter(filterRoutes(this.state.user.route_filter)).map(function (route, i) {
           var date = formatDate(route.date);
           var type = determineRouteType(route.bars);
           var status = determineRouteStatus(route.bars);
@@ -42031,6 +42021,23 @@ function determineRouteType(barArray) {
 module.exports = {
   RouteList: RouteList
 };
+
+function filterRoutes(criteria) {
+  var recents = 0;
+  return function (route, i, arr) {
+    var status = route.bars.filter(function (bar) {
+      return bar.checked_in || bar.skipped;
+    });
+    switch (criteria) {
+      case 'pending':
+        return status.length != route.bars.length;
+      case 'recent':
+        return status.length != route.bars.length || recents++ < 10;
+      default:
+        return true;
+    }
+  };
+}
 },{"../statemachine":249,"ajax-promise":1,"moment":86,"react":242}],252:[function(require,module,exports){
 'use strict';
 
@@ -42056,6 +42063,10 @@ var _methods = require('../methods');
 
 var _methods2 = _interopRequireDefault(_methods);
 
+var _tweetmodal = require('./tweetmodal');
+
+var _tweetmodal2 = _interopRequireDefault(_tweetmodal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Badges = _react2.default.createClass({
@@ -42064,27 +42075,42 @@ var Badges = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
+  tweetBadge: function tweetBadge() {
+    var component = this;
+    var badge = this.state.newBadges[0];
+    _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(badge.name));
+    window.location.assign('/');
+  },
   render: function render() {
     var component = this;
     return _react2.default.createElement(
       'div',
-      { className: 'completeBadgeContainer' },
-      this.state.newBadges.map(function (badge, i) {
-        return _react2.default.createElement(
-          'div',
-          { key: i },
-          _react2.default.createElement(
-            'figure',
-            { className: 'completeBadge' },
-            _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
+      null,
+      _react2.default.createElement(
+        'div',
+        { className: 'completeBadgeContainer' },
+        this.state.newBadges.map(function (badge, i) {
+          return _react2.default.createElement(
+            'div',
+            { key: i },
             _react2.default.createElement(
-              'figcaption',
-              null,
-              badge.name
+              'figure',
+              { className: 'completeBadge' },
+              _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
+              _react2.default.createElement(
+                'figcaption',
+                null,
+                badge.name
+              )
             )
-          )
-        );
-      })
+          );
+        })
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'btn btn-info', onClick: this.tweetBadge },
+        'Tweet this badge!'
+      )
     );
   }
 });
@@ -42152,7 +42178,7 @@ function isRouteComplete(barArray) {
 module.exports = {
   RouteComplete: RouteComplete
 };
-},{"../header":247,"../methods":248,"../statemachine":249,"ajax-promise":1,"react":242,"react-dom":89}],253:[function(require,module,exports){
+},{"../header":247,"../methods":248,"../statemachine":249,"./tweetmodal":256,"ajax-promise":1,"react":242,"react-dom":89}],253:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42177,10 +42203,11 @@ var _barrouteData = require('../barroute-data');
 
 var _barrouteData2 = _interopRequireDefault(_barrouteData);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _tweetmodal = require('./tweetmodal');
 
-var currentBar;
-var currentRoute;
+var _tweetmodal2 = _interopRequireDefault(_tweetmodal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RouteDetails = _react2.default.createClass({
   displayName: 'RouteDetails',
@@ -42192,27 +42219,27 @@ var RouteDetails = _react2.default.createClass({
     _statemachine2.default.setMenu('def');
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
     var component = this;
-    currentRoute = this.props.params.index;
+    _statemachine2.default.updateState('currentRouteIndex', this.props.params.index);
     _ajaxPromise2.default.get('/api/barroutes/' + this.props.params.index).then(function (result) {
       component.setState(_statemachine2.default.updateState('currentRoute', result.route));
       _barrouteData2.default.recreate(result.route);
     });
   },
   skip: function skip(i) {
-    currentBar = i;
+    _statemachine2.default.updateState('currentBarIndex', i);
     var component = this;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
-      if (isRouteComplete) {
+      if (isRouteComplete()) {
         var newBadges = result.newBadges || [];
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       }
-      tweet(null, component.props.params.index);
+      _tweetmodal2.default.tweet(null, component.props.params.index, null, null, isRouteComplete);
     });
   },
   checkIn: function checkIn(i, message) {
-    currentBar = i;
+    _statemachine2.default.updateState('currentBarIndex', i);
     var component = this;
     var route_index = this.props.params.index;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
@@ -42224,13 +42251,12 @@ var RouteDetails = _react2.default.createClass({
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       }
       if (component.state.user.auto_tweet !== null) {
-        tweet(i, route_index, component.state.user.auto_tweet, message);
+        _tweetmodal2.default.tweet(i, route_index, component.state.user.auto_tweet, message, isRouteComplete);
       }
     });
   },
   forfeit: function forfeit(i) {
     var component = this;
-    var bars = currentRoute.bars;
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { forfeit: true }).then(function (response) {
       var newBadges = response.newBadges || [];
       component.setState(_statemachine2.default.updateState('newBadges', newBadges));
@@ -42245,7 +42271,7 @@ var RouteDetails = _react2.default.createClass({
   },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
-    var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(TweetModal, null) : '';
+    var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(_tweetmodal2.default.TweetModal, { isRouteComplete: isRouteComplete }) : '';
     var showFButton = this.complete();
     if (lis.length) {
       return _react2.default.createElement(
@@ -42281,74 +42307,6 @@ var RouteDetails = _react2.default.createClass({
         _react2.default.createElement('i', { className: 'fa fa-beer fa-spin' })
       );
     }
-  }
-});
-
-var TweetModal = _react2.default.createClass({
-  displayName: 'TweetModal',
-
-  hideModal: function hideModal() {
-    tweet(currentBar, currentRoute, false);
-  },
-  tweetAndHide: function tweetAndHide() {
-    var message = document.getElementById('tweet-message-box').value;
-    tweet(currentBar, currentRoute, !!message, message);
-  },
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      { className: 'modal fade', id: 'tweet-modal', tabIndex: '-1' },
-      _react2.default.createElement(
-        'div',
-        { className: 'modal-dialog' },
-        _react2.default.createElement(
-          'div',
-          { className: 'modal-content' },
-          _react2.default.createElement(
-            'div',
-            { className: 'modal-header' },
-            _react2.default.createElement(
-              'button',
-              { type: 'button', className: 'close', 'data-dismiss': 'modal' },
-              _react2.default.createElement(
-                'span',
-                null,
-                '×'
-              )
-            ),
-            _react2.default.createElement(
-              'h4',
-              { className: 'modal-title', id: 'myModalLabel' },
-              'Tweet!'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'modal-body' },
-            _react2.default.createElement(
-              'p',
-              null,
-              'Tweet your status update:'
-            ),
-            _react2.default.createElement('textarea', { id: 'tweet-message-box', maxlength: '140' })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'modal-footer' },
-            _react2.default.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-info', 'data-dismiss': 'modal', onClick: this.tweetAndHide },
-              'Yes'
-            ),
-            _react2.default.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.hideModal },
-              'No'
-            )
-          )
-        )
-      )
-    );
   }
 });
 
@@ -42389,7 +42347,7 @@ function composeList(component, route) {
         )
       );
     } else {
-      var checkIn = component.checkIn.bind(component, i, defaultTweet(bar.name));
+      var checkIn = component.checkIn.bind(component, i, _tweetmodal2.default.defaultCheckIn(bar.name));
       var skip = component.skip.bind(component, i);
       var focus = component.focus.bind(component, i);
       return _react2.default.createElement(
@@ -42410,12 +42368,12 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
           'Check In'
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: skip },
+          { className: 'btn btn-warning', onClick: skip },
           'Skip'
         ),
         _react2.default.createElement(
@@ -42429,31 +42387,13 @@ function composeList(component, route) {
   return lis;
 }
 
-function tweet(bar_index, route_index, autoTweet, message) {
-  if (autoTweet) {
-    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index, message: message }).then(function (data) {
-      if (isRouteComplete()) {
-        window.location.assign('#/routes/' + route_index + '/done');
-      }
-    });
-  } else {
-    if (isRouteComplete()) {
-      window.location.assign('#/routes/' + route_index + '/done');
-    }
-  }
-}
-
 function isRouteComplete() {
   var route = _statemachine2.default.getState().currentRoute || { bars: [{}] };
   return route.bars.filter(function (bar) {
     return bar.checked_in || bar.skipped;
   }).length == route.bars.length;
 }
-
-function defaultTweet(barName) {
-  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
-}
-},{"../barroute-data":245,"../header":247,"../statemachine":249,"ajax-promise":1,"react":242,"react-dom":89}],254:[function(require,module,exports){
+},{"../barroute-data":245,"../header":247,"../statemachine":249,"./tweetmodal":256,"ajax-promise":1,"react":242,"react-dom":89}],254:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42489,7 +42429,7 @@ var Settings = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     var user = _statemachine2.default.getState().user;
-    return { auto_tweet: String(user.auto_tweet) };
+    return { auto_tweet: String(user.auto_tweet), route_filter: user.route_filter };
   },
   componentDidMount: function componentDidMount() {
     _methods2.default.hideMap();
@@ -42497,15 +42437,22 @@ var Settings = _react2.default.createClass({
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   changeTweetSettings: function changeTweetSettings(event) {
-    this.setState({ auto_tweet: event.target.value });
+    this.setState({ auto_tweet: event.target.value, route_filter: this.state.route_filter });
+  },
+  changeFilterSettings: function changeFilterSettings(event) {
+    this.setState({ auto_tweet: this.state.auto_tweet, route_filter: event.target.value });
   },
   saveSettings: function saveSettings(event) {
     event.preventDefault();
     var component = this;
-    _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
+    _ajaxPromise2.default.put('/api/users', {
+      auto_tweet: this.state.auto_tweet,
+      route_filter: this.state.route_filter
+    }).then(function () {
       var user = _statemachine2.default.getState().user;
 
       user.auto_tweet = destupidify(component.state.auto_tweet);
+      user.route_filter = component.state.route_filter;
       _statemachine2.default.updateState('user', user);
       component.goDashboard();
     });
@@ -42543,6 +42490,30 @@ var Settings = _react2.default.createClass({
             'option',
             { value: 'null' },
             'Ask Every Time'
+          )
+        ),
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'route-filter' },
+          'Filter My Routes'
+        ),
+        _react2.default.createElement(
+          'select',
+          { className: 'form-control', id: 'route-filter', value: this.state.route_filter, onChange: this.changeFilterSettings },
+          _react2.default.createElement(
+            'option',
+            { value: 'all' },
+            'Everything'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'recent' },
+            'Pending and Ten Recent'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'pending' },
+            'Only Pending'
           )
         ),
         _react2.default.createElement(
@@ -42609,11 +42580,7 @@ var Login = _react2.default.createClass({
         'div',
         { className: 'splash' },
         _react2.default.createElement('img', { className: 'splash-map', src: 'images/map.jpg' }),
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Stumblr'
-        ),
+        _react2.default.createElement('img', { src: 'images/stumblr-logo.png' }),
         _react2.default.createElement(
           'p',
           null,
@@ -42719,4 +42686,120 @@ var SplashDash = _react2.default.createClass({
 module.exports = {
   SplashDash: SplashDash
 };
-},{"../header":247,"../methods":248,"../statemachine":249,"./newroute":250,"./route-list-component":251,"react":242,"react-dom":89}]},{},[246])
+},{"../header":247,"../methods":248,"../statemachine":249,"./newroute":250,"./route-list-component":251,"react":242,"react-dom":89}],256:[function(require,module,exports){
+'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _statemachine = require('../statemachine');
+
+var _statemachine2 = _interopRequireDefault(_statemachine);
+
+var _ajaxPromise = require('ajax-promise');
+
+var _ajaxPromise2 = _interopRequireDefault(_ajaxPromise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TweetModal = _react2.default.createClass({
+  displayName: 'TweetModal',
+
+  hideModal: function hideModal() {
+    var currentBar = _statemachine2.default.getState().currentBarIndex;
+    var currentRoute = _statemachine2.default.getState().currentRouteIndex;
+    tweet(currentBar, currentRoute, false, null, this.props.isRouteComplete);
+  },
+  tweetAndHide: function tweetAndHide() {
+    var message = document.getElementById('tweet-message-box').value;
+    var currentBar = _statemachine2.default.getState().currentBarIndex;
+    var currentRoute = _statemachine2.default.getState().currentRouteIndex;
+    tweet(currentBar, currentRoute, !!message, message, this.props.isRouteComplete);
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'modal fade', id: 'tweet-modal', tabIndex: '-1' },
+      _react2.default.createElement(
+        'div',
+        { className: 'modal-dialog' },
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-content' },
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-header' },
+            _react2.default.createElement(
+              'button',
+              { type: 'button', className: 'close', 'data-dismiss': 'modal' },
+              _react2.default.createElement(
+                'span',
+                null,
+                '×'
+              )
+            ),
+            _react2.default.createElement(
+              'h4',
+              { className: 'modal-title', id: 'myModalLabel' },
+              'Tweet!'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-body' },
+            _react2.default.createElement(
+              'p',
+              null,
+              'Tweet your status update:'
+            ),
+            _react2.default.createElement('textarea', { id: 'tweet-message-box', maxLength: '140' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-footer' },
+            _react2.default.createElement(
+              'button',
+              { type: 'button', className: 'btn btn-info', 'data-dismiss': 'modal', onClick: this.tweetAndHide },
+              'Yes'
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.hideModal },
+              'No'
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+function tweet(bar_index, route_index, autoTweet, message, isRouteComplete) {
+  if (autoTweet) {
+    _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index, message: message }).then(function (data) {
+      if (isRouteComplete && isRouteComplete()) {
+        window.location.assign('#/routes/' + route_index + '/done');
+      }
+    });
+  } else {
+    if (isRouteComplete && isRouteComplete()) {
+      window.location.assign('#/routes/' + route_index + '/done');
+    }
+  }
+}
+
+function defaultCheckIn(barName) {
+  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
+}
+
+function defaultRouteComplete(badgeName) {
+  return "I just earned the " + badgeName + " badge on @stumblr_app #stumblr";
+}
+
+module.exports = { TweetModal: TweetModal, tweet: tweet, defaultCheckIn: defaultCheckIn, defaultRouteComplete: defaultRouteComplete };
+},{"../statemachine":249,"ajax-promise":1,"react":242,"react-dom":89}]},{},[246])

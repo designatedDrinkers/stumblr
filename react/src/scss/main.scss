@@ -89,21 +89,23 @@ main {
   background-repeat: no-repeat;
   color: #fff;
   .splash-map {
+    margin-top: 20px;
     width: 180px;
     height: 180px;
     border-radius: 50%;
     margin-bottom: 20px;
   }
-  h1 {
-    font-size: 2.5em;
+  img {
+    width: 80%;
   }
   p {
-    font-size: 2em;
+    font-size: 1.75em;
     text-align: center;
     text-shadow: 2px 2px #000;
   }
   button {
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px 30px;
     font-size: 1.5em;
   }
@@ -256,7 +258,6 @@ ul.route-list {
     flex-wrap: wrap;
     input {
       width: 100%;
-      // display: block;
     }
     * {
       flex-shrink: 0;
@@ -298,13 +299,6 @@ ul.route-list {
     width: 100px;
     height: 100px;
     margin: 20px 0 60px;
-  }
-
-  .btn {
-    background-color: #171718;
-    color: #fff;
-    font-size: 3em;
-    padding: 35px 70px;
   }
 }
 
@@ -367,6 +361,24 @@ figure.completeBadge{
   justify-content: flex-end;
 }
 
-// .fa-map-marker{
-//   font-size: 2em;
-// }
+.beer-rating {
+  display: flex;
+  flex-direction: row;
+  .part-beer, .full-beer {
+    list-style: none;
+    position: relative;
+    .beer {
+      margin: 0 17% 27% 47%;
+      border-radius: 0 0 30% 30%;
+      position: absolute;
+      bottom: 0;
+      width: 36%;
+      z-index: 1;
+      background-color: gold;
+    }
+    i {
+      font-size: 2em;
+      -webkit-text-stroke: 2px black;
+    }
+  }
+}

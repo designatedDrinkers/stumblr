@@ -12,8 +12,7 @@ var Header = React.createClass({
         <nav className="navbar">
           <div className="navbar-header">
             <a className="navbar-brand" href="#/">
-              <img className="pull-left logo" src="images/stumblr-logo.png" />
-              <span className="pull-left">Stumblr</span>
+              <img className="pull-left logo" src="images/s-icon.png" />
             </a>
             <Menu />
           </div>
@@ -26,8 +25,7 @@ var Header = React.createClass({
             <div className="container-fluid">
               <div className="navbar-header">
                 <a className="navbar-brand" href="/">
-                  <img className="pull-left logo" src="images/stumblr-logo.png" />
-                  <span className="pull-left">Stumblr</span>
+                  <img className="pull-left logo" src="images/s-icon.png" />
                 </a>
               </div>
             </div>

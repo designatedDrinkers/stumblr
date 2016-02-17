@@ -4,9 +4,7 @@ import { Header } from '../header';
 import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import routeData from '../barroute-data';
-
-var currentBar;
-var currentRoute;
+import tweetModal from './tweetmodal';
 
 var RouteDetails = React.createClass({
   getInitialState: function() {
@@ -16,28 +14,28 @@ var RouteDetails = React.createClass({
     statemachine.setMenu('def');
     ReactDOM.render(<Header />, document.getElementById('header'));
     var component = this;
-    currentRoute = this.props.params.index;
+    statemachine.updateState('currentRouteIndex', this.props.params.index);
     ajax.get('/api/barroutes/' + this.props.params.index).then(function(result) {
       component.setState(statemachine.updateState('currentRoute', result.route));
       routeData.recreate(result.route);
     });
   },
   skip: function(i) {
-    currentBar = i;
+    statemachine.updateState('currentBarIndex', i);
     var component = this;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, skip: true })
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
-      if(isRouteComplete){
+      if(isRouteComplete()){
         var newBadges = result.newBadges || [];
         component.setState(statemachine.updateState('newBadges', newBadges));
       }
-      tweet(null, component.props.params.index);
+      tweetModal.tweet(null, component.props.params.index, null, null, isRouteComplete);
     });
   },
   checkIn: function(i, message) {
-    currentBar = i;
+    statemachine.updateState('currentBarIndex', i);
     var component = this;
     var route_index = this.props.params.index;
     ajax.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true })
@@ -50,13 +48,12 @@ var RouteDetails = React.createClass({
         component.setState(statemachine.updateState('newBadges', newBadges));
       }
       if(component.state.user.auto_tweet !== null) {
-        tweet(i, route_index, component.state.user.auto_tweet, message);
+        tweetModal.tweet(i, route_index, component.state.user.auto_tweet, message, isRouteComplete);
       }
     });
   },
   forfeit: function(i){
     var component = this;
-    var bars = currentRoute.bars;
     ajax.put('/api/barroutes/' + this.props.params.index, {forfeit: true})
     .then(function(response){
       var newBadges = response.newBadges || [];
@@ -72,7 +69,7 @@ var RouteDetails = React.createClass({
   },
   render: function() {
     var lis = composeList(this, this.state.currentRoute);
-    var modal = this.state.user.auto_tweet === null ? <TweetModal /> : '';
+    var modal = this.state.user.auto_tweet === null ? <tweetModal.TweetModal isRouteComplete={isRouteComplete}/> : '';
     var showFButton = this.complete();
     if (lis.length) {
       return (
@@ -95,38 +92,6 @@ var RouteDetails = React.createClass({
   }
 });
 
-var TweetModal = React.createClass({
-  hideModal: function() {
-    tweet(currentBar, currentRoute, false);
-  },
-  tweetAndHide: function(){
-    var message = document.getElementById('tweet-message-box').value;
-    tweet(currentBar, currentRoute, !!message, message);
-  },
-  render: function(){
-    return(
-      <div className="modal fade" id="tweet-modal" tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal"><span>&times;</span></button>
-              <h4 className="modal-title" id="myModalLabel">Tweet!</h4>
-            </div>
-            <div className="modal-body">
-              <p>Tweet your status update:</p>
-              <textarea id="tweet-message-box" maxlength="140"></textarea>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-info" data-dismiss="modal" onClick={this.tweetAndHide}>Yes</button>
-              <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>No</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-})
-
 module.exports = {
   RouteDetails: RouteDetails
 };
@@ -146,15 +111,15 @@ function composeList(component, route) {
         </li>
       );
     } else {
-      var checkIn = component.checkIn.bind(component, i, defaultTweet(bar.name));
+      var checkIn = component.checkIn.bind(component, i, tweetModal.defaultCheckIn(bar.name));
       var skip = component.skip.bind(component, i);
       var focus = component.focus.bind(component, i);
       return (
         <li key={i} className="bar-status well">
           <p>{bar.name}: {bar.vicinity}</p>
           <p>Rating: {bar.rating}</p>
-          <button className="btn btn-primary" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
-          <button className="btn btn-primary" onClick={skip}>Skip</button>
+          <button className="btn btn-success" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
+          <button className="btn btn-warning" onClick={skip}>Skip</button>
           <button className="btn btn-primary" onClick={focus}><i className="fa fa-crosshairs"></i></button>
         </li>
       );
@@ -163,28 +128,9 @@ function composeList(component, route) {
   return lis;
 }
 
-function tweet(bar_index, route_index, autoTweet, message){
-  if(autoTweet){
-    ajax.post('/api/twitter/checkin', {bar_index: bar_index, route_index: route_index, message: message})
-    .then(function(data){
-      if (isRouteComplete()) {
-        window.location.assign('#/routes/' + route_index + '/done');
-      }
-    });
-  } else {
-    if (isRouteComplete()) {
-      window.location.assign('#/routes/' + route_index + '/done');
-    }
-  }
-}
-
 function isRouteComplete() {
   var route = statemachine.getState().currentRoute || { bars: [{}] };
   return route.bars.filter(function(bar){
     return bar.checked_in || bar.skipped;
   }).length == route.bars.length;
-}
-
-function defaultTweet(barName) {
-  return "I just checked in at " + barName + " on @stumblr_app #stumblr";
 }

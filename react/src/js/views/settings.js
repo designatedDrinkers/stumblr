@@ -33,7 +33,7 @@ var Settings = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     var user = _statemachine2.default.getState().user;
-    return { auto_tweet: String(user.auto_tweet) };
+    return { auto_tweet: String(user.auto_tweet), route_filter: user.route_filter };
   },
   componentDidMount: function componentDidMount() {
     _methods2.default.hideMap();
@@ -41,15 +41,22 @@ var Settings = _react2.default.createClass({
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   changeTweetSettings: function changeTweetSettings(event) {
-    this.setState({ auto_tweet: event.target.value });
+    this.setState({ auto_tweet: event.target.value, route_filter: this.state.route_filter });
+  },
+  changeFilterSettings: function changeFilterSettings(event) {
+    this.setState({ auto_tweet: this.state.auto_tweet, route_filter: event.target.value });
   },
   saveSettings: function saveSettings(event) {
     event.preventDefault();
     var component = this;
-    _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
+    _ajaxPromise2.default.put('/api/users', {
+      auto_tweet: this.state.auto_tweet,
+      route_filter: this.state.route_filter
+    }).then(function () {
       var user = _statemachine2.default.getState().user;
 
       user.auto_tweet = destupidify(component.state.auto_tweet);
+      user.route_filter = component.state.route_filter;
       _statemachine2.default.updateState('user', user);
       component.goDashboard();
     });
@@ -87,6 +94,30 @@ var Settings = _react2.default.createClass({
             'option',
             { value: 'null' },
             'Ask Every Time'
+          )
+        ),
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'route-filter' },
+          'Filter My Routes'
+        ),
+        _react2.default.createElement(
+          'select',
+          { className: 'form-control', id: 'route-filter', value: this.state.route_filter, onChange: this.changeFilterSettings },
+          _react2.default.createElement(
+            'option',
+            { value: 'all' },
+            'Everything'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'recent' },
+            'Pending and Ten Recent'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'pending' },
+            'Only Pending'
           )
         ),
         _react2.default.createElement(
