@@ -26,7 +26,7 @@ var RouteList = React.createClass({
               <li key={-1 + 'link'}></li>
             </ul>
           </li>
-          {routes.map(function(route, i){
+          {routes.filter(filterRoutes(this.state.user.route_filter)).map(function(route, i){
             let date = formatDate(route.date);
             let type = determineRouteType(route.bars);
             let status = determineRouteStatus(route.bars);
@@ -93,4 +93,21 @@ function determineRouteType(barArray){
 
 module.exports = {
   RouteList: RouteList
+}
+
+function filterRoutes(criteria) {
+  var recents = 0;
+  return function(route, i, arr) {
+    var status = route.bars.filter(function(bar) {
+      return bar.checked_in || bar.skipped;
+    });
+    switch(criteria) {
+      case 'pending':
+        return status.length != route.bars.length;
+      case 'recent':
+        return status.length != route.bars.length || recents++ < 10;
+      default:
+        return true;
+    }
+  };
 }

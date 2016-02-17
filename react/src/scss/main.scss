@@ -1,13 +1,13 @@
 $header-height: 60px;
 $map-pad: 10px;
+$footer-height: 55px;
 
 body {
   background-color: #fbebed;
 }
 
 #wrap {
-  height: 100%;
-  min-height: 88vh;
+  min-height: calc(100vh - (#{$footer-height + $header-height}));
 }
 
 #header {
@@ -80,15 +80,16 @@ main {
 }
 
 .splash {
-  min-height: 88vh;
+  min-height: calc(100vh - (#{$header-height + $footer-height}));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: url('../images/splash.jpg');
-  background-size: auto;
+  background-repeat: no-repeat;
   color: #fff;
   .splash-map {
+    margin-top: 20px;
     width: 180px;
     height: 180px;
     border-radius: 50%;
@@ -98,12 +99,13 @@ main {
     font-size: 2.5em;
   }
   p {
-    font-size: 2em;
+    font-size: 1.75em;
     text-align: center;
     text-shadow: 2px 2px #000;
   }
   button {
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px 30px;
     font-size: 1.5em;
   }
@@ -191,12 +193,13 @@ main {
 
 #footer {
   background-color: #003260;
-  min-height: 100%;
+  height: $footer-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   p {
     color: #fff;
-    padding: 20px 0;
     margin: 0;
-    text-align: center;
   }
 }
 
@@ -255,7 +258,6 @@ ul.route-list {
     flex-wrap: wrap;
     input {
       width: 100%;
-      // display: block;
     }
     * {
       flex-shrink: 0;
@@ -267,6 +269,7 @@ ul.route-list {
 }
 
 .bar-status {
+  margin-bottom: 4px;
   button {
     padding: 3px 10px;
     margin-right: 10px;
@@ -357,4 +360,10 @@ figure.completeBadge{
     text-align: center;
     margin-top: 2px;
   }
+}
+
+.forfeit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }

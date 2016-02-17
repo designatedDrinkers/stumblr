@@ -69,12 +69,12 @@ var RouteDetails = React.createClass({
     if (lis.length) {
       return (
         <div className="route-details">
+          {!showFButton ? (<div className="forfeit-container"><button className="btn btn-danger forfeit-btn" onClick={this.forfeit}>Forfeit</button></div>) : null}
           <ul className="bar-list">
             <li key="-1">Route Details: &quot;{this.state.currentRoute.name || '(No Name)'}&quot;</li>
             {lis}
           </ul>
           {modal}
-          {!showFButton ? (<button className="btn btn-warning" onClick={this.forfeit}>Forfeit</button>) : null}
         </div>
       );
     } else {
@@ -99,7 +99,7 @@ function composeList(component, route) {
     }
     if (status) {
       return (
-        <li key={i} className="bar-status">
+        <li key={i} className="bar-status well">
           <p>{bar.name}: {bar.vicinity}</p>
           <p><span>Status: </span><span>{status}</span></p>
         </li>
@@ -108,10 +108,10 @@ function composeList(component, route) {
       var checkIn = component.checkIn.bind(component, i, tweetModal.defaultCheckIn(bar.name));
       var skip = component.skip.bind(component, i);
       return (
-        <li key={i} className="bar-status">
-          <p>{bar.name}</p>
+        <li key={i} className="bar-status well">
+          <p>{bar.name}: {bar.vicinity}</p>
           <p><span>Status: </span><span>Pending</span></p>
-          <button className="btn btn-primary" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
+          <button className="btn btn-success" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
           <button className="btn btn-primary" onClick={skip}>Skip</button>
         </li>
       );

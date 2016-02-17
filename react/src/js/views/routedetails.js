@@ -91,6 +91,15 @@ var RouteDetails = _react2.default.createClass({
       return _react2.default.createElement(
         'div',
         { className: 'route-details' },
+        !showFButton ? _react2.default.createElement(
+          'div',
+          { className: 'forfeit-container' },
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-danger forfeit-btn', onClick: this.forfeit },
+            'Forfeit'
+          )
+        ) : null,
         _react2.default.createElement(
           'ul',
           { className: 'bar-list' },
@@ -103,12 +112,7 @@ var RouteDetails = _react2.default.createClass({
           ),
           lis
         ),
-        modal,
-        !showFButton ? _react2.default.createElement(
-          'button',
-          { className: 'btn btn-warning', onClick: this.forfeit },
-          'Forfeit'
-        ) : null
+        modal
       );
     } else {
       return _react2.default.createElement(
@@ -133,7 +137,7 @@ function composeList(component, route) {
     if (status) {
       return _react2.default.createElement(
         'li',
-        { key: i, className: 'bar-status' },
+        { key: i, className: 'bar-status well' },
         _react2.default.createElement(
           'p',
           null,
@@ -161,11 +165,13 @@ function composeList(component, route) {
       var skip = component.skip.bind(component, i);
       return _react2.default.createElement(
         'li',
-        { key: i, className: 'bar-status' },
+        { key: i, className: 'bar-status well' },
         _react2.default.createElement(
           'p',
           null,
-          bar.name
+          bar.name,
+          ': ',
+          bar.vicinity
         ),
         _react2.default.createElement(
           'p',
@@ -183,7 +189,7 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
           'Check In'
         ),
         _react2.default.createElement(

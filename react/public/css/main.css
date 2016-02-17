@@ -2,8 +2,7 @@ body {
   background-color: #fbebed; }
 
 #wrap {
-  height: 100%;
-  min-height: 88vh; }
+  min-height: calc(100vh - (115px)); }
 
 #header {
   height: 60px;
@@ -63,15 +62,16 @@ main {
   height: 100%; }
 
 .splash {
-  min-height: 88vh;
+  min-height: calc(100vh - (115px));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: url("../images/splash.jpg");
-  background-size: auto;
+  background-repeat: no-repeat;
   color: #fff; }
   .splash .splash-map {
+    margin-top: 20px;
     width: 180px;
     height: 180px;
     border-radius: 50%;
@@ -79,11 +79,12 @@ main {
   .splash h1 {
     font-size: 2.5em; }
   .splash p {
-    font-size: 2em;
+    font-size: 1.75em;
     text-align: center;
     text-shadow: 2px 2px #000; }
   .splash button {
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px 30px;
     font-size: 1.5em; }
 
@@ -153,12 +154,13 @@ main {
 
 #footer {
   background-color: #003260;
-  min-height: 100%; }
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
   #footer p {
     color: #fff;
-    padding: 20px 0;
-    margin: 0;
-    text-align: center; }
+    margin: 0; }
 
 ul.route-list {
   padding: 0; }
@@ -207,9 +209,11 @@ ul.route-list {
     .new-route form :not(input), .route-details form :not(input), .settings form :not(input) {
       margin-right: 10px; }
 
-.bar-status button {
-  padding: 3px 10px;
-  margin-right: 10px; }
+.bar-status {
+  margin-bottom: 4px; }
+  .bar-status button {
+    padding: 3px 10px;
+    margin-right: 10px; }
 
 .loading {
   margin-top: 60px;
@@ -276,3 +280,8 @@ figure.completeBadge {
     font-size: 1.2em;
     text-align: center;
     margin-top: 2px; }
+
+.forfeit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; }
