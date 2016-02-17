@@ -71,6 +71,7 @@ main {
   background-repeat: no-repeat;
   color: #fff; }
   .splash .splash-map {
+    margin-top: 20px;
     width: 180px;
     height: 180px;
     border-radius: 50%;
@@ -78,11 +79,12 @@ main {
   .splash h1 {
     font-size: 2.5em; }
   .splash p {
-    font-size: 2em;
+    font-size: 1.75em;
     text-align: center;
     text-shadow: 2px 2px #000; }
   .splash button {
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px 30px;
     font-size: 1.5em; }
 

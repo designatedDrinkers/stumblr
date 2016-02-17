@@ -41944,7 +41944,7 @@ var RouteList = _react2.default.createClass({
             _react2.default.createElement('li', { key: -1 + 'link' })
           )
         ),
-        routes.map(function (route, i) {
+        routes.filter(filterRoutes(this.state.user.route_filter)).map(function (route, i) {
           var date = formatDate(route.date);
           var type = determineRouteType(route.bars);
           var status = determineRouteStatus(route.bars);
@@ -42035,6 +42035,23 @@ function determineRouteType(barArray) {
 module.exports = {
   RouteList: RouteList
 };
+
+function filterRoutes(criteria) {
+  var recents = 0;
+  return function (route, i, arr) {
+    var status = route.bars.filter(function (bar) {
+      return bar.checked_in || bar.skipped;
+    });
+    switch (criteria) {
+      case 'pending':
+        return status.length != route.bars.length;
+      case 'recent':
+        return status.length != route.bars.length || recents++ < 10;
+      default:
+        return true;
+    }
+  };
+}
 },{"../statemachine":251,"ajax-promise":1,"moment":63,"react":246}],254:[function(require,module,exports){
 'use strict';
 
@@ -42416,7 +42433,7 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
           'Check In'
         ),
         _react2.default.createElement(
@@ -42490,7 +42507,7 @@ var Settings = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     var user = _statemachine2.default.getState().user;
-    return { auto_tweet: String(user.auto_tweet) };
+    return { auto_tweet: String(user.auto_tweet), route_filter: user.route_filter };
   },
   componentDidMount: function componentDidMount() {
     _methods2.default.hideMap();
@@ -42498,15 +42515,22 @@ var Settings = _react2.default.createClass({
     _reactDom2.default.render(_react2.default.createElement(_header.Header, null), document.getElementById('header'));
   },
   changeTweetSettings: function changeTweetSettings(event) {
-    this.setState({ auto_tweet: event.target.value });
+    this.setState({ auto_tweet: event.target.value, route_filter: this.state.route_filter });
+  },
+  changeFilterSettings: function changeFilterSettings(event) {
+    this.setState({ auto_tweet: this.state.auto_tweet, route_filter: event.target.value });
   },
   saveSettings: function saveSettings(event) {
     event.preventDefault();
     var component = this;
-    _ajaxPromise2.default.put('/api/users', { auto_tweet: this.state.auto_tweet }).then(function () {
+    _ajaxPromise2.default.put('/api/users', {
+      auto_tweet: this.state.auto_tweet,
+      route_filter: this.state.route_filter
+    }).then(function () {
       var user = _statemachine2.default.getState().user;
 
       user.auto_tweet = destupidify(component.state.auto_tweet);
+      user.route_filter = component.state.route_filter;
       _statemachine2.default.updateState('user', user);
       component.goDashboard();
     });
@@ -42544,6 +42568,30 @@ var Settings = _react2.default.createClass({
             'option',
             { value: 'null' },
             'Ask Every Time'
+          )
+        ),
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'route-filter' },
+          'Filter My Routes'
+        ),
+        _react2.default.createElement(
+          'select',
+          { className: 'form-control', id: 'route-filter', value: this.state.route_filter, onChange: this.changeFilterSettings },
+          _react2.default.createElement(
+            'option',
+            { value: 'all' },
+            'Everything'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'recent' },
+            'Pending and Ten Recent'
+          ),
+          _react2.default.createElement(
+            'option',
+            { value: 'pending' },
+            'Only Pending'
           )
         ),
         _react2.default.createElement(

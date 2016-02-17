@@ -146,7 +146,7 @@ function composeList(component, route) {
         <li key={i} className="bar-status well">
           <p>{bar.name}: {bar.vicinity}</p>
           <p><span>Status: </span><span>Pending</span></p>
-          <button className="btn btn-primary" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
+          <button className="btn btn-success" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
           <button className="btn btn-primary" onClick={skip}>Skip</button>
         </li>
       );
