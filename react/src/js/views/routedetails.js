@@ -83,6 +83,11 @@ var RouteDetails = _react2.default.createClass({
     });
   },
   complete: isRouteComplete,
+  focus: function focus(i) {
+    var component = this;
+    console.log(component.state.currentRoute.bars[i]);
+    window.mapAccess.map.setCenter(component.state.currentRoute.bars[i].geometry.location);
+  },
   render: function render() {
     var lis = composeList(this, this.state.currentRoute);
     var modal = this.state.user.auto_tweet === null ? _react2.default.createElement(_tweetmodal2.default.TweetModal, { isRouteComplete: isRouteComplete }) : '';
@@ -163,6 +168,7 @@ function composeList(component, route) {
     } else {
       var checkIn = component.checkIn.bind(component, i, _tweetmodal2.default.defaultCheckIn(bar.name));
       var skip = component.skip.bind(component, i);
+      var focus = component.focus.bind(component, i);
       return _react2.default.createElement(
         'li',
         { key: i, className: 'bar-status well' },
@@ -176,16 +182,8 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Status: '
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            'Pending'
-          )
+          'Rating: ',
+          bar.rating
         ),
         _react2.default.createElement(
           'button',
@@ -194,8 +192,13 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: skip },
+          { className: 'btn btn-warning', onClick: skip },
           'Skip'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-primary', onClick: focus },
+          _react2.default.createElement('i', { className: 'fa fa-crosshairs' })
         )
       );
     }
