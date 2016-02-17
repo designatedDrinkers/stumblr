@@ -285,3 +285,21 @@ figure.completeBadge {
   display: flex;
   flex-direction: row;
   justify-content: flex-end; }
+
+.beer-rating {
+  display: flex;
+  flex-direction: row; }
+  .beer-rating .part-beer, .beer-rating .full-beer {
+    list-style: none;
+    position: relative; }
+    .beer-rating .part-beer .beer, .beer-rating .full-beer .beer {
+      margin: 0 17% 27% 47%;
+      border-radius: 0 0 30% 30%;
+      position: absolute;
+      bottom: 0;
+      width: 36%;
+      z-index: 1;
+      background-color: gold; }
+    .beer-rating .part-beer i, .beer-rating .full-beer i {
+      font-size: 2em;
+      -webkit-text-stroke: 2px black; }

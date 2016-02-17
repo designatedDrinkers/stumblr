@@ -41511,7 +41511,7 @@ function renderApp(user) {
     _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
   }
 }
-},{"./statemachine":251,"./views/newroute":252,"./views/routecomplete":254,"./views/routedetails":255,"./views/settings":256,"./views/splash-dash":257,"ajax-promise":1,"react":246,"react-dom":64,"react-router":84}],249:[function(require,module,exports){
+},{"./statemachine":251,"./views/newroute":252,"./views/routecomplete":255,"./views/routedetails":256,"./views/settings":257,"./views/splash-dash":258,"ajax-promise":1,"react":246,"react-dom":64,"react-router":84}],249:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -41882,6 +41882,52 @@ module.exports = {
   RouteForm: RouteForm
 };
 },{"../barroute-data":247,"../header":249,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],253:[function(require,module,exports){
+"use strict";
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Ratings = _react2.default.createClass({
+  displayName: "Ratings",
+
+  getInitialState: function getInitialState() {
+    return { rating: Number(this.props.rating) };
+  },
+  render: function render() {
+    var beers = [];
+    for (var i = 0; i < this.state.rating; i++) {
+      beers.push(_react2.default.createElement(
+        "li",
+        { className: "full-beer" },
+        _react2.default.createElement("i", { className: "fa fa-beer" }),
+        _react2.default.createElement("div", { className: "beer", style: { height: '60%' } })
+      ));
+    }
+    var remainder = this.state.rating % 1;
+
+    if (remainder) {
+      beers.push(_react2.default.createElement(
+        "li",
+        { className: "part-beer" },
+        _react2.default.createElement("i", { className: "beer-glass fa fa-beer" }),
+        _react2.default.createElement("div", { className: "beer", style: { height: String(remainder * 100 * .6) + '%' } })
+      ));
+    }
+    return _react2.default.createElement(
+      "ul",
+      { className: "beer-rating" },
+      beers
+    );
+  }
+});
+
+module.exports = {
+  Ratings: Ratings
+};
+},{"react":246}],254:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42052,7 +42098,7 @@ function filterRoutes(criteria) {
     }
   };
 }
-},{"../statemachine":251,"ajax-promise":1,"moment":63,"react":246}],254:[function(require,module,exports){
+},{"../statemachine":251,"ajax-promise":1,"moment":63,"react":246}],255:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42173,7 +42219,7 @@ function isRouteComplete(barArray) {
 module.exports = {
   RouteComplete: RouteComplete
 };
-},{"../header":249,"../methods":250,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],255:[function(require,module,exports){
+},{"../header":249,"../methods":250,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],256:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42471,7 +42517,7 @@ function isRouteComplete() {
 function defaultTweet(barName) {
   return "I just checked in at " + barName + " on @stumblr_app #stumblr";
 }
-},{"../barroute-data":247,"../header":249,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],256:[function(require,module,exports){
+},{"../barroute-data":247,"../header":249,"../statemachine":251,"ajax-promise":1,"react":246,"react-dom":64}],257:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42617,7 +42663,7 @@ var destupidify = function destupidify(input) {
   var destupidified = _destupidify2.default.destupidifyAffirmativeVal(input) || _destupidify2.default.destupidifyNegativeVal(input);
   return destupidified === undefined ? null : destupidified;
 };
-},{"../header":249,"../methods":250,"../statemachine":251,"ajax-promise":1,"destupidify":38,"react":246,"react-dom":64}],257:[function(require,module,exports){
+},{"../header":249,"../methods":250,"../statemachine":251,"ajax-promise":1,"destupidify":38,"react":246,"react-dom":64}],258:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42642,6 +42688,8 @@ var _methods = require('../methods');
 
 var _methods2 = _interopRequireDefault(_methods);
 
+var _ratings = require('./ratings');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Login = _react2.default.createClass({
@@ -42663,6 +42711,7 @@ var Login = _react2.default.createClass({
           null,
           'Stumblr'
         ),
+        _react2.default.createElement(_ratings.Ratings, { rating: '4.2' }),
         _react2.default.createElement(
           'p',
           null,
@@ -42768,4 +42817,4 @@ var SplashDash = _react2.default.createClass({
 module.exports = {
   SplashDash: SplashDash
 };
-},{"../header":249,"../methods":250,"../statemachine":251,"./newroute":252,"./route-list-component":253,"react":246,"react-dom":64}]},{},[248])
+},{"../header":249,"../methods":250,"../statemachine":251,"./newroute":252,"./ratings":253,"./route-list-component":254,"react":246,"react-dom":64}]},{},[248])
