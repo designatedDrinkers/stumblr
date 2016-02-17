@@ -257,7 +257,7 @@ function composeList(component, route) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
           'Check In'
         ),
         _react2.default.createElement(
