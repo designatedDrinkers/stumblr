@@ -46,9 +46,9 @@ var Login = _react2.default.createClass({
         _react2.default.createElement(
           'p',
           null,
-          'Map the optimal pub crawl',
+          'Map an epic pub crawl.',
           _react2.default.createElement('br', null),
-          ' before it\'s too late.'
+          ' Right here. Right now.'
         ),
         _react2.default.createElement(
           'a',

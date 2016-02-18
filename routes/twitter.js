@@ -20,10 +20,12 @@ route.post('/checkin', function(request, response, next){
       db.collection('users').findOne({ twitter_id: request.user.twitter_id }, function(err, user)  {
         db.close();
         if(err){
+          console.log(err);
           response.json({message: error});
         }else{
           // var currentBar = user.routes[routeIndex].bars[barIndex].name;
           var message = request.body.message;
+          console.log(message);
           twitterRestClient.statusesUpdate(
             {
               'status': message
@@ -31,8 +33,10 @@ route.post('/checkin', function(request, response, next){
             function(error, result){
               if(error){
                 response.json({error: error});
+                console.log(error);
               }
               if(result){
+                console.log(result);
                 response.json({result: result});
               }
             }
