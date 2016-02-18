@@ -58,9 +58,9 @@ var RouteComplete = React.createClass({
     });
   },
   render: function() {
-    var status = isRouteComplete((this.state.currentRoute || {}).bars);
-    var badgeMessage;
-    switch(this.state.newBadges.length) {
+    var status = isRouteComplete((this.state.currentRoute || { bars: [] }).bars);
+    var badgeMessage, newBadges = this.state.newBadges || [];
+    switch(newBadges.length) {
       case 0:
         badgeMessage = 'You earned no badges.';
         break;
@@ -68,14 +68,14 @@ var RouteComplete = React.createClass({
         badgeMessage = 'You earned a new badge.';
         break;
       default:
-        badgeMessage = 'You earned ' + this.state.newBadges.length + ' badges.'
+        badgeMessage = 'You earned ' + newBadges.length + ' badges.'
     }
     if (status){
       return (
         <div className="done-container">
           <h1 className="win">Route Complete!</h1>
           <h3>{badgeMessage}</h3>
-          { this.state.newBadges.length > 0? <Badges /> : null }
+          {newBadges.length > 0 ? <Badges /> : null}
         </div>
       );
     } else {
@@ -83,7 +83,7 @@ var RouteComplete = React.createClass({
         <div className="done-container">
           <h1 className="fail">Route Forfeited.</h1>
           <h3>{badgeMessage}</h3>
-          {this.state.newBadges.length > 0? <Badges /> : null}
+          {newBadges.length > 0 ? <Badges /> : null}
         </div>
       );
     }

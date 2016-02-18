@@ -102,9 +102,10 @@ var RouteComplete = _react2.default.createClass({
     });
   },
   render: function render() {
-    var status = isRouteComplete((this.state.currentRoute || {}).bars);
-    var badgeMessage;
-    switch (this.state.newBadges.length) {
+    var status = isRouteComplete((this.state.currentRoute || { bars: [] }).bars);
+    var badgeMessage,
+        newBadges = this.state.newBadges || [];
+    switch (newBadges.length) {
       case 0:
         badgeMessage = 'You earned no badges.';
         break;
@@ -112,7 +113,7 @@ var RouteComplete = _react2.default.createClass({
         badgeMessage = 'You earned a new badge.';
         break;
       default:
-        badgeMessage = 'You earned ' + this.state.newBadges.length + ' badges.';
+        badgeMessage = 'You earned ' + newBadges.length + ' badges.';
     }
     if (status) {
       return _react2.default.createElement(
@@ -128,7 +129,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           badgeMessage
         ),
-        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
+        newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     } else {
       return _react2.default.createElement(
@@ -144,7 +145,7 @@ var RouteComplete = _react2.default.createClass({
           null,
           badgeMessage
         ),
-        this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
+        newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
     }
   }
