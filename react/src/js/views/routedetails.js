@@ -64,13 +64,14 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
-      document.getElementById('tweet-message-box').value = message;
       if (isRouteComplete()) {
         var newBadges = result.newBadges || [];
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       }
       if (component.state.user.auto_tweet !== null) {
         _tweetmodal2.default.tweet(i, route_index, component.state.user.auto_tweet, message, isRouteComplete);
+      } else {
+        document.getElementById('tweet-message-box').value = message;
       }
     });
   },
