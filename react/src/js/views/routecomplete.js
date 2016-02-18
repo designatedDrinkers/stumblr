@@ -66,7 +66,7 @@ var Badges = _react2.default.createClass({
                 ),
                 _react2.default.createElement(
                   'p',
-                  null,
+                  { className: 'badge-description' },
                   badge.description
                 )
               )

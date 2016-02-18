@@ -28,7 +28,7 @@ var Badges = React.createClass({
               <img src={badge.image} alt={badge.name} />
               <figcaption>
                 <p>{badge.name}</p>
-                <p>{badge.description}</p>
+                <p className="badge-description">{badge.description}</p>
               </figcaption>
               </figure>
             </div>
