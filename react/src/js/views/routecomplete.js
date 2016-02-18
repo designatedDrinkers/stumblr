@@ -40,6 +40,9 @@ var Badges = _react2.default.createClass({
     var user = _statemachine2.default.getState().user;
     // tweetModal.tweet(null, null, true, message, isRouteComplete);
   },
+  linkToUber: function linkToUber() {
+    window.location.assign('http://m.uber.com/');
+  },
   render: function render() {
     var component = this;
     var modal = _react2.default.createElement(_tweetmodal2.default.TweetModal, { isRouteComplete: isRouteComplete });
@@ -81,6 +84,11 @@ var Badges = _react2.default.createClass({
         'button',
         { className: 'btn btn-info btn-badge-tweet', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
         tweetBadgeBtnTxt
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'btn btn-success btn-uber', onClick: this.linkToUber },
+        'Request an Uber'
       ),
       modal
     );
