@@ -42130,14 +42130,15 @@ var Badges = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
-  tweetBadge: function tweetBadge() {
+  tweetBadge: function tweetBadge(message) {
     var component = this;
-    // var badge = this.state.newBadges[0];
-    _tweetmodal2.default.tweet(null, null, true, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
-    window.location.assign('/');
+    document.getElementById('tweet-message-box').value = message;
+    _tweetmodal2.default.tweet(null, null, true, message, isRouteComplete);
   },
   render: function render() {
     var component = this;
+    var modal = _react2.default.createElement(_tweetmodal2.default.TweetModal, { isRouteComplete: isRouteComplete });
+    var clickHandler = this.tweetBadge.bind(this, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
     return _react2.default.createElement(
       'div',
       null,
@@ -42151,6 +42152,7 @@ var Badges = _react2.default.createClass({
             _react2.default.createElement(
               'figure',
               { className: 'completeBadge' },
+              '``',
               _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
               _react2.default.createElement(
                 'figcaption',
@@ -42168,13 +42170,14 @@ var Badges = _react2.default.createClass({
               )
             )
           );
-        })
+        }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-info btn-badge-tweet', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          'Tweet this badge!'
+        )
       ),
-      _react2.default.createElement(
-        'button',
-        { className: 'btn btn-info', onClick: this.tweetBadge },
-        'Tweet this badge!'
-      )
+      modal
     );
   }
 });
@@ -42669,9 +42672,9 @@ var Login = _react2.default.createClass({
         _react2.default.createElement(
           'p',
           null,
-          'Map the optimal pub crawl',
+          'Map an epic pub crawl.',
           _react2.default.createElement('br', null),
-          ' before it\'s too late.'
+          ' Right here. Right now.'
         ),
         _react2.default.createElement(
           'a',

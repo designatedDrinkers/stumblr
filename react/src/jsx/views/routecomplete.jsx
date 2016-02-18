@@ -10,21 +10,22 @@ var Badges = React.createClass({
   getInitialState: function(){
     return statemachine.getState();
   },
-  tweetBadge: function(){
+  tweetBadge: function(message){
     var component = this;
-    // var badge = this.state.newBadges[0];
-    tweetModal.tweet(null, null, true, tweetModal.defaultRouteComplete(this.state.newBadges));
-    window.location.assign('/');
+    document.getElementById('tweet-message-box').value = message;
+    tweetModal.tweet(null, null, true, message, isRouteComplete);
   },
   render: function(){
     var component = this;
+    var modal = <tweetModal.TweetModal isRouteComplete={isRouteComplete}/>;
+    var clickHandler = this.tweetBadge.bind(this, tweetModal.defaultRouteComplete(this.state.newBadges));
     return (
       <div>
         <div className="completeBadgeContainer">
         {this.state.newBadges.map(function(badge, i){
           return (
             <div key={i}>
-              <figure className="completeBadge">
+              <figure className="completeBadge">``
               <img src={badge.image} alt={badge.name} />
               <figcaption>
                 <p>{badge.name}</p>
@@ -34,8 +35,9 @@ var Badges = React.createClass({
             </div>
             )
           })}
+          <button className="btn btn-info btn-badge-tweet" onClick={clickHandler} data-toggle="modal" data-target="#tweet-modal">Tweet this badge!</button>
         </div>
-        <button className="btn btn-info" onClick={this.tweetBadge}>Tweet this badge!</button>
+        {modal}
       </div>
   )
   }

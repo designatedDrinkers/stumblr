@@ -18,7 +18,7 @@ var Login = React.createClass({
           <div className="image-container">
             <img src="images/stumblr-logo.png" />
           </div>
-          <p>Map the optimal pub crawl<br /> before it's too late.</p>
+          <p>Map an epic pub crawl.<br /> Right here. Right now.</p>
           <a href="/auth/twitter"><button className="btn btn-info btn-lg">Login with Twitter</button></a>
         </div>
       </main>
