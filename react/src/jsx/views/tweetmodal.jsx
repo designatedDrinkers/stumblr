@@ -40,6 +40,7 @@ var TweetModal = React.createClass({
 })
 
 function tweet(bar_index, route_index, autoTweet, message, isRouteComplete){
+  message = message.replace(/!/g, '.');
   if(autoTweet){
     ajax.post('/api/twitter/checkin', {bar_index: bar_index, route_index: route_index, message: message})
     .then(function(data){
