@@ -7,7 +7,7 @@ var Ratings = React.createClass({
   },
   render: function() {
     var beers = [];
-    for (var i = 0; i < this.state.rating; i++) {
+    for (var i = 0; i < Math.floor(this.state.rating); i++) {
       beers.push(
         <li className="full-beer">
           <i className="fa fa-beer"></i>
@@ -27,6 +27,7 @@ var Ratings = React.createClass({
     }
     return (
       <ul className="beer-rating">
+        <li>Rating:</li>
         {beers}
       </ul>
     );
