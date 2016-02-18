@@ -66,7 +66,6 @@ var RouteDetails = React.createClass({
   complete: isRouteComplete,
   focus: function(i){
     var component = this;
-    console.log(component.state.currentRoute.bars[i]);
     window.mapAccess.map.setCenter(component.state.currentRoute.bars[i].geometry.location);
   },
   render: function() {

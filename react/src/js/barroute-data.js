@@ -11,7 +11,6 @@ var _statemachine2 = _interopRequireDefault(_statemachine);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (barcount, start) {
-  console.log(barcount, start);
   if (start) {
     return _ajaxPromise2.default.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start).then(posFromAddress).then(getBars(barcount));
   } else if (window.navigator.geolocation) {

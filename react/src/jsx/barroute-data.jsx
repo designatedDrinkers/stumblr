@@ -2,7 +2,6 @@ import ajax from 'ajax-promise';
 import statemachine from './statemachine';
 
 module.exports = function(barcount, start) {
-  console.log(barcount, start);
   if (start) {
     return ajax.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + start)
     .then(posFromAddress).then(getBars(barcount));
