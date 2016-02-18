@@ -14573,7 +14573,7 @@ module.exports = ret;
 module.exports = {
   destupidifyAffirmativeVal: function(input) {
     lc = input.toLowerCase();
-    var pos = ['yes', 'yup', 'yep', 'yeah', 'sure', 'i guess', 'i am not opposed to that'];
+    var pos = ['true', 'yes', 'yup', 'yep', 'yeah', 'sure', 'i guess', 'i am not opposed to that'];
     for (var i = 0; i < pos.length; i++) {
       if(lc === pos[i]) {
         return true;
@@ -14581,7 +14581,7 @@ module.exports = {
     }
   },
   destupidifyNegativeVal: function(input) {
-    var neg = ['no', 'nope', 'nuh-uh', 'nay', 'nah', 'not really', 'no fucking way dude'];
+    var neg = ['false', 'no', 'nope', 'nuh-uh', 'nay', 'nah', 'not really', 'no fucking way dude'];
     lc = input.toLowerCase();
     for (var i = 0; i < neg.length; i++) {
       if(lc === neg[i]) {
@@ -42075,19 +42075,14 @@ var Badges = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return _statemachine2.default.getState();
   },
-  displayModal: function displayModal(message) {
+  tweetBadge: function tweetBadge(message) {
+    var component = this;
     document.getElementById('tweet-message-box').value = message;
+    _tweetmodal2.default.tweet(null, null, true, message, isRouteComplete);
   },
-  // tweetBadge: function(){
-  //   var component = this;
-  //   // var badge = this.state.newBadges[0];
-  //   tweetModal.tweet(null, null, null, );
-  //   document.getElementById('tweet-message-box').value = message;
-  //   window.location.assign('/');
-  // },
   render: function render() {
     var component = this;
-    var clickHandler = this.displayModal.bind(this, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
+    var clickHandler = this.tweetBadge.bind(this, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
     return _react2.default.createElement(
       'div',
       null,
@@ -42101,6 +42096,7 @@ var Badges = _react2.default.createClass({
             _react2.default.createElement(
               'figure',
               { className: 'completeBadge' },
+              '``',
               _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
               _react2.default.createElement(
                 'figcaption',
