@@ -56,7 +56,6 @@ var Badges = _react2.default.createClass({
             _react2.default.createElement(
               'figure',
               { className: 'completeBadge' },
-              '``',
               _react2.default.createElement('img', { src: badge.image, alt: badge.name }),
               _react2.default.createElement(
                 'figcaption',
