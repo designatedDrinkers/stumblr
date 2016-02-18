@@ -253,6 +253,11 @@ ul.route-list {
   width: 100%;
   resize: none; }
 
+.completeView {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
 .completeBadgeContainer {
   display: flex;
   flex-direction: row;
@@ -289,8 +294,7 @@ figure.completeBadge {
       width: 100%; }
 
 .btn-badge-tweet {
-  margin-top: 30px;
-  align-self: center; }
+  margin-top: 30px; }
 
 .forfeit-container {
   display: flex;
