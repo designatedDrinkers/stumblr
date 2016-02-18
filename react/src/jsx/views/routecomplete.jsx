@@ -25,7 +25,7 @@ var Badges = React.createClass({
         {this.state.newBadges.map(function(badge, i){
           return (
             <div key={i}>
-              <figure className="completeBadge">``
+              <figure className="completeBadge">
               <img src={badge.image} alt={badge.name} />
               <figcaption>
                 <p>{badge.name}</p>
