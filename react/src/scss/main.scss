@@ -19,6 +19,7 @@ body {
   width: 100%;
   z-index: 10;
   nav.navbar {
+    border-radius: 0;
     background-color: #003260;
     max-height: $header-height;
     width: 100vw;
@@ -255,6 +256,10 @@ ul.route-list {
     :first-child {
       font-weight: bold;
     }
+    .bar-name {
+      color: blue;
+      font-size: 120%;
+    }
   }
   form {
     display: flex;
@@ -374,10 +379,11 @@ figure.completeBadge{
   & > *:first-child {
     margin-right: 10px;
   }
-  .part-beer, .full-beer {
+  li {
     list-style: none;
+  }
+  .part-beer, .full-beer {
     position: relative;
-
     .beer {
       margin: 0 17% 27% 47%;
       border-radius: 0 0 30% 30%;

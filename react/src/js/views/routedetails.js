@@ -148,8 +148,12 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
         _react2.default.createElement(
@@ -177,8 +181,12 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
         _react2.default.createElement(_ratings.Ratings, { rating: bar.rating }),

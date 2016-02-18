@@ -13,6 +13,7 @@ body {
   width: 100%;
   z-index: 10; }
   #header nav.navbar {
+    border-radius: 0;
     background-color: #003260;
     max-height: 60px;
     width: 100vw;
@@ -200,6 +201,9 @@ ul.route-list {
     padding: 0; }
     .new-route .bar-list :first-child, .route-details .bar-list :first-child, .settings .bar-list :first-child {
       font-weight: bold; }
+    .new-route .bar-list .bar-name, .route-details .bar-list .bar-name, .settings .bar-list .bar-name {
+      color: blue;
+      font-size: 120%; }
   .new-route form, .route-details form, .settings form {
     display: flex;
     flex-wrap: wrap; }
@@ -290,8 +294,9 @@ figure.completeBadge {
   flex-direction: row; }
   .beer-rating > *:first-child {
     margin-right: 10px; }
+  .beer-rating li {
+    list-style: none; }
   .beer-rating .part-beer, .beer-rating .full-beer {
-    list-style: none;
     position: relative; }
     .beer-rating .part-beer .beer, .beer-rating .full-beer .beer {
       margin: 0 17% 27% 47%;
