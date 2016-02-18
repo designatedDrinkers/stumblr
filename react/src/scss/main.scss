@@ -333,6 +333,11 @@ ul.route-list {
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+  .btn-uber {
+    margin-top: 10px;
+    color: white;
+    background-color: black;
+  }
 }
 
 .completeBadgeContainer{
