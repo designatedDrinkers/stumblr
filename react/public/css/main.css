@@ -256,7 +256,8 @@ ul.route-list {
 .completeView {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  margin-bottom: 10px; }
 
 .completeBadgeContainer {
   display: flex;
