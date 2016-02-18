@@ -20,7 +20,7 @@ var Badges = React.createClass({
     var modal = <tweetModal.TweetModal isRouteComplete={isRouteComplete}/>;
     var clickHandler = this.tweetBadge.bind(this, tweetModal.defaultRouteComplete(this.state.newBadges));
     return (
-      <div>
+      <div className="completeView">
         <div className="completeBadgeContainer">
         {this.state.newBadges.map(function(badge, i){
           return (
@@ -35,8 +35,8 @@ var Badges = React.createClass({
             </div>
             )
           })}
-          <button className="btn btn-info btn-badge-tweet" onClick={clickHandler} data-toggle="modal" data-target="#tweet-modal">Tweet this badge!</button>
         </div>
+        <button className="btn btn-info btn-badge-tweet" onClick={clickHandler} data-toggle="modal" data-target="#tweet-modal">Tweet this badge!</button>
         {modal}
       </div>
   )
