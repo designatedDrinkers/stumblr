@@ -59,7 +59,16 @@ var Badges = _react2.default.createClass({
               _react2.default.createElement(
                 'figcaption',
                 null,
-                badge.name
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  badge.name
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  badge.description
+                )
               )
             )
           );
@@ -91,6 +100,17 @@ var RouteComplete = _react2.default.createClass({
   },
   render: function render() {
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
+    var badgeMessage;
+    switch (this.state.newBadges.length) {
+      case 0:
+        badgeMessage = 'You earned no badges.';
+        break;
+      case 1:
+        badgeMessage = 'You earned a new badge.';
+        break;
+      default:
+        badgeMessage = 'You earned ' + this.state.newBadges.length + ' badges.';
+    }
     if (status) {
       return _react2.default.createElement(
         'div',
@@ -103,7 +123,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement(
           'h3',
           null,
-          'You earned a badge...'
+          badgeMessage
         ),
         this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
@@ -119,7 +139,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement(
           'h3',
           null,
-          'You earned a badge...'
+          badgeMessage
         ),
         this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );

@@ -42155,7 +42155,16 @@ var Badges = _react2.default.createClass({
               _react2.default.createElement(
                 'figcaption',
                 null,
-                badge.name
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  badge.name
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  badge.description
+                )
               )
             )
           );
@@ -42187,6 +42196,17 @@ var RouteComplete = _react2.default.createClass({
   },
   render: function render() {
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
+    var badgeMessage;
+    switch (this.state.newBadges.length) {
+      case 0:
+        badgeMessage = 'You earned no badges.';
+        break;
+      case 1:
+        badgeMessage = 'You earned a new badge.';
+        break;
+      default:
+        badgeMessage = 'You earned ' + this.state.newBadges.length + ' badges.';
+    }
     if (status) {
       return _react2.default.createElement(
         'div',
@@ -42199,7 +42219,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement(
           'h3',
           null,
-          'You earned a badge...'
+          badgeMessage
         ),
         this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
@@ -42215,7 +42235,7 @@ var RouteComplete = _react2.default.createClass({
         _react2.default.createElement(
           'h3',
           null,
-          'You earned a badge...'
+          badgeMessage
         ),
         this.state.newBadges.length > 0 ? _react2.default.createElement(Badges, null) : null
       );
@@ -42859,7 +42879,7 @@ function tweet(bar_index, route_index, autoTweet, message, isRouteComplete) {
 
 var lastCheckin = 0;
 function defaultCheckIn(barName) {
-  var responses = ["I just checked in at " + barName + " on @stumblr_app #stumblr", "Getting crunk " + barName + "! #stumblr", "Help me finish my @stumblr_app bar hopping plan! #stumblr", "Join me at " + barName + " and we'll get #stumblr -y.", "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr-app."];
+  var responses = ["I just checked in at " + barName + " on @stumblr_app #stumblr", "Getting crunk at " + barName + "! #stumblr", "Help me finish my @stumblr_app bar hopping plan! #stumblr", "Join me at " + barName + " and we'll get #stumblr -y.", "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr_app."];
   if (lastCheckin == responses.length) lastCheckin = 0;
   return responses[lastCheckin++];
 }

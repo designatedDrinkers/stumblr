@@ -26,7 +26,10 @@ var Badges = React.createClass({
             <div key={i}>
               <figure className="completeBadge">
               <img src={badge.image} alt={badge.name} />
-              <figcaption>{badge.name}</figcaption>
+              <figcaption>
+                <p>{badge.name}</p>
+                <p>{badge.description}</p>
+              </figcaption>
               </figure>
             </div>
             )
@@ -53,22 +56,33 @@ var RouteComplete = React.createClass({
   },
   render: function() {
     var status = isRouteComplete((this.state.currentRoute || {}).bars);
+    var badgeMessage;
+    switch(this.state.newBadges.length) {
+      case 0:
+        badgeMessage = 'You earned no badges.';
+        break;
+      case 1:
+        badgeMessage = 'You earned a new badge.';
+        break;
+      default:
+        badgeMessage = 'You earned ' + this.state.newBadges.length + ' badges.'
+    }
     if (status){
       return (
         <div className="done-container">
           <h1 className="win">Route Complete!</h1>
-          <h3>You earned a badge...</h3>
+          <h3>{badgeMessage}</h3>
           { this.state.newBadges.length > 0? <Badges /> : null }
         </div>
-      )
+      );
     } else {
       return (
         <div className="done-container">
           <h1 className="fail">Route Forfeited.</h1>
-          <h3>You earned a badge...</h3>
-          { this.state.newBadges.length > 0? <Badges /> : null }
+          <h3>{badgeMessage}</h3>
+          {this.state.newBadges.length > 0? <Badges /> : null}
         </div>
-      )
+      );
     }
   }
 });
