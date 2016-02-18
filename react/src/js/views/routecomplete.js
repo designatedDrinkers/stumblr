@@ -41,6 +41,7 @@ var Badges = _react2.default.createClass({
   },
   render: function render() {
     var component = this;
+    var modal = _react2.default.createElement(_tweetmodal2.default.TweetModal, { isRouteComplete: isRouteComplete });
     var clickHandler = this.tweetBadge.bind(this, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
     return _react2.default.createElement(
       'div',
@@ -64,13 +65,14 @@ var Badges = _react2.default.createClass({
               )
             )
           );
-        })
+        }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-info btn-badge-tweet', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+          'Tweet this badge!'
+        )
       ),
-      _react2.default.createElement(
-        'button',
-        { className: 'btn btn-info', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
-        'Tweet this badge!'
-      )
+      modal
     );
   }
 });

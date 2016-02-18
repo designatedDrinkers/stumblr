@@ -259,8 +259,7 @@ ul.route-list {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: space-around;
-  width: 100%;
-  margin-bottom: 30px; }
+  width: 100%; }
   .completeBadgeContainer div {
     width: 50%;
     flex-shrink: 0;
@@ -283,6 +282,10 @@ figure.completeBadge {
     font-size: 1.2em;
     text-align: center;
     margin-top: 2px; }
+
+.btn-badge-tweet {
+  margin-top: 30px;
+  align-self: center; }
 
 .forfeit-container {
   display: flex;
