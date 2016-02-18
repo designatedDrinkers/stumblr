@@ -41,7 +41,7 @@ var Badges = _react2.default.createClass({
     // tweetModal.tweet(null, null, true, message, isRouteComplete);
   },
   linkToUber: function linkToUber() {
-    window.location.assign('http://m.uber.com/');
+    window.open('http://m.uber.com/');
   },
   render: function render() {
     var component = this;
