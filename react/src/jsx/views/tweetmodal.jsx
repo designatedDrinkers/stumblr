@@ -58,10 +58,10 @@ var lastCheckin = 0;
 function defaultCheckIn(barName) {
   var responses = [
     "I just checked in at " + barName + " on @stumblr_app #stumblr",
-    "Getting crunk " + barName + "! #stumblr",
+    "Getting crunk at " + barName + "! #stumblr",
     "Help me finish my @stumblr_app bar hopping plan! #stumblr",
     "Join me at " + barName + " and we'll get #stumblr -y.",
-    "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr-app."
+    "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr_app."
   ];
   if (lastCheckin == responses.length) lastCheckin = 0;
   return responses[lastCheckin++];
