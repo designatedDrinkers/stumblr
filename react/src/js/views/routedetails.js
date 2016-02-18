@@ -26,6 +26,8 @@ var _tweetmodal = require('./tweetmodal');
 
 var _tweetmodal2 = _interopRequireDefault(_tweetmodal);
 
+var _ratings = require('./ratings');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RouteDetails = _react2.default.createClass({
@@ -147,8 +149,12 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
         _react2.default.createElement(
@@ -176,16 +182,15 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'Rating: ',
-          bar.rating
-        ),
+        _react2.default.createElement(_ratings.Ratings, { rating: bar.rating }),
         _react2.default.createElement(
           'button',
           { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },

@@ -5,6 +5,7 @@ import statemachine from '../statemachine';
 import ajax from 'ajax-promise';
 import routeData from '../barroute-data';
 import tweetModal from './tweetmodal';
+import { Ratings } from './ratings'
 
 var RouteDetails = React.createClass({
   getInitialState: function() {
@@ -107,7 +108,7 @@ function composeList(component, route) {
     if (status) {
       return (
         <li key={i} className="bar-status well">
-          <p>{bar.name}: {bar.vicinity}</p>
+          <p><span className="bar-name">{bar.name}: </span>{bar.vicinity}</p>
           <p><span>Status: </span><span>{status}</span></p>
         </li>
       );
@@ -117,8 +118,8 @@ function composeList(component, route) {
       var focus = component.focus.bind(component, i);
       return (
         <li key={i} className="bar-status well">
-          <p>{bar.name}: {bar.vicinity}</p>
-          <p>Rating: {bar.rating}</p>
+          <p><span className="bar-name">{bar.name}: </span>{bar.vicinity}</p>
+          <Ratings rating={bar.rating} />
           <button className="btn btn-success" onClick={checkIn} data-toggle="modal" data-target="#tweet-modal">Check In</button>
           <button className="btn btn-warning" onClick={skip}>Skip</button>
           <button className="btn btn-primary" onClick={focus}><i className="fa fa-crosshairs"></i></button>
