@@ -43,13 +43,14 @@ var RouteDetails = React.createClass({
     .then(function(result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(statemachine.updateState('currentRoute', component.state.currentRoute));
-      document.getElementById('tweet-message-box').value = message;
       if(isRouteComplete()){
         var newBadges = result.newBadges || [];
         component.setState(statemachine.updateState('newBadges', newBadges));
       }
       if(component.state.user.auto_tweet !== null) {
         tweetModal.tweet(i, route_index, component.state.user.auto_tweet, message, isRouteComplete);
+      }else{
+        document.getElementById('tweet-message-box').value = message;
       }
     });
   },
