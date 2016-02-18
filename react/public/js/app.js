@@ -42137,7 +42137,7 @@ var Badges = _react2.default.createClass({
     var clickHandler = this.tweetBadge.bind(this, _tweetmodal2.default.defaultRouteComplete(this.state.newBadges));
     return _react2.default.createElement(
       'div',
-      null,
+      { className: 'completeView' },
       _react2.default.createElement(
         'div',
         { className: 'completeBadgeContainer' },
@@ -42165,12 +42165,12 @@ var Badges = _react2.default.createClass({
               )
             )
           );
-        }),
-        _react2.default.createElement(
-          'button',
-          { className: 'btn btn-info btn-badge-tweet', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
-          'Tweet this badge!'
-        )
+        })
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'btn btn-info btn-badge-tweet', onClick: clickHandler, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
+        'Tweet this badge!'
       ),
       modal
     );
