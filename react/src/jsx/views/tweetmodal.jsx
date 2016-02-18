@@ -54,7 +54,6 @@ function tweet(bar_index, route_index, autoTweet, message, isRouteComplete){
   }
 }
 
-var lastCheckin = 0;
 function defaultCheckIn(barName) {
   var responses = [
     "I just checked in at " + barName + " on @stumblr_app #stumblr",
@@ -63,11 +62,10 @@ function defaultCheckIn(barName) {
     "Join me at " + barName + " and we'll get #stumblr -y.",
     "Drinkers got to drink! Stumbled in to " + barName + " with @stumblr_app."
   ];
-  if (lastCheckin == responses.length) lastCheckin = 0;
-  return responses[lastCheckin++];
+  var index = Math.floor(Math.random() * responses.length);
+  return responses[index];
 }
 
-var lastComplete = 0;
 function defaultRouteComplete(badges) {
   var badgeList = pluralize(badges.map(function(badge) { return badge.name; }));
   var responses = [
@@ -77,8 +75,8 @@ function defaultRouteComplete(badges) {
     "I leveled up my drinking stat! #stumblr",
     "Had a Blast with @stumblr_app! Hurray for http://www.stumblr.club"
   ];
-  if (lastComplete == responses.length) lastComplete = 0;
-  return responses[lastComplete++];
+  var index = Math.floor(Math.random() * responses.length);
+  return responses[index];
 }
 
 module.exports = {TweetModal: TweetModal, tweet: tweet, defaultCheckIn: defaultCheckIn, defaultRouteComplete: defaultRouteComplete};
