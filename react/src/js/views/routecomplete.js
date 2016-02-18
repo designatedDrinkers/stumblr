@@ -37,7 +37,8 @@ var Badges = _react2.default.createClass({
   tweetBadge: function tweetBadge(message) {
     var component = this;
     document.getElementById('tweet-message-box').value = message;
-    _tweetmodal2.default.tweet(null, null, true, message, isRouteComplete);
+    var user = _statemachine2.default.getState().user;
+    // tweetModal.tweet(null, null, true, message, isRouteComplete);
   },
   render: function render() {
     var component = this;

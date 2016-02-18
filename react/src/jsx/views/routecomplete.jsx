@@ -13,7 +13,8 @@ var Badges = React.createClass({
   tweetBadge: function(message){
     var component = this;
     document.getElementById('tweet-message-box').value = message;
-    tweetModal.tweet(null, null, true, message, isRouteComplete);
+    var user = statemachine.getState().user;
+    // tweetModal.tweet(null, null, true, message, isRouteComplete);
   },
   render: function(){
     var component = this;
