@@ -41507,7 +41507,7 @@ function renderApp(user) {
     _reactDom2.default.render(_react2.default.createElement(_splashDash.SplashDash, null), document.getElementById('main'));
   }
 }
-},{"./statemachine":249,"./views/newroute":250,"./views/routecomplete":252,"./views/routedetails":253,"./views/settings":254,"./views/splash-dash":255,"ajax-promise":1,"react":242,"react-dom":89,"react-router":109}],247:[function(require,module,exports){
+},{"./statemachine":249,"./views/newroute":250,"./views/routecomplete":253,"./views/routedetails":254,"./views/settings":255,"./views/splash-dash":256,"ajax-promise":1,"react":242,"react-dom":89,"react-router":109}],247:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -41868,6 +41868,57 @@ module.exports = {
   RouteForm: RouteForm
 };
 },{"../barroute-data":245,"../header":247,"../statemachine":249,"ajax-promise":1,"react":242,"react-dom":89}],251:[function(require,module,exports){
+"use strict";
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Ratings = _react2.default.createClass({
+  displayName: "Ratings",
+
+  getInitialState: function getInitialState() {
+    return { rating: Number(this.props.rating) };
+  },
+  render: function render() {
+    var beers = [];
+    for (var i = 0; i < Math.floor(this.state.rating); i++) {
+      beers.push(_react2.default.createElement(
+        "li",
+        { className: "full-beer" },
+        _react2.default.createElement("i", { className: "fa fa-beer" }),
+        _react2.default.createElement("div", { className: "beer", style: { height: '60%' } })
+      ));
+    }
+    var remainder = this.state.rating % 1;
+
+    if (remainder) {
+      beers.push(_react2.default.createElement(
+        "li",
+        { className: "part-beer" },
+        _react2.default.createElement("i", { className: "beer-glass fa fa-beer" }),
+        _react2.default.createElement("div", { className: "beer", style: { height: String(remainder * 100 * .6) + '%' } })
+      ));
+    }
+    return _react2.default.createElement(
+      "ul",
+      { className: "beer-rating" },
+      _react2.default.createElement(
+        "li",
+        null,
+        "Rating:"
+      ),
+      beers
+    );
+  }
+});
+
+module.exports = {
+  Ratings: Ratings
+};
+},{"react":242}],252:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42038,7 +42089,7 @@ function filterRoutes(criteria) {
     }
   };
 }
-},{"../statemachine":249,"ajax-promise":1,"moment":86,"react":242}],252:[function(require,module,exports){
+},{"../statemachine":249,"ajax-promise":1,"moment":86,"react":242}],253:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42179,7 +42230,7 @@ function isRouteComplete(barArray) {
 module.exports = {
   RouteComplete: RouteComplete
 };
-},{"../header":247,"../methods":248,"../statemachine":249,"./tweetmodal":256,"ajax-promise":1,"react":242,"react-dom":89}],253:[function(require,module,exports){
+},{"../header":247,"../methods":248,"../statemachine":249,"./tweetmodal":257,"ajax-promise":1,"react":242,"react-dom":89}],254:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42207,6 +42258,8 @@ var _barrouteData2 = _interopRequireDefault(_barrouteData);
 var _tweetmodal = require('./tweetmodal');
 
 var _tweetmodal2 = _interopRequireDefault(_tweetmodal);
+
+var _ratings = require('./ratings');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42246,13 +42299,14 @@ var RouteDetails = _react2.default.createClass({
     _ajaxPromise2.default.put('/api/barroutes/' + this.props.params.index, { bar_id: i, check_in: true }).then(function (result) {
       component.state.currentRoute.bars[i] = result.bar;
       component.setState(_statemachine2.default.updateState('currentRoute', component.state.currentRoute));
-      document.getElementById('tweet-message-box').value = message;
       if (isRouteComplete()) {
         var newBadges = result.newBadges || [];
         component.setState(_statemachine2.default.updateState('newBadges', newBadges));
       }
       if (component.state.user.auto_tweet !== null) {
         _tweetmodal2.default.tweet(i, route_index, component.state.user.auto_tweet, message, isRouteComplete);
+      } else {
+        document.getElementById('tweet-message-box').value = message;
       }
     });
   },
@@ -42328,8 +42382,12 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
         _react2.default.createElement(
@@ -42357,16 +42415,15 @@ function composeList(component, route) {
         _react2.default.createElement(
           'p',
           null,
-          bar.name,
-          ': ',
+          _react2.default.createElement(
+            'span',
+            { className: 'bar-name' },
+            bar.name,
+            ': '
+          ),
           bar.vicinity
         ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'Rating: ',
-          bar.rating
-        ),
+        _react2.default.createElement(_ratings.Ratings, { rating: bar.rating }),
         _react2.default.createElement(
           'button',
           { className: 'btn btn-success', onClick: checkIn, 'data-toggle': 'modal', 'data-target': '#tweet-modal' },
@@ -42394,7 +42451,7 @@ function isRouteComplete() {
     return bar.checked_in || bar.skipped;
   }).length == route.bars.length;
 }
-},{"../barroute-data":245,"../header":247,"../statemachine":249,"./tweetmodal":256,"ajax-promise":1,"react":242,"react-dom":89}],254:[function(require,module,exports){
+},{"../barroute-data":245,"../header":247,"../statemachine":249,"./ratings":251,"./tweetmodal":257,"ajax-promise":1,"react":242,"react-dom":89}],255:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42540,7 +42597,7 @@ var destupidify = function destupidify(input) {
   var destupidified = _destupidify2.default.destupidifyAffirmativeVal(input) || _destupidify2.default.destupidifyNegativeVal(input);
   return destupidified === undefined ? null : destupidified;
 };
-},{"../header":247,"../methods":248,"../statemachine":249,"ajax-promise":1,"destupidify":38,"react":242,"react-dom":89}],255:[function(require,module,exports){
+},{"../header":247,"../methods":248,"../statemachine":249,"ajax-promise":1,"destupidify":38,"react":242,"react-dom":89}],256:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42691,7 +42748,7 @@ var SplashDash = _react2.default.createClass({
 module.exports = {
   SplashDash: SplashDash
 };
-},{"../header":247,"../methods":248,"../statemachine":249,"./newroute":250,"./route-list-component":251,"react":242,"react-dom":89}],256:[function(require,module,exports){
+},{"../header":247,"../methods":248,"../statemachine":249,"./newroute":250,"./route-list-component":252,"react":242,"react-dom":89}],257:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
