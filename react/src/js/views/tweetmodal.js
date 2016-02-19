@@ -91,6 +91,7 @@ var TweetModal = _react2.default.createClass({
 });
 
 function tweet(bar_index, route_index, autoTweet, message, isRouteComplete) {
+  message = message.replace(/!/g, '.');
   if (autoTweet) {
     _ajaxPromise2.default.post('/api/twitter/checkin', { bar_index: bar_index, route_index: route_index, message: message }).then(function (data) {
       if (isRouteComplete && isRouteComplete()) {
